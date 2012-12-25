@@ -1,0 +1,504 @@
+Autoconf (2.69) - 1,186 KB:
+
+    Home page: http://www.gnu.org/software/autoconf/
+
+    Download: http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz
+
+    MD5 sum: 50f97f4159805e374639a73e2636f22e
+Automake (1.12.6) - 1,368 KB:
+
+    Home page: http://www.gnu.org/software/automake/
+
+    Download: http://ftp.gnu.org/gnu/automake/automake-1.12.6.tar.xz
+
+    MD5 sum: 140e084223bf463a24c1a28427c6aec7
+Bash (4.2) - 6,845 KB:
+
+    Home page: http://www.gnu.org/software/bash/
+
+    Download: http://ftp.gnu.org/gnu/bash/bash-4.2.tar.gz
+
+    MD5 sum: 3fb927c7c33022f1c327f14a81c0d4b0
+Binutils (2.23.1) - 20,953 KB:
+
+    Home page: http://www.gnu.org/software/binutils/
+
+    Download: http://ftp.gnu.org/gnu/binutils/binutils-2.23.1.tar.bz2
+
+    MD5 sum: 33adb18c3048d057ac58d07a3f1adb38
+Bison (2.7) - 1,735 KB:
+
+    Home page: http://www.gnu.org/software/bison/
+
+    Download: http://ftp.gnu.org/gnu/bison/bison-2.7.tar.xz
+
+    MD5 sum: 234cdfac99257cf99ac4a03c898f37b9
+Bzip2 (1.0.6) - 764 KB:
+
+    Home page: http://www.bzip.org/
+
+    Download: http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
+
+    MD5 sum: 00b516f4704d4a7cb50a1d97e6e8e15b
+Check (0.9.9) - 589 KB:
+
+    Home page: http://check.sourceforge.net/
+
+    Download: http://sourceforge.net/projects/check/files/check/0.9.9/check-0.9.9.tar.gz
+
+    MD5 sum: f3702f2fcfc19ce3f62dca66c241a168
+Coreutils (8.19) - 4,992 KB:
+
+    Home page: http://www.gnu.org/software/coreutils/
+
+    Download: http://ftp.gnu.org/gnu/coreutils/coreutils-8.19.tar.xz
+
+    MD5 sum: 1a01231a2f3ed37c0efc073ccdda9375
+DejaGNU (1.5) - 563 KB:
+
+    Home page: http://www.gnu.org/software/dejagnu/
+
+    Download: http://ftp.gnu.org/gnu/dejagnu/dejagnu-1.5.tar.gz
+
+    MD5 sum: 3df1cbca885e751e22d3ebd1ac64dc3c
+Diffutils (3.2) - 1,976 KB:
+
+    Home page: http://www.gnu.org/software/diffutils/
+
+    Download: http://ftp.gnu.org/gnu/diffutils/diffutils-3.2.tar.gz
+
+    MD5 sum: 22e4deef5d8949a727b159d6bc65c1cc
+E2fsprogs (1.42.6) - 5,781 KB:
+
+    Home page: http://e2fsprogs.sourceforge.net/
+
+    Download: http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.6.tar.gz
+
+    MD5 sum: 9e444c240c1001b3292d108fbad0f49c
+Expect (5.45) - 614 KB:
+
+    Home page: http://expect.sourceforge.net/
+
+    Download: http://prdownloads.sourceforge.net/expect/expect5.45.tar.gz
+
+    MD5 sum: 44e1a4f4c877e9ddc5a542dfa7ecc92b
+File (5.11) - 596 KB:
+
+    Home page: http://www.darwinsys.com/file/
+
+    Download: ftp://ftp.astron.com/pub/file/file-5.11.tar.gz
+
+    MD5 sum: 16a407bd66d6c7a832f3a5c0d609c27b
+
+Findutils (4.4.2) - 2,100 KB:
+
+    Home page: http://www.gnu.org/software/findutils/
+
+    Download: http://ftp.gnu.org/gnu/findutils/findutils-4.4.2.tar.gz
+
+    MD5 sum: 351cc4adb07d54877fa15f75fb77d39f
+Flex (2.5.37) - 1,280 KB:
+
+    Home page: http://flex.sourceforge.net
+
+    Download: http://prdownloads.sourceforge.net/flex/flex-2.5.37.tar.bz2
+
+    MD5 sum: c75940e1fc25108f2a7b3ef42abdae06
+Gawk (4.0.1) - 1,575 KB:
+
+    Home page: http://www.gnu.org/software/gawk/
+
+    Download: http://ftp.gnu.org/gnu/gawk/gawk-4.0.1.tar.xz
+
+    MD5 sum: a601b032c39cd982f34272664f8afa49
+GCC (4.7.2) - 80,942 KB:
+
+    Home page: http://gcc.gnu.org/
+
+    Download: http://ftp.gnu.org/gnu/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2
+
+    MD5 sum: cc308a0891e778cfda7a151ab8a6e762
+GDBM (1.10) - 640 KB:
+
+    Home page: http://www.gnu.org/software/gdbm/
+
+    Download: http://ftp.gnu.org/gnu/gdbm/gdbm-1.10.tar.gz
+
+    MD5 sum: 88770493c2559dc80b561293e39d3570
+Gettext (0.18.1.1) - 14,785 KB:
+
+    Home page: http://www.gnu.org/software/gettext/
+
+    Download: http://ftp.gnu.org/gnu/gettext/gettext-0.18.1.1.tar.gz
+
+    MD5 sum: 3dd55b952826d2b32f51308f2f91aa89
+Glibc (2.16.0) - 9,756 KB:
+
+    Home page: http://www.gnu.org/software/libc/
+
+    Download: http://ftp.gnu.org/gnu/glibc/glibc-2.16.0.tar.xz
+
+    MD5 sum: 80b181b02ab249524ec92822c0174cf7
+GMP (5.0.5) - 1,632 KB:
+
+    Home page: http://www.gnu.org/software/gmp/
+
+    Download: http://ftp.gnu.org/gnu/gmp/gmp-5.0.5.tar.xz
+
+    MD5 sum: 8aef50959acec2a1ad41d144ffe0f3b5
+Grep (2.14) - 1,172 KB:
+
+    Home page: http://www.gnu.org/software/grep/
+
+    Download: http://ftp.gnu.org/gnu/grep/grep-2.14.tar.xz
+
+    MD5 sum: d4a3f03849d1e17ce56ab76aa5a24cab
+Groff (1.21) - 3,774 KB:
+
+    Home page: http://www.gnu.org/software/groff/
+
+    Download: http://ftp.gnu.org/gnu/groff/groff-1.21.tar.gz
+
+    MD5 sum: 8b8cd29385b97616a0f0d96d0951c5bf
+GRUB (2.00) - 5,016 KB:
+
+    Home page: http://www.gnu.org/software/grub/
+
+    Download: http://ftp.gnu.org/gnu/grub/grub-2.00.tar.xz
+
+    MD5 sum: a1043102fbc7bcedbf53e7ee3d17ab91
+Gzip (1.5) - 704 KB:
+
+    Home page: http://www.gnu.org/software/gzip/
+
+    Download: http://ftp.gnu.org/gnu/gzip/gzip-1.5.tar.xz
+
+    MD5 sum: 2a431e169b6f62f7332ef6d47cc53bae
+Iana-Etc (2.30) - 201 KB:
+
+    Home page: http://freshmeat.net/projects/iana-etc/
+
+    Download: http://anduin.linuxfromscratch.org/sources/LFS/lfs-packages/conglomeration//iana-etc/iana-etc-2.30.tar.bz2
+
+    MD5 sum: 3ba3afb1d1b261383d247f46cb135ee8
+Inetutils (1.9.1) - 1,941 KB:
+
+    Home page: http://www.gnu.org/software/inetutils/
+
+    Download: http://ftp.gnu.org/gnu/inetutils/inetutils-1.9.1.tar.gz
+
+    MD5 sum: 944f7196a2b3dba2d400e9088576000c
+IPRoute2 (3.7.0) - 391 KB:
+
+    Home page: http://www.kernel.org/pub/linux/utils/net/iproute2/
+
+    Download: http://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-3.7.0.tar.xz
+
+    MD5 sum: b07241b267036de9a79ca5b69acf8593
+Kbd (1.15.3) - 1,621 KB:
+
+    Home page: http://ftp.altlinux.org/pub/people/legion/kbd
+
+    Download: http://ftp.altlinux.org/pub/people/legion/kbd/kbd-1.15.3.tar.gz
+
+    MD5 sum: 8143e179a0f3c25646ce5085e8777200
+Kmod (12) - 1,245 KB:
+
+    Download: http://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-12.tar.xz
+
+    MD5 sum: 3d63b146c8ee5a04dfbef4be97f8226b
+Less (451) - 303 KB:
+
+    Home page: http://www.greenwoodsoftware.com/less/
+
+    Download: http://www.greenwoodsoftware.com/less/less-451.tar.gz
+
+    MD5 sum: 765f082658002b2b46b86af4a0da1842
+LFS-Bootscripts (20121013) - 34 KB:
+
+    Download: http://www.linuxfromscratch.org/lfs/downloads/development/lfs-bootscripts-20121013.tar.bz2
+
+    MD5 sum: c11e10828da034a013e1e9017e28da90
+Libpipeline (1.2.2) - 733 KB:
+
+    Home page: http://libpipeline.nongnu.org/
+
+    Download: http://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.2.2.tar.gz
+
+    MD5 sum: 4367a3f598d171fd43dfa8620ed16d55
+Libtool (2.4.2) - 2,571 KB:
+
+    Home page: http://www.gnu.org/software/libtool/
+
+    Download: http://ftp.gnu.org/gnu/libtool/libtool-2.4.2.tar.gz
+
+    MD5 sum: d2f3b7d4627e69e13514a40e72a24d50
+Linux (3.7.1) - 68,432 KB:
+
+    Home page: http://www.kernel.org/
+
+    Download: http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.7.1.tar.xz
+
+    MD5 sum: b3f99fb945b270b503b2a0996b8b29e7
+
+M4 (1.4.16) - 1,229 KB:
+
+    Home page: http://www.gnu.org/software/m4/
+
+    Download: http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
+
+    MD5 sum: 8a7cef47fecab6272eb86a6be6363b2f
+Make (3.82) - 1,213 KB:
+
+    Home page: http://www.gnu.org/software/make/
+
+    Download: http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
+
+    MD5 sum: 1a11100f3c63fcf5753818e59d63088f
+Man-DB (2.6.3) - 1,356 KB:
+
+    Home page: http://www.nongnu.org/man-db/
+
+    Download: http://download.savannah.gnu.org/releases/man-db/man-db-2.6.3.tar.xz
+
+    MD5 sum: a593a095599ae97bcacf8d038659a146
+Man-pages (3.44) - 1,078 KB:
+
+    Home page: http://www.kernel.org/doc/man-pages/
+
+    Download: http://www.kernel.org/pub/linux/docs/man-pages/man-pages-3.44.tar.xz
+
+    MD5 sum: f6edb26ca0660638e3567fec31c06e70
+MPC (1.0.1) - 610 KB:
+
+    Home page: http://www.multiprecision.org/
+
+    Download: http://www.multiprecision.org/mpc/download/mpc-1.0.1.tar.gz
+
+    MD5 sum: b32a2e1a3daa392372fbd586d1ed3679
+MPFR (3.1.1) - 1,047 KB:
+
+    Home page: http://www.mpfr.org/
+
+    Download: http://www.mpfr.org/mpfr-3.1.1/mpfr-3.1.1.tar.xz
+
+    MD5 sum: 91d51c41fcf2799e4ee7a7126fc95c17
+Ncurses (5.9) - 2,760 KB:
+
+    Home page: http://www.gnu.org/software/ncurses/
+
+    Download: ftp://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
+
+    MD5 sum: 8cb9c412e5f2d96bc6f459aa8c6282a1
+Patch (2.7.1) - 660 KB:
+
+    Home page: http://savannah.gnu.org/projects/patch/
+
+    Download: http://ftp.gnu.org/gnu/patch/patch-2.7.1.tar.xz
+
+    MD5 sum: e9ae5393426d3ad783a300a338c09b72
+Perl (5.16.2) - 13,403 KB:
+
+    Home page: http://www.perl.org/
+
+    Download: http://www.cpan.org/src/5.0/perl-5.16.2.tar.bz2
+
+    MD5 sum: 2818ab01672f005a4e552a713aa27b08
+Pkg-config (0.27.1) - 1,864 KB:
+
+    Home page: http://www.freedesktop.org/wiki/Software/pkg-config
+
+    Download: http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.1.tar.gz
+
+    MD5 sum: 5392b4e3372879c5bf856173b418d6a2
+Procps (3.2.8) - 279 KB:
+
+    Home page: http://procps.sourceforge.net/
+
+    Download: http://procps.sourceforge.net/procps-3.2.8.tar.gz
+
+    MD5 sum: 9532714b6846013ca9898984ba4cd7e0
+Psmisc (22.20) - 422 KB:
+
+    Home page: http://psmisc.sourceforge.net/
+
+    Download: http://prdownloads.sourceforge.net/psmisc/psmisc-22.20.tar.gz
+
+    MD5 sum: a25fc99a6dc7fa7ae6e4549be80b401f
+Readline (6.2) - 2,225 KB:
+
+    Home page: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
+
+    Download: http://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz
+
+    MD5 sum: 67948acb2ca081f23359d0256e9a271c
+Sed (4.2.1) - 878 KB:
+
+    Home page: http://www.gnu.org/software/sed/
+
+    Download: http://ftp.gnu.org/gnu/sed/sed-4.2.1.tar.bz2
+
+    MD5 sum: 7d310fbd76e01a01115075c1fd3f455a
+Shadow (4.1.5.1) - 2,142 KB:
+
+    Home page: http://pkg-shadow.alioth.debian.org/
+
+    Download: http://pkg-shadow.alioth.debian.org/releases/shadow-4.1.5.1.tar.bz2
+
+    MD5 sum: a00449aa439c69287b6d472191dc2247
+Sysklogd (1.5) - 85 KB:
+
+    Home page: http://www.infodrom.org/projects/sysklogd/
+
+    Download: http://www.infodrom.org/projects/sysklogd/download/sysklogd-1.5.tar.gz
+
+    MD5 sum: e053094e8103165f98ddafe828f6ae4b
+Sysvinit (2.88dsf) - 108 KB:
+
+    Home page: http://savannah.nongnu.org/projects/sysvinit
+
+    Download: http://download.savannah.gnu.org/releases/sysvinit/sysvinit-2.88dsf.tar.bz2
+
+    MD5 sum: 6eda8a97b86e0a6f59dabbf25202aa6f
+Tar (1.26) - 2,285 KB:
+
+    Home page: http://www.gnu.org/software/tar/
+
+    Download: http://ftp.gnu.org/gnu/tar/tar-1.26.tar.bz2
+
+    MD5 sum: 2cee42a2ff4f1cd4f9298eeeb2264519
+Tcl (8.5.13) - 4,407 KB:
+
+    Home page: http://tcl.sourceforge.net/
+
+    Download: http://prdownloads.sourceforge.net/tcl/tcl8.5.13-src.tar.gz
+
+    MD5 sum: fa3a9bf9b2d6ed2431f1baa46f4058b8
+Time Zone Data (2012j) - 209 KB:
+
+    Home page: http://www.iana.org/time-zones
+
+    Download: http://www.iana.org//time-zones/repository/releases/tzdata2012j.tar.gz
+
+    MD5 sum: ba2f92ae7ad099090e8f86cff2f2d799
+Texinfo (4.13a) - 2,687 KB:
+
+    Home page: http://www.gnu.org/software/texinfo/
+
+    Download: http://ftp.gnu.org/gnu/texinfo/texinfo-4.13a.tar.gz
+
+    MD5 sum: 71ba711519209b5fb583fed2b3d86fcb
+Systemd (196) - 1,928 KB:
+
+    Home page: http://www.freedesktop.org/wiki/Software/systemd/
+
+    Download: http://www.freedesktop.org/software/systemd/systemd-196.tar.xz
+
+    MD5 sum: 05ebd7f108e420e2b4e4810ea4b3c810
+Udev-lfs Tarball (196) - 20 KB:
+
+    Download: http://anduin.linuxfromscratch.org/sources/other/udev-lfs-196-3.tar.bz2
+
+    MD5 sum: 0dbcb1731ee2b74b34ab4f1a65e66c30
+Util-linux (2.22.2) - 3,028 KB:
+
+    Home page: http://userweb.kernel.org/~kzak/util-linux/
+
+    Download: http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux-2.22.2.tar.xz
+
+    MD5 sum: eeacbfdd2556acd899a2d0ffdb446185
+Vim (7.3) - 8,675 KB:
+
+    Home page: http://www.vim.org
+
+    Download: ftp://ftp.vim.org/pub/vim/unix/vim-7.3.tar.bz2
+
+    MD5 sum: 5b9510a17074e2b37d8bb38ae09edbf2
+Xz Utils (5.0.4) - 894 KB:
+
+    Home page: http://tukaani.org/xz
+
+    Download: http://tukaani.org/xz/xz-5.0.4.tar.xz
+
+    MD5 sum: 161015c4a65b1f293d31810e1df93090
+Zlib (1.2.7) - 493 KB:
+
+    Home page: http://www.zlib.net/
+
+    Download: http://www.zlib.net/zlib-1.2.7.tar.bz2
+
+    MD5 sum: 2ab442d169156f34c379c968f3f482dd
+
+
+#######PATCHES####################
+
+Bash Upstream Fixes Patch - 54 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/bash-4.2-fixes-10.patch
+
+    MD5 sum: 739056302cfbb5675ceb87b29cd898e5
+Bzip2 Documentation Patch - 1.6 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.6-install_docs-1.patch
+
+    MD5 sum: 6a5ac7e89b791aae556de0f745916f7f
+Coreutils Internationalization Fixes Patch - 272 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/coreutils-8.19-i18n-1.patch
+
+    MD5 sum: befbf82628d019ef08d522c95cba331d
+Flex Regression Tests Patch - 2.8 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/flex-2.5.37-bison-2.6.1-1.patch
+
+    MD5 sum: d5b001ef9bdbbe32e2f27576d97d8ff0
+Glibc DNS Resolve Patch - 2.0 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/glibc-2.16.0-res_query_fix-1.patch
+
+    MD5 sum: d37659c643b1a2150624120238e5b295
+Glibc test-installation.pl Patch - 1.4 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/glibc-2.16.0-fix_test_installation-1.patch
+
+    MD5 sum: 0a3bd5919ea226efebed62833a0985c6
+Kbd Loadkeys Fix Patch - 1.6 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.3-upstream_fixes-1.patch
+
+    MD5 sum: 58ae9bd7d546426cfaccf3eba16ad1a2
+Kbd Backspace/Delete Fix Patch - 12 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.3-backspace-1.patch
+
+    MD5 sum: f75cca16a38da6caa7d52151f7136895
+Make Upstream Fixes Patch - 10 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/make-3.82-upstream_fixes-3.patch
+
+    MD5 sum: 95027ab5b53d01699845d9b7e1dc878d
+Perl Libc Patch - 1.6 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/perl-5.16.2-libc-1.patch
+
+    MD5 sum: daf5c64fd7311e924966842680535f8f
+Procps HZ Errors Patch - 2.3 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/procps-3.2.8-fix_HZ_errors-1.patch
+
+    MD5 sum: 2ea4c8e9a2c2a5a291ec63c92d7c6e3b
+Procps Watch Patch - 3.5 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/procps-3.2.8-watch_unicode-1.patch
+
+    MD5 sum: cd1a757e532d93662a7ed71da80e6b58
+Readline Upstream Fixes Patch - 1.3 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/readline-6.2-fixes-1.patch
+
+    MD5 sum: 3c185f7b76001d3d0af614f6f2cd5dfa
+Sed Regression Tests Patch - 1.9 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/sed-4.2.1-testsuite_fixes-1.patch
+
+    MD5 sum: 2c10a5804eedf5359bcf427bc0d05579
