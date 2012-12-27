@@ -3,14 +3,13 @@
 
 BUILD_STEP@=Binutils_1
 
-SETUP_EXTERNAL_BUILD_DIRECTORY
+ARCHIVE_NAME@=binutils-2.23.1.tar.bz2
 
-EXTRACT_COMMAND@=bzip2 -cd binutils-2.23.1.tar.bz2 | tar xvf -
-EXTRACTED_DIR@=binutils-2.23.1
+SETUP_EXTERNAL_BUILD_DIRECTORY
 
 CONFIGURE_COMMAND@=../binutils-2.23.1/configure --prefix=/tools --with-sysroot=$LFS --with-lib-path=/tools/lib --target=$LFS_TGT --disable-nls --disable-werror
 
-MAKE_COMMAND@=make
+MAKE_COMMAND@=make -j4
 
 BEGIN_COMMAND_BLOCK
 case $(uname -m) in
@@ -26,8 +25,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=GCC_1
 
-EXTRACT_COMMAND@=bzip2 -cd gcc-4.7.2.tar.bz2 | tar xvf -
-EXTRACTED_DIR@=gcc-4.7.2
+ARCHIVE_NAME@=gcc-4.7.2.tar.bz2
 
 BEGIN_COMMAND_BLOCK
 tar -Jxf ../mpfr-3.1.1.tar.xz
@@ -64,7 +62,7 @@ SETUP_EXTERNAL_BUILD_DIRECTORY
 
 CONFIGURE_COMMAND@=../gcc-4.7.2/configure --target=$LFS_TGT --prefix=/tools --with-sysroot=$LFS --with-newlib --without-headers --with-local-prefix=/tools --with-native-system-header-dir=/tools/include --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libmudflap --disable-libssp --disable-libgomp --disable-libquadmath --enable-languages=c --with-mpfr-include=$(pwd)/../gcc-4.7.2/mpfr/src --with-mpfr-lib=$(pwd)/mpfr/src/.libs
 
-MAKE_COMMAND@=make
+MAKE_COMMAND@=make -j4
 
 
 INSTALL_COMMAND@=make install
@@ -74,3 +72,544 @@ ln -sv libgcc.a `$LFS_TGT-gcc -print-libgcc-file-name | sed 's/libgcc/&_eh/'`
 END_COMMAND_BLOCK
 
 END_BUILD_STEP
+
+
+#############################
+
+BUILD_STEP@=Linux_API_Headers_1
+
+ARCHIVE_NAME@=linux-3.7.1.tar.xz
+
+MAKE_COMMAND@=make mrproper
+MAKE_COMMAND@=make headers_check
+MAKE_COMMAND@=make INSTALL_HDR_PATH=dest headers_install
+
+BEGIN_COMMAND_BLOCK
+cp -rv dest/include/* /tools/include
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Glibc_1
+
+ARCHIVE_NAME@=glibc-2.16.0.tar.xz
+
+BEGIN_COMMAND_BLOCK
+if [ ! -r /usr/include/rpc/types.h ]; then 
+  su -c 'mkdir -p /usr/include/rpc'
+  su -c 'cp -v sunrpc/rpc/*.h /usr/include/rpc'
+fi
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+sed -i 's/ -lgcc_s//' Makeconfig
+END_COMMAND_BLOCK
+
+SETUP_EXTERNAL_BUILD_DIRECTORY
+
+CONFIGURE_COMMAND@=../glibc-2.16.0/configure --prefix=/tools --host=$LFS_TGT --build=$(../glibc-2.16.0/scripts/config.guess) --disable-profile --enable-kernel=2.6.25 --with-headers=/tools/include libc_cv_forced_unwind=yes libc_cv_ctors_header=yes libc_cv_c_cleanup=yes
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+echo 'main(){}' > dummy.c
+$LFS_TGT-gcc dummy.c
+readelf -l a.out | grep ': /tools'
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=Binutils_2
+
+ARCHIVE_NAME@=binutils-2.23.1.tar.bz2
+
+SETUP_EXTERNAL_BUILD_DIRECTORY
+
+CONFIGURE_COMMAND@=CC=$LFS_TGT-gcc AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib ../binutils-2.23.1/configure --prefix=/tools --disable-nls --with-lib-path=/tools/lib
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+make -C ld clean
+make -C ld LIB_PATH=/usr/lib:/lib
+cp -v ld/ld-new /tools/bin
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GCC_2
+
+ARCHIVE_NAME@=gcc-4.7.2.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include-fixed/limits.h
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+cp -v gcc/Makefile.in{,.tmp}
+sed 's/^T_CFLAGS =$/& -fomit-frame-pointer/' gcc/Makefile.in.tmp > gcc/Makefile.in
+END_COMMAND_BLOCK
+
+
+BEGIN_COMMAND_BLOCK
+for file in $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
+do
+  cp -uv $file{,.orig}
+  sed -e 's@/lib\(64\)\?\(32\)\?/ld@/tools&@g' -e 's@/usr@/tools@g' $file.orig > $file
+  echo '
+#undef STANDARD_STARTFILE_PREFIX_1
+#undef STANDARD_STARTFILE_PREFIX_2
+#define STANDARD_STARTFILE_PREFIX_1 "/tools/lib/"
+#define STANDARD_STARTFILE_PREFIX_2 ""' >> $file
+  touch $file.orig
+done
+END_COMMAND_BLOCK
+
+
+BEGIN_COMMAND_BLOCK
+tar -Jxf ../mpfr-3.1.1.tar.xz
+mv -v mpfr-3.1.1 mpfr
+tar -Jxf ../gmp-5.0.5.tar.xz
+mv -v gmp-5.0.5 gmp
+tar -zxf ../mpc-1.0.1.tar.gz
+mv -v mpc-1.0.1 mpc
+END_COMMAND_BLOCK
+
+
+SETUP_EXTERNAL_BUILD_DIRECTORY
+
+
+CONFIGURE_COMMAND@=CC=$LFS_TGT-gcc AR=$LFS_TGT-ar RANLIB=$LFS_TGT-ranlib ../gcc-4.7.2/configure --prefix=/tools --with-local-prefix=/tools --with-native-system-header-dir=/tools/include --enable-clocale=gnu --enable-shared --enable-threads=posix --enable-__cxa_atexit --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --disable-bootstrap --disable-libgomp --with-mpfr-include=$(pwd)/../gcc-4.7.2/mpfr/src --with-mpfr-lib=$(pwd)/mpfr/src/.libs
+
+MAKE_COMMAND@=make -j4
+
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -sv gcc /tools/bin/cc
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+echo 'main(){}' > dummy.c
+cc dummy.c
+readelf -l a.out | grep ': /tools'
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+
+#############################
+
+BUILD_STEP@=Tcl_1
+
+ARCHIVE_NAME@=tcl8.5.13-src.tar.gz
+
+BEGIN_COMMAND_BLOCK
+cd unix
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+chmod -v u+w /tools/lib/libtcl8.5.so
+END_COMMAND_BLOCK
+
+
+INSTALL_COMMAND@=make install-private-headers
+
+BEGIN_COMMAND_BLOCK
+ln -sv tclsh8.5 /tools/bin/tclsh
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Expect_1
+
+ARCHIVE_NAME@=expect5.45.tar.gz
+
+BEGIN_COMMAND_BLOCK
+cp -v configure{,.orig}
+sed 's:/usr/local/bin:/bin:' configure.orig > configure
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools --with-tcl=/tools/lib --with-tclinclude=/tools/include
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make SCRIPTS="" install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=DejaGNU_1
+
+ARCHIVE_NAME@=dejagnu-1.5.tar.gz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Ncurses_1
+
+ARCHIVE_NAME@=ncurses-5.9.tar.gz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools --with-shared --without-debug --without-ada --enable-overwrite
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Bash_1
+
+ARCHIVE_NAME@=bash-4.2.tar.gz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../bash-4.2-fixes-10.patch
+END_COMMAND_BLOCK
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools --without-bash-malloc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -sv bash /tools/bin/sh
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Bzip2_1
+
+ARCHIVE_NAME@=bzip2-1.0.6.tar.gz
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make PREFIX=/tools install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Coreutils_1
+
+ARCHIVE_NAME@=coreutils-8.19.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools --enable-install-program=hostname
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Diffutils_1
+
+ARCHIVE_NAME@=diffutils-3.2.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' lib/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=File_1
+
+ARCHIVE_NAME@=file-5.11.tar.gz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Findutils_1
+
+ARCHIVE_NAME@=findutils-4.4.2.tar.gz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gawk_1
+
+ARCHIVE_NAME@=gawk-4.0.1.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gettext_1
+
+ARCHIVE_NAME@=gettext-0.18.1.1.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' gettext-*/*/stdio.in.h
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+cd gettext-tools
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=EMACS="no" ./configure --prefix=/tools --disable-shared
+
+BEGIN_COMMAND_BLOCK
+make -C gnulib-lib
+make -C src msgfmt
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+cp -v src/msgfmt /tools/bin
+END_COMMAND_BLOCK
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Grep_1
+
+ARCHIVE_NAME@=grep-2.14.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gzip_1
+
+ARCHIVE_NAME@=gzip-1.5.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=M4_1
+
+ARCHIVE_NAME@=m4-1.4.16.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' lib/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Patch_1
+
+ARCHIVE_NAME@=patch-2.7.1.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Perl_1
+
+ARCHIVE_NAME@=perl-5.16.2.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../perl-5.16.2-libc-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=sh Configure -des -Dprefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+cp -v perl cpan/podlators/pod2man /tools/bin
+mkdir -pv /tools/lib/perl5/5.16.2
+cp -Rv lib/* /tools/lib/perl5/5.16.2
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Sed_1
+
+ARCHIVE_NAME@=sed-4.2.1.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Tar_1
+
+ARCHIVE_NAME@=tar-1.26.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' gnu/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Texinfo_1
+
+ARCHIVE_NAME@=texinfo-4.13a.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xz_1
+
+ARCHIVE_NAME@=xz-5.0.4.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/tools
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+#Get errors when run, so commented out
+
+#BUILD_STEP@=Stripping_1
+#
+#ONLY_COMMANDS@=True
+#
+#BEGIN_COMMAND_BLOCK
+#strip --strip-debug /tools/lib/*
+#strip --strip-unneeded /tools/{,s}bin/*
+#END_COMMAND_BLOCK
+#
+#END_BUILD_STEP
+
+#############################
+
+#Requires permissions we do not have. Left up to the user to do
+#
+#BUILD_STEP@=ChangeOwnership_1
+#
+#ONLY_COMMANDS@=True
+#
+#BEGIN_COMMAND_BLOCK
+#cd ..
+#chown -R root:root tools
+#END_COMMAND_BLOCK
+#
+#END_BUILD_STEP
+#
+##############################
+
+BUILD_STEP@=BackupTools_1
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cd ..
+tar -pczf tools.tar.gz tools
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

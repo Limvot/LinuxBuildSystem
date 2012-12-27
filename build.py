@@ -73,11 +73,11 @@ def loadBuildSteps(build_steps_file, config):
 		if not (line[0] == "#" or line == ""):
 			split_line = line.split("@=") #To allow equals signs in commands, use different here
 
-			if split_line[0] == "EXTRACT_COMMAND":
-				build_step[0]["EXTRACT_COMMAND"] = split_line[1]
+			if split_line[0] == "ONLY_COMMANDS":
+				build_step[0]["ONLY_COMMANDS"] = split_line[1]
 
-			if split_line[0] == "EXTRACTED_DIR":
-				build_step[0]["EXTRACTED_DIR"] = split_line[1]
+			if split_line[0] == "ARCHIVE_NAME":
+				build_step[0]["ARCHIVE_NAME"] = split_line[1]
 
 			if split_line[0] == "BUILD_STEP":
 				build_step[0]["BUILD_STEP"] = split_line[1]
@@ -105,13 +105,11 @@ def loadBuildSteps(build_steps_file, config):
 			if (not line.split() == []) and (line.split()[0] == "BEGIN_COMMAND_BLOCK"):		#Split to find first word
 				line = step_file.readline()
 				while not line.split()[0] == "END_COMMAND_BLOCK":	#Split to find first word
-					print("appending line to command block")
 					build_step[1].append(line)
 					line = step_file.readline()
 
 			if (not line.split() == []) and (line.split()[0] == "END_BUILD_STEP"):
 				build_steps.append(copy.deepcopy(build_step))
-				print(build_step)
 				build_step = [{},[]]
 
 		line = step_file.readline()
@@ -123,19 +121,39 @@ def buildStep(build_step, build_config):
 	script_string = ""
 	build_dir = build_config["BUILD_DIR"].split("\n")[0]
 
-	#Extract
+	#Change to the sources directory. All steps take place from here
 	script_string += "cd " + build_dir + os.sep + "sources" + "\n"
-	script_string += build_step[0]["EXTRACT_COMMAND"] + "\n"
+
+	#If this step is only commands, not a pkg build, just output the commands and return
+	if build_step[0].get("ONLY_COMMANDS", "False").split("\n")[0] == "True":
+		for step in build_step[1]:
+			script_string += step
+		return(script_string)
+
+
+	archive_name = build_step[0]["ARCHIVE_NAME"].split("\n")[0]
+	archive_end = archive_name.split(".")[-1]
+	extracted_dir = ".".join(archive_name.split(".")[:-2]) #Split on ".", remove the last two which are the line endings, then join with "." again to preserve version numbering
+
+
+	#Extract
+	if archive_end == "gz":
+		extract_command = "tar xzvf " + archive_name
+	elif archive_end == "bz2":
+		extract_command = "bzip2 -cd " + archive_name + " | tar xvf -"
+	elif archive_end == "xz":
+		extract_command = "tar -Jxf " + archive_name
+
+	script_string += extract_command + "\n"
 
 
 	#Change dir
-	extracted_dir = build_step[0]["EXTRACTED_DIR"].split("\n")[0]
 	script_string += "cd " + extracted_dir + "\n"
 
 	#Follow build instructions
 	for step in build_step[1]:
 		print("adding", step, "to build script")
-		script_string += step# + "\n"
+		script_string += step
 
 	#change back to sources directory
 	script_string += "cd " + build_dir.split("\n")[0] + os.sep + "sources" + "\n"
@@ -152,9 +170,6 @@ def buildStep(build_step, build_config):
 #This is the main function that loops through the steps
 def buildSystem():
 	print("Welcome to the LinuxFromScratch LinuxBuildSystem")
-
-	begin_step = int(input("step number to begin on:")) - 1; #0 index
-	end_step = int(input("step number to end on:")) #Not -1 because of how range works
 
 	#Load the configuration file into a dictionary
 	config_file = open("LinuxBuildSystem.config", "r")
@@ -179,6 +194,17 @@ def buildSystem():
 	script_string = ""
 
 	build_steps = loadBuildSteps("buildsteps.txt", config)
+
+	#Print out list of build steps and numbers
+	for build_step_index in range(len(build_steps)):
+		 print(str(build_step_index+1), ":", build_steps[build_step_index][0]["BUILD_STEP"])
+
+	begin_step = int(input("please enter the step to begin on:"))-1 #0 index
+	end_step = int(input("please enter the step to end on, 0 for end:")) #because of range, don't need to add one
+
+	if end_step == 0:				#make 0 equal to the full lenght
+		end_step = len(build_steps)
+
 	for build_step_index in range(begin_step, end_step):
 		script_string += "#################\n#################\n#################\n"
 		script_string += buildStep(build_steps[build_step_index], config)
