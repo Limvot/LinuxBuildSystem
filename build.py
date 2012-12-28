@@ -1,5 +1,5 @@
 #build.py
-import os, subprocess, copy
+import os, subprocess, copy, sys
 
 #This function takes a txt file grabbed from the LFS book and converts it into a list of files to download
 def extractDownloadList(input_file_path, output_file_path):
@@ -104,7 +104,7 @@ def loadBuildSteps(build_steps_file, config):
 
 			if (not line.split() == []) and (line.split()[0] == "BEGIN_COMMAND_BLOCK"):		#Split to find first word
 				line = step_file.readline()
-				while not line.split()[0] == "END_COMMAND_BLOCK":	#Split to find first word
+				while (line.split() == []) or not line.split()[0] == "END_COMMAND_BLOCK":	#Split to find first word
 					build_step[1].append(line)
 					line = step_file.readline()
 
@@ -152,7 +152,6 @@ def buildStep(build_step, build_config):
 
 	#Follow build instructions
 	for step in build_step[1]:
-		print("adding", step, "to build script")
 		script_string += step
 
 	#change back to sources directory
@@ -171,50 +170,62 @@ def buildStep(build_step, build_config):
 def buildSystem():
 	print("Welcome to the LinuxFromScratch LinuxBuildSystem")
 
-	#Load the configuration file into a dictionary
-	config_file = open("LinuxBuildSystem.config", "r")
-	config_lines = config_file.readlines()
-	config_file.close()
+	#Find the base dir of where this script was called from
+	base_dir = os.sep.join(sys.argv[0].split(os.sep)[:-1])
+	print(base_dir)
+
 	config = {}
-
-	for line in config_lines:
-		pair = line.split("=")
-		config[pair[0]] = pair[1]
-
-	print("Loaded LinuxBuildSystem.config")
-
-	#Extract the download list from copypast book text, if needed
-	extractDownloadList("downloadListUnprocessed.txt", "downloadlist.txt")
-
-	#Download the sources to the source directory inside the path specified by the configuration file
-	source_dir = config["BUILD_DIR"].split("\n")[0] + os.sep + "sources" #get the source dir, removing a linefeed from the root dir if necessary
-	print(source_dir)
-	downloadSources(source_dir, "downloadlist.txt")
 
 	script_string = ""
 
-	build_steps = loadBuildSteps("buildsteps.txt", config)
+	build_steps = loadBuildSteps(base_dir+os.sep+"buildsteps.txt", config)
 
-	#Print out list of build steps and numbers
-	for build_step_index in range(len(build_steps)):
-		 print(str(build_step_index+1), ":", build_steps[build_step_index][0]["BUILD_STEP"])
+	#Lets look at our args. If -l or --list, print out the steps. Otherwise, use the params to gen the script, if correct number.
+	print(sys.argv)
+	if len(sys.argv) == 2:
+		if sys.argv[1] == "-l" or sys.argv[1] == "--list":
+			#Print out list of build steps and numbers
+			for build_step_index in range(len(build_steps)):
+				 print(str(build_step_index+1), ":", build_steps[build_step_index][0]["BUILD_STEP"])
+	elif len(sys.argv) == 3 and sys.argv[1] == "--download-sources":
+		#Extract the download list from copypast book text, if needed
+		extractDownloadList(base_dir+os.sep+"downloadListUnprocessed.txt", base_dir+os.sep+"downloadlist.txt")
 
-	begin_step = int(input("please enter the step to begin on:"))-1 #0 index
-	end_step = int(input("please enter the step to end on, 0 for end:")) #because of range, don't need to add one
+		#Download the sources to the source directory inside the path specified by the configuration file
+		source_dir = sys.argv[2].split("\n")[0] #get the source dir, removing a linefeed from the root dir if necessary
+		print(source_dir)
+		downloadSources(source_dir, base_dir+os.sep+"downloadlist.txt")
+
+	elif not len(sys.argv) == 5:
+		print("Welcome to the LinuxBuildSystem!")
+		print("To list build steps, call with -l or --list")
+		print("To download sources, call with --download-sources <download-dir> (should be your planned base path + /sources")
+		print("To create a build script, call with  start-step end-step base-build-dir output-script-file")
+		return()
+
+	#Do input args
+	begin_step = int(sys.argv[1])-1
+	end_step = int(sys.argv[2])
+	config["BUILD_DIR"] = sys.argv[3]	#Base dir
+	script_output_dir = sys.argv[4]
+	print(script_output_dir)
 
 	if end_step == 0:				#make 0 equal to the full lenght
 		end_step = len(build_steps)
+
+	#Setup a variable in the script for this program, for special stuff like the chroot thing we have to do
+	script_string += "#!/bin/bash\nLBS_PROGRAM=" + os.path.abspath( __file__ ) + "\nLBS_BUILD_ROOT="+config["BUILD_DIR"]+"\n"
 
 	for build_step_index in range(begin_step, end_step):
 		script_string += "#################\n#################\n#################\n"
 		script_string += buildStep(build_steps[build_step_index], config)
 
-	script_file = open(config["SCRIPT_FILE"], "w")
+	script_file = open(script_output_dir, "w")
 	script_file.write(script_string)
 	script_file.close()
 
-	subprocess.call(["chmod 755 " + config["SCRIPT_FILE"]], shell=True)
-	subprocess.call("bash " + config["SCRIPT_FILE"], shell=True)
+	subprocess.call(["chmod 755 " + script_output_dir], shell=True)
+	#subprocess.call("bash " + config["SCRIPT_FILE"], shell=True)
 
 
 
