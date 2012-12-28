@@ -952,3 +952,65 @@ END_BUILD_STEP
 
 #############################
 
+BUILD_STEP@=Zlib_2
+
+ARCHIVE_NAME@=zlib-1.2.7.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/lib/libz.so.* /lib
+ln -sfv ../../lib/libz.so.1.2.7 /usr/lib/libz.so
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=File_2
+
+ARCHIVE_NAME@=file-5.11.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Binutils_3
+
+ARCHIVE_NAME@=binutils-2.23.1.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+rm -fv etc/standards.info
+sed -i.bak '/^INFO/s/standards.info //' etc/Makefile.in
+END_COMMAND_BLOCK
+
+SETUP_EXTERNAL_BUILD_DIRECTORY
+
+CONFIGURE_COMMAND@=../binutils-2.23.1/configure --prefix=/usr --enable-shared
+
+MAKE_COMMAND@=make tooldir=/usr
+
+#BEGIN_COMMAND_BLOCK
+#make -k check #REMOVED BECAUSE EXPECT APPEARS TO BE MISSING
+#END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make tooldir=/usr install
+
+BEGIN_COMMAND_BLOCK
+cp -v ../binutils-2.23.1/include/libiberty.h /usr/include
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
