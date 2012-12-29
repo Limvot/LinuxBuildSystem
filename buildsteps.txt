@@ -1014,3 +1014,352 @@ END_BUILD_STEP
 
 #############################
 
+BUILD_STEP@=GMP_1
+
+ARCHIVE_NAME@=gmp-5.0.5.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-cxx --enable-mpbsd
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make check 2>&1 | tee gmp-check-log #REMOVED BECAUSE EXPECT APPEARS TO BE MISSING
+awk '/tests passed/{total+=$2} ; END{print total}' gmp-check-log
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=MPFR_1
+
+ARCHIVE_NAME@=mpfr-3.1.1.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure  --prefix=/usr --enable-thread-safe --docdir=/usr/share/doc/mpfr-3.1.1
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make html
+INSTALL_COMMAND@=make install-html
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=MPC_1
+
+ARCHIVE_NAME@=mpc-1.0.1.tar.gz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GCC_3
+
+ARCHIVE_NAME@=gcc-4.7.2.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i 's/install_to_$(INSTALL_DEST) //' libiberty/Makefile.in
+
+case `uname -m` in
+  i?86) sed -i 's/^T_CFLAGS =$/& -fomit-frame-pointer/' gcc/Makefile.in ;;
+esac
+
+sed -i -e /autogen/d -e /check.sh/d fixincludes/Makefile.in
+END_COMMAND_BLOCK
+
+SETUP_EXTERNAL_BUILD_DIRECTORY
+
+CONFIGURE_COMMAND@=../gcc-4.7.2/configure --prefix=/usr --libexecdir=/usr/lib --enable-shared --enable-threads=posix   --enable-__cxa_atexit --enable-clocale=gnu --enable-languages=c,c++ --disable-multilib --disable-bootstrap --with-system-zlib
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+ulimit -s 32768
+make -k check
+../gcc-4.7.2/contrib/test_summary
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -sv ../usr/bin/cpp /lib
+ln -sv gcc /usr/bin/cc
+
+echo 'main(){}' > dummy.c
+cc dummy.c -v -Wl,--verbose &> dummy.log
+readelf -l a.out | grep ': /lib'
+
+grep -o '/usr/lib.*/crt[1in].*succeeded' dummy.log
+
+grep -B4 '^ /usr/include' dummy.log
+
+grep 'SEARCH.*/usr/lib' dummy.log |sed 's|; |\n|g'
+
+grep "/lib.*/libc.so.6 " dummy.log
+
+grep found dummy.log
+
+rm -v dummy.c a.out dummy.log
+
+mkdir -pv /usr/share/gdb/auto-load/usr/lib
+mv -v /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Sed
+
+ARCHIVE_NAME@=sed-4.2.1.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../sed-4.2.1-testsuite_fixes-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/doc/sed-4.2.1
+
+MAKE_COMMAND@=make -j4
+MAKE_COMMAND@=make html
+
+BEGIN_COMMAND_BLOCK
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make -C doc install-html
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Bzip2_2
+
+ARCHIVE_NAME@=bzip2-1.0.6.tar.gz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../bzip2-1.0.6-install_docs-1.patch
+
+sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
+
+sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=make -f Makefile-libbz2_so
+
+MAKE_COMMAND@=make clean
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make PREFIX=/usr install
+
+BEGIN_COMMAND_BLOCK
+cp -v bzip2-shared /bin/bzip2
+cp -av libbz2.so* /lib
+ln -sv ../../lib/libbz2.so.1.0 /usr/lib/libbz2.so
+rm -v /usr/bin/{bunzip2,bzcat,bzip2}
+ln -sv bzip2 /bin/bunzip2
+ln -sv bzip2 /bin/bzcat
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Pkg_config_2
+
+ARCHIVE_NAME@=pkg-config-0.27.1.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --with-internal-glib --docdir=/usr/share/doc/pkg-config-0.27.1
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Ncurses_2
+
+ARCHIVE_NAME@=ncurses-5.9.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --mandir=/usr/share/man --with-shared --without-debug --enable-widec
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/lib/libncursesw.so.5* /lib
+
+ln -sfv ../../lib/libncursesw.so.5 /usr/lib/libncursesw.so
+
+for lib in ncurses form panel menu ; do 
+    rm -vf /usr/lib/lib${lib}.so 
+    echo "INPUT(-l${lib}w)" >/usr/lib/lib${lib}.so
+    ln -sfv lib${lib}w.a /usr/lib/lib${lib}.a
+done
+
+ln -sfv libncurses++w.a /usr/lib/libncurses++.a
+
+rm -vf                     /usr/lib/libcursesw.so
+echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
+ln -sfv libncurses.so      /usr/lib/libcurses.so
+ln -sfv libncursesw.a      /usr/lib/libcursesw.a
+ln -sfv libncurses.a       /usr/lib/libcurses.a
+
+mkdir -v       /usr/share/doc/ncurses-5.9
+cp -v -R doc/* /usr/share/doc/ncurses-5.9
+
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+#These command rebuild the library with non-wide-characters for binary applications and to be complient with LSB
+
+make distclean
+./configure --prefix=/usr --with-shared --without-normal --without-debug --without-cxx-binding
+make sources libs
+cp -av lib/lib*.so.5* /usr/lib
+
+END_COMMAND_BLOCK
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Util_linux_2
+
+ARCHIVE_NAME@=util-linux-2.22.2.tar.xz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e 's@etc/adjtime@var/lib/hwclock/adjtime@g' $(grep -rl '/etc/adjtime' .)
+
+mkdir -pv /var/lib/hwclock
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --disable-su --disable-sulogin --disable-login
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Psmisc_2
+
+ARCHIVE_NAME@=psmisc-22.20.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/fuser   /bin
+mv -v /usr/bin/killall /bin
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=E2fsprogs
+
+ARCHIVE_NAME@=e2fsprogs-1.42.6.tar.gz
+
+#Package is to be built in a subdirectory of the source tree:
+
+BEGIN_COMMAND_BLOCK
+mkdir -v build
+cd build
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=../configure --prefix=/usr --with-root-prefix="" --enable-elf-shlibs --disable-libblkid --disable-libuuid --disable-uuidd --disable-fsck
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make -k check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make install-libs
+
+BEGIN_COMMAND_BLOCK
+chmod -v u+w /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+
+gunzip -v /usr/share/info/libext2fs.info.gz
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
+
+makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo
+install -v -m644 doc/com_err.info /usr/share/info
+install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Shadow
+
+ARCHIVE_NAME@=shadow-4.1.5.1.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i 's/groups$(EXEEXT) //' src/Makefile.in
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
+
+sed -i -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' -e 's@/var/spool/mail@/var/mail@' etc/login.defs
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/passwd /bin
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+echo "Please now configure shadow for passwords."
+pwconv
+grpconv
+passwd root
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
