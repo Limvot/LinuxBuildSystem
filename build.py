@@ -187,7 +187,7 @@ def buildSystem():
 			#Print out list of build steps and numbers
 			for build_step_index in range(len(build_steps)):
 				 print(str(build_step_index+1), ":", build_steps[build_step_index][0]["BUILD_STEP"])
-	elif len(sys.argv) == 3 and sys.argv[1] == "--download-sources":
+	elif len(sys.argv) == 3 and (sys.argv[1] == "--download-sources" or sys.argv[1] == "-d"):
 		#Extract the download list from copypast book text, if needed
 		extractDownloadList(base_dir+os.sep+"downloadListUnprocessed.txt", base_dir+os.sep+"downloadlist.txt")
 
@@ -199,7 +199,7 @@ def buildSystem():
 	elif not len(sys.argv) == 5:
 		print("Welcome to the LinuxBuildSystem!")
 		print("To list build steps, call with -l or --list")
-		print("To download sources, call with --download-sources <download-dir> (should be your planned base path + /sources")
+		print("To download sources, call with --download-sources or -d <download-dir> (should be your planned base path + /sources")
 		print("To create a build script, call with  start-step end-step base-build-dir output-script-file")
 		return()
 
@@ -215,7 +215,7 @@ def buildSystem():
 
 	#Setup a variable in the script for this program, for special stuff like the chroot thing we have to do
 	script_string += "#!/bin/bash\nLBS_PROGRAM=" + os.path.abspath( __file__ ) + "\nLBS_BUILD_ROOT="+config["BUILD_DIR"]+"\n"
-
+	script_string += "LBS_END_STEP=" + str(end_step) + "\n"
 	for build_step_index in range(begin_step, end_step):
 		script_string += "#################\n#################\n#################\n"
 		script_string += buildStep(build_steps[build_step_index], config)

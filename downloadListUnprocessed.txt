@@ -1,3 +1,5 @@
+
+
 Autoconf (2.69) - 1,186 KB:
 
     Home page: http://www.gnu.org/software/autoconf/
@@ -89,7 +91,9 @@ File (5.11) - 596 KB:
     Download: ftp://ftp.astron.com/pub/file/file-5.11.tar.gz
 
     MD5 sum: 16a407bd66d6c7a832f3a5c0d609c27b
+    Note
 
+    File (5.11) may no longer be available at the listed location. The site administrators of the master download location occasionally remove older versions when new ones are released. An alternative download location that may have the correct version available can also be found at: http://www.linuxfromscratch.org/lfs/download.html#ftp.
 Findutils (4.4.2) - 2,100 KB:
 
     Home page: http://www.gnu.org/software/findutils/
@@ -104,13 +108,13 @@ Flex (2.5.37) - 1,280 KB:
     Download: http://prdownloads.sourceforge.net/flex/flex-2.5.37.tar.bz2
 
     MD5 sum: c75940e1fc25108f2a7b3ef42abdae06
-Gawk (4.0.1) - 1,575 KB:
+Gawk (4.0.2) - 1,589 KB:
 
     Home page: http://www.gnu.org/software/gawk/
 
-    Download: http://ftp.gnu.org/gnu/gawk/gawk-4.0.1.tar.xz
+    Download: http://ftp.gnu.org/gnu/gawk/gawk-4.0.2.tar.xz
 
-    MD5 sum: a601b032c39cd982f34272664f8afa49
+    MD5 sum: 8a9b2f1170ac9dcd3eb13716b5ec4021
 GCC (4.7.2) - 80,942 KB:
 
     Home page: http://gcc.gnu.org/
@@ -125,27 +129,27 @@ GDBM (1.10) - 640 KB:
     Download: http://ftp.gnu.org/gnu/gdbm/gdbm-1.10.tar.gz
 
     MD5 sum: 88770493c2559dc80b561293e39d3570
-Gettext (0.18.1.1) - 14,785 KB:
+Gettext (0.18.2) - 15,330 KB:
 
     Home page: http://www.gnu.org/software/gettext/
 
-    Download: http://ftp.gnu.org/gnu/gettext/gettext-0.18.1.1.tar.gz
+    Download: http://ftp.gnu.org/gnu/gettext/gettext-0.18.2.tar.gz
 
-    MD5 sum: 3dd55b952826d2b32f51308f2f91aa89
-Glibc (2.16.0) - 9,756 KB:
+    MD5 sum: 0c86e5af70c195ab8bd651d17d783928
+Glibc (2.17) - 10,725 KB:
 
     Home page: http://www.gnu.org/software/libc/
 
-    Download: http://ftp.gnu.org/gnu/glibc/glibc-2.16.0.tar.xz
+    Download: http://ftp.gnu.org/gnu/glibc/glibc-2.17.tar.xz
 
-    MD5 sum: 80b181b02ab249524ec92822c0174cf7
-GMP (5.0.5) - 1,632 KB:
+    MD5 sum: 87bf675c8ee523ebda4803e8e1cec638
+GMP (5.1.0) - 1,764 KB:
 
     Home page: http://www.gnu.org/software/gmp/
 
-    Download: http://ftp.gnu.org/gnu/gmp/gmp-5.0.5.tar.xz
+    Download: ftp://ftp.gmplib.org/pub/gmp-5.1.0/gmp-5.1.0.tar.xz
 
-    MD5 sum: 8aef50959acec2a1ad41d144ffe0f3b5
+    MD5 sum: 69fd511e435f81a0334f14f00c7d77b3
 Grep (2.14) - 1,172 KB:
 
     Home page: http://www.gnu.org/software/grep/
@@ -195,13 +199,13 @@ IPRoute2 (3.7.0) - 391 KB:
     Download: http://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-3.7.0.tar.xz
 
     MD5 sum: b07241b267036de9a79ca5b69acf8593
-Kbd (1.15.3) - 1,621 KB:
+Kbd (1.15.5) - 1,690 KB:
 
     Home page: http://ftp.altlinux.org/pub/people/legion/kbd
 
-    Download: http://ftp.altlinux.org/pub/people/legion/kbd/kbd-1.15.3.tar.gz
+    Download: http://ftp.altlinux.org/pub/people/legion/kbd/kbd-1.15.5.tar.gz
 
-    MD5 sum: 8143e179a0f3c25646ce5085e8777200
+    MD5 sum: 34c71feead8ab9c01ec638acea8cd877
 Kmod (12) - 1,245 KB:
 
     Download: http://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-12.tar.xz
@@ -218,7 +222,7 @@ LFS-Bootscripts (20121013) - 34 KB:
 
     Download: http://www.linuxfromscratch.org/lfs/downloads/development/lfs-bootscripts-20121013.tar.bz2
 
-    MD5 sum: c11e10828da034a013e1e9017e28da90
+    MD5 sum: 59f88806c16acb011ae14a68897e0c21
 Libpipeline (1.2.2) - 733 KB:
 
     Home page: http://libpipeline.nongnu.org/
@@ -240,7 +244,11 @@ Linux (3.7.1) - 68,432 KB:
     Download: http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.7.1.tar.xz
 
     MD5 sum: b3f99fb945b270b503b2a0996b8b29e7
+    Note
 
+    The Linux kernel is updated relatively often, many times due to discoveries of security vulnerabilities. The latest available 3.7.x kernel version should be used, unless the errata page says otherwise.
+
+    For users with limited speed or expensive bandwidth who wish to update the Linux kernel, a baseline version of the package and patches can be downloaded separately. This may save some time or cost for a subsequent patch level upgrade within a minor release.
 M4 (1.4.16) - 1,229 KB:
 
     Home page: http://www.gnu.org/software/m4/
@@ -262,13 +270,13 @@ Man-DB (2.6.3) - 1,356 KB:
     Download: http://download.savannah.gnu.org/releases/man-db/man-db-2.6.3.tar.xz
 
     MD5 sum: a593a095599ae97bcacf8d038659a146
-Man-pages (3.44) - 1,078 KB:
+Man-pages (3.45) - 1,084 KB:
 
     Home page: http://www.kernel.org/doc/man-pages/
 
-    Download: http://www.kernel.org/pub/linux/docs/man-pages/man-pages-3.44.tar.xz
+    Download: http://www.kernel.org/pub/linux/docs/man-pages/man-pages-3.45.tar.xz
 
-    MD5 sum: f6edb26ca0660638e3567fec31c06e70
+    MD5 sum: aae96aeca4f7e89c5b47b6a67ec42e7f
 MPC (1.0.1) - 610 KB:
 
     Home page: http://www.multiprecision.org/
@@ -332,13 +340,13 @@ Readline (6.2) - 2,225 KB:
     Download: http://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz
 
     MD5 sum: 67948acb2ca081f23359d0256e9a271c
-Sed (4.2.1) - 878 KB:
+Sed (4.2.2) - 1,035 KB:
 
     Home page: http://www.gnu.org/software/sed/
 
-    Download: http://ftp.gnu.org/gnu/sed/sed-4.2.1.tar.bz2
+    Download: http://ftp.gnu.org/gnu/sed/sed-4.2.2.tar.bz2
 
-    MD5 sum: 7d310fbd76e01a01115075c1fd3f455a
+    MD5 sum: 7ffe1c7cdc3233e1e0c4b502df253974
 Shadow (4.1.5.1) - 2,142 KB:
 
     Home page: http://pkg-shadow.alioth.debian.org/
@@ -367,13 +375,13 @@ Tar (1.26) - 2,285 KB:
     Download: http://ftp.gnu.org/gnu/tar/tar-1.26.tar.bz2
 
     MD5 sum: 2cee42a2ff4f1cd4f9298eeeb2264519
-Tcl (8.5.13) - 4,407 KB:
+Tcl (8.6.0) - 8,435 KB:
 
     Home page: http://tcl.sourceforge.net/
 
-    Download: http://prdownloads.sourceforge.net/tcl/tcl8.5.13-src.tar.gz
+    Download: http://prdownloads.sourceforge.net/tcl/tcl8.6.0-src.tar.gz
 
-    MD5 sum: fa3a9bf9b2d6ed2431f1baa46f4058b8
+    MD5 sum: 573aa5fe678e9185ef2b3c56b24658d3
 Time Zone Data (2012j) - 209 KB:
 
     Home page: http://www.iana.org/time-zones
@@ -395,11 +403,11 @@ Systemd (196) - 1,928 KB:
     Download: http://www.freedesktop.org/software/systemd/systemd-196.tar.xz
 
     MD5 sum: 05ebd7f108e420e2b4e4810ea4b3c810
-Udev-lfs Tarball (196) - 20 KB:
+Udev-lfs Tarball (196) - 18 KB:
 
-    Download: http://anduin.linuxfromscratch.org/sources/other/udev-lfs-196-3.tar.bz2
+    Download: http://anduin.linuxfromscratch.org/sources/other/udev-lfs-196-4.tar.bz2
 
-    MD5 sum: 0dbcb1731ee2b74b34ab4f1a65e66c30
+    MD5 sum: 2d86cc6b8a9f5961429d57d98c88fca4
 Util-linux (2.22.2) - 3,028 KB:
 
     Home page: http://userweb.kernel.org/~kzak/util-linux/
@@ -429,14 +437,21 @@ Zlib (1.2.7) - 493 KB:
 
     MD5 sum: 2ab442d169156f34c379c968f3f482dd
 
+Total size of these packages: about 303 MB
+3.3. Needed Patches
 
-#######PATCHES####################
+In addition to the packages, several patches are also required. These patches correct any mistakes in the packages that should be fixed by the maintainer. The patches also make small modifications to make the packages easier to work with. The following patches will be needed to build an LFS system:
 
 Bash Upstream Fixes Patch - 54 KB:
 
     Download: http://www.linuxfromscratch.org/patches/lfs/development/bash-4.2-fixes-10.patch
 
     MD5 sum: 739056302cfbb5675ceb87b29cd898e5
+Binutils Test Suite Patch - 2.0 KB:
+
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/binutils-2.23.1-testsuite_fix-1.patch
+
+    MD5 sum: cb47fae1bc572d45f4b0cff8ae8ecba8
 Bzip2 Documentation Patch - 1.6 KB:
 
     Download: http://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.6-install_docs-1.patch
@@ -452,24 +467,9 @@ Flex Regression Tests Patch - 2.8 KB:
     Download: http://www.linuxfromscratch.org/patches/lfs/development/flex-2.5.37-bison-2.6.1-1.patch
 
     MD5 sum: d5b001ef9bdbbe32e2f27576d97d8ff0
-Glibc DNS Resolve Patch - 2.0 KB:
-
-    Download: http://www.linuxfromscratch.org/patches/lfs/development/glibc-2.16.0-res_query_fix-1.patch
-
-    MD5 sum: d37659c643b1a2150624120238e5b295
-Glibc test-installation.pl Patch - 1.4 KB:
-
-    Download: http://www.linuxfromscratch.org/patches/lfs/development/glibc-2.16.0-fix_test_installation-1.patch
-
-    MD5 sum: 0a3bd5919ea226efebed62833a0985c6
-Kbd Loadkeys Fix Patch - 1.6 KB:
-
-    Download: http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.3-upstream_fixes-1.patch
-
-    MD5 sum: 58ae9bd7d546426cfaccf3eba16ad1a2
 Kbd Backspace/Delete Fix Patch - 12 KB:
 
-    Download: http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.3-backspace-1.patch
+    Download: http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.5-backspace-1.patch
 
     MD5 sum: f75cca16a38da6caa7d52151f7136895
 Make Upstream Fixes Patch - 10 KB:
@@ -497,8 +497,5 @@ Readline Upstream Fixes Patch - 1.3 KB:
     Download: http://www.linuxfromscratch.org/patches/lfs/development/readline-6.2-fixes-1.patch
 
     MD5 sum: 3c185f7b76001d3d0af614f6f2cd5dfa
-Sed Regression Tests Patch - 1.9 KB:
 
-    Download: http://www.linuxfromscratch.org/patches/lfs/development/sed-4.2.1-testsuite_fixes-1.patch
 
-    MD5 sum: 2c10a5804eedf5359bcf427bc0d05579

@@ -30,8 +30,8 @@ ARCHIVE_NAME@=gcc-4.7.2.tar.bz2
 BEGIN_COMMAND_BLOCK
 tar -Jxf ../mpfr-3.1.1.tar.xz
 mv -v mpfr-3.1.1 mpfr
-tar -Jxf ../gmp-5.0.5.tar.xz
-mv -v gmp-5.0.5 gmp
+tar -Jxf ../gmp-5.1.0.tar.xz
+mv -v gmp-5.1.0 gmp
 tar -zxf ../mpc-1.0.1.tar.gz
 mv -v mpc-1.0.1 mpc
 END_COMMAND_BLOCK
@@ -94,7 +94,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Glibc_1
 
-ARCHIVE_NAME@=glibc-2.16.0.tar.xz
+ARCHIVE_NAME@=glibc-2.17.tar.xz
 
 BEGIN_COMMAND_BLOCK
 if [ ! -r /usr/include/rpc/types.h ]; then 
@@ -103,13 +103,9 @@ if [ ! -r /usr/include/rpc/types.h ]; then
 fi
 END_COMMAND_BLOCK
 
-BEGIN_COMMAND_BLOCK
-sed -i 's/ -lgcc_s//' Makeconfig
-END_COMMAND_BLOCK
-
 SETUP_EXTERNAL_BUILD_DIRECTORY
 
-CONFIGURE_COMMAND@=../glibc-2.16.0/configure --prefix=/tools --host=$LFS_TGT --build=$(../glibc-2.16.0/scripts/config.guess) --disable-profile --enable-kernel=2.6.25 --with-headers=/tools/include libc_cv_forced_unwind=yes libc_cv_ctors_header=yes libc_cv_c_cleanup=yes
+CONFIGURE_COMMAND@=../glibc-2.17.0/configure --prefix=/tools --host=$LFS_TGT --build=$(../glibc-2.17.0/scripts/config.guess) --disable-profile --enable-kernel=2.6.25 --with-headers=/tools/include libc_cv_forced_unwind=yes libc_cv_ctors_header=yes libc_cv_c_cleanup=yes
 
 MAKE_COMMAND@=make -j4
 
@@ -180,8 +176,8 @@ END_COMMAND_BLOCK
 BEGIN_COMMAND_BLOCK
 tar -Jxf ../mpfr-3.1.1.tar.xz
 mv -v mpfr-3.1.1 mpfr
-tar -Jxf ../gmp-5.0.5.tar.xz
-mv -v gmp-5.0.5 gmp
+tar -Jxf ../gmp-5.1.0.tar.xz
+mv -v gmp-5.1.0 gmp
 tar -zxf ../mpc-1.0.1.tar.gz
 mv -v mpc-1.0.1 mpc
 END_COMMAND_BLOCK
@@ -214,7 +210,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Tcl_1
 
-ARCHIVE_NAME@=tcl8.5.13-src.tar.gz
+ARCHIVE_NAME@=tcl8.6.0-src.tar.gz
 
 BEGIN_COMMAND_BLOCK
 cd unix
@@ -227,14 +223,14 @@ MAKE_COMMAND@=make -j4
 INSTALL_COMMAND@=make install
 
 BEGIN_COMMAND_BLOCK
-chmod -v u+w /tools/lib/libtcl8.5.so
+chmod -v u+w /tools/lib/libtcl8.6.so
 END_COMMAND_BLOCK
 
 
 INSTALL_COMMAND@=make install-private-headers
 
 BEGIN_COMMAND_BLOCK
-ln -sv tclsh8.5 /tools/bin/tclsh
+ln -sv tclsh8.6 /tools/bin/tclsh
 END_COMMAND_BLOCK
 
 END_BUILD_STEP
@@ -387,7 +383,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Gawk_1
 
-ARCHIVE_NAME@=gawk-4.0.1.tar.xz
+ARCHIVE_NAME@=gawk-4.0.2.tar.xz
 
 
 CONFIGURE_COMMAND@=./configure --prefix=/tools
@@ -402,11 +398,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Gettext_1
 
-ARCHIVE_NAME@=gettext-0.18.1.1.tar.gz
-
-BEGIN_COMMAND_BLOCK
-sed -i -e '/gets is a/d' gettext-*/*/stdio.in.h
-END_COMMAND_BLOCK
+ARCHIVE_NAME@=gettext-0.18.2.tar.gz
 
 BEGIN_COMMAND_BLOCK
 cd gettext-tools
@@ -528,7 +520,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Sed_1
 
-ARCHIVE_NAME@=sed-4.2.1.tar.bz2
+ARCHIVE_NAME@=sed-4.2.2.tar.bz2
 
 CONFIGURE_COMMAND@=./configure --prefix=/tools
 
@@ -562,11 +554,20 @@ BUILD_STEP@=Texinfo_1
 
 ARCHIVE_NAME@=texinfo-4.13a.tar.gz
 
+BEGIN_COMMAND_BLOCK
+cd texinfo-4.13
+END_COMMAND_BLOCK
+
 CONFIGURE_COMMAND@=./configure --prefix=/tools
 
 MAKE_COMMAND@=make -j4
 
 INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+cd ..
+rm -rf texinfo-4.13
+END_COMMAND_BLOCK
 
 END_BUILD_STEP
 
@@ -640,7 +641,7 @@ BEGIN_COMMAND_BLOCK
 cd ..
 
 #create the script to finish the build after the root and chroot stuff
-python3 $LBS_PROGRAM 31 0 / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
+python3 $LBS_PROGRAM 31 $LBS_END_STEP / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
 chmod 755 AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
 
 #create the script that will be run as root
@@ -784,9 +785,9 @@ END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Man_Pages_2
+BUILD_STEP@=Man_Pages_1
 
-ARCHIVE_NAME@=man-pages-3.44.tar.xz
+ARCHIVE_NAME@=man-pages-3.45.tar.xz
 
 INSTALL_COMMAND@=make install
 
@@ -794,23 +795,13 @@ END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Glibc_3
+BUILD_STEP@=Glibc_2
 
-ARCHIVE_NAME@=glibc-2.16.0.tar.xz
-
-BEGIN_COMMAND_BLOCK
-sed -i 's#<rpc/types.h>#"rpc/types.h"#' sunrpc/rpc_clntout.c
-
-patch -Np1 -i ../glibc-2.16.0-fix_test_installation-1.patch
-
-sed -i 's|@BASH@|/bin/bash|' elf/ldd.bash.in
-
-patch -Np1 -i ../glibc-2.16.0-res_query_fix-1.patch
-END_COMMAND_BLOCK
+ARCHIVE_NAME@=glibc-2.17.tar.xz
 
 SETUP_EXTERNAL_BUILD_DIRECTORY
 
-CONFIGURE_COMMAND@=../glibc-2.16.0/configure --prefix=/usr --disable-profile  --enable-kernel=2.6.25 --libexecdir=/usr/lib/glibc
+CONFIGURE_COMMAND@=../glibc-2.17/configure --prefix=/usr --disable-profile  --enable-kernel=2.6.25 --libexecdir=/usr/lib/glibc
 
 MAKE_COMMAND@=make -j4
 
@@ -824,9 +815,9 @@ END_COMMAND_BLOCK
 INSTALL_COMMAND@=make install
 
 BEGIN_COMMAND_BLOCK
-cp -v ../glibc-2.16.0/sunrpc/rpc/*.h /usr/include/rpc
-cp -v ../glibc-2.16.0/sunrpc/rpcsvc/*.h /usr/include/rpcsvc
-cp -v ../glibc-2.16.0/nis/rpcsvc/*.h /usr/include/rpcsvc
+cp -v ../glibc-2.17/sunrpc/rpc/*.h /usr/include/rpc
+cp -v ../glibc-2.17/sunrpc/rpcsvc/*.h /usr/include/rpcsvc
+cp -v ../glibc-2.17/nis/rpcsvc/*.h /usr/include/rpcsvc
 
 mkdir -pv /usr/lib/locale
 localedef -i cs_CZ -f UTF-8 cs_CZ.UTF-8
@@ -992,6 +983,8 @@ ARCHIVE_NAME@=binutils-2.23.1.tar.bz2
 BEGIN_COMMAND_BLOCK
 rm -fv etc/standards.info
 sed -i.bak '/^INFO/s/standards.info //' etc/Makefile.in
+
+patch -Np1 -i ../binutils-2.23.1-testsuite_fix-1.patch
 END_COMMAND_BLOCK
 
 SETUP_EXTERNAL_BUILD_DIRECTORY
@@ -1000,9 +993,9 @@ CONFIGURE_COMMAND@=../binutils-2.23.1/configure --prefix=/usr --enable-shared
 
 MAKE_COMMAND@=make tooldir=/usr
 
-#BEGIN_COMMAND_BLOCK
-#make -k check #REMOVED BECAUSE EXPECT APPEARS TO BE MISSING
-#END_COMMAND_BLOCK
+BEGIN_COMMAND_BLOCK
+make -k check
+END_COMMAND_BLOCK
 
 INSTALL_COMMAND@=make tooldir=/usr install
 
@@ -1016,7 +1009,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=GMP_1
 
-ARCHIVE_NAME@=gmp-5.0.5.tar.xz
+ARCHIVE_NAME@=gmp-5.1.0.tar.xz
 
 
 CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-cxx --enable-mpbsd
@@ -1133,13 +1126,9 @@ END_BUILD_STEP
 
 BUILD_STEP@=Sed
 
-ARCHIVE_NAME@=sed-4.2.1.tar.bz2
+ARCHIVE_NAME@=sed-4.2.2.tar.bz2
 
-BEGIN_COMMAND_BLOCK
-patch -Np1 -i ../sed-4.2.1-testsuite_fixes-1.patch
-END_COMMAND_BLOCK
-
-CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/doc/sed-4.2.1
+CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/doc/sed-4.2.2
 
 MAKE_COMMAND@=make -j4
 MAKE_COMMAND@=make html
@@ -1293,6 +1282,26 @@ END_BUILD_STEP
 
 #############################
 
+BUILD_STEP@=Procps
+
+ARCHIVE_NAME@=procps-3.2.8.tar.gz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../procps-3.2.8-fix_HZ_errors-1.patch
+
+patch -Np1 -i ../procps-3.2.8-watch_unicode-1.patch
+
+sed -i -e 's@\*/module.mk@proc/module.mk ps/module.mk@' -e 's@^#SKIP@SKIP@' Makefile
+END_COMMAND_BLOCK
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
 BUILD_STEP@=E2fsprogs
 
 ARCHIVE_NAME@=e2fsprogs-1.42.6.tar.gz
@@ -1362,4 +1371,1045 @@ END_COMMAND_BLOCK
 END_BUILD_STEP
 
 #############################
+
+BUILD_STEP@=Coreutils_2
+
+ARCHIVE_NAME@=coreutils-8.19.tar.xz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e 's/! isatty/isatty/' -e '45i\              || errno == ENOENT' gnulib-tests/test-getlogin.c
+
+patch -Np1 -i ../coreutils-8.19-i18n-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --libexecdir=/usr/lib --enable-no-install-program=kill,uptime
+
+MAKE_COMMAND@=make -j4
+
+#Test suites are skipped, as they require su ing into a different user and other complex and unnecessary things
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} /bin
+mv -v /usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm} /bin
+mv -v /usr/bin/{rmdir,stty,sync,true,uname} /bin
+mv -v /usr/bin/chroot /usr/sbin
+mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
+sed -i s/\"1\"/\"8\"/1 /usr/share/man/man8/chroot.8
+END_COMMAND_BLOCK
+
+#We move the binaries just incase /usr is not avaible at boot
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/{head,sleep,nice} /bin
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Iana_Etc
+
+ARCHIVE_NAME@=iana-etc-2.30.tar.bz2
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=M4_2
+
+ARCHIVE_NAME@=m4-1.4.16.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' lib/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '41s/ENOENT/& || errno == EINVAL/' tests/test-readlink.h
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Bison_3
+
+ARCHIVE_NAME@=bison-2.7.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+BEGIN_COMMAND_BLOCK
+echo '#define YYENABLE_NLS 1' >> lib/config.h
+END_COMMAND_BLOCK
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Grep
+
+ARCHIVE_NAME@=grep-2.14.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+make check
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Readline_2
+
+ARCHIVE_NAME@=readline-6.2.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i '/MV.*old/d' Makefile.in
+sed -i '/{OLDSUFF}/c:' support/shlib-install
+
+patch -Np1 -i ../readline-6.2-fixes-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libdir=/lib
+
+MAKE_COMMAND@=make SHLIB_LIBS=-lncurses
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /lib/lib{readline,history}.a /usr/lib
+
+rm -v /lib/lib{readline,history}.so
+ln -sfv ../../lib/libreadline.so.6 /usr/lib/libreadline.so
+ln -sfv ../../lib/libhistory.so.6 /usr/lib/libhistory.so
+
+mkdir   -v       /usr/share/doc/readline-6.2
+install -v -m644 doc/*.{ps,pdf,html,dvi} /usr/share/doc/readline-6.2
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Bash_2
+
+ARCHIVE_NAME@=bash-4.2.tar.gz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../bash-4.2-fixes-10.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/doc/bash-4.2 --without-bash-malloc --with-installed-readline
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+
+#Normally we would change to the new bash here, but there's really no good way to do that right now. Subject to change, but for now we just ignore.
+
+echo "Normally we would change to the new bash here, but there's really no good way to do that right now. Subject to change, but for now we just ignore."
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Libtool_2
+
+ARCHIVE_NAME@=libtool-2.4.2.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GDBM_2
+
+ARCHIVE_NAME@=gdbm-1.10.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-libgdbm-compat
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Inetutils
+
+ARCHIVE_NAME@=inetutils-1.9.1.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' lib/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libexecdir=/usr/sbin --localstatedir=/var --disable-ifconfig --disable-logger --disable-syslogd      --disable-whois  --disable-servers
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make -C doc html
+INSTALL_COMMAND@=make -C doc install-html docdir=/usr/share/doc/inetutils-1.9.1
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/{hostname,ping,ping6} /bin
+mv -v /usr/bin/traceroute /sbin
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Perl_2
+
+ARCHIVE_NAME@=perl-5.16.2.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+echo "127.0.0.1 localhost $(hostname)" > /etc/hosts
+
+sed -i -e "s|BUILD_ZLIB\s*= True|BUILD_ZLIB = False|"           \
+       -e "s|INCLUDE\s*= ./zlib-src|INCLUDE    = /usr/include|" \
+       -e "s|LIB\s*= ./zlib-src|LIB        = /usr/lib|"         \
+    cpan/Compress-Raw-Zlib/config.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=sh Configure -des -Dprefix=/usr -Dvendorprefix=/usr -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Duseshrplib
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Autoconf_2
+
+ARCHIVE_NAME@=autoconf-2.69.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Automake_2
+
+ARCHIVE_NAME@=automake-1.12.6.tar.xz
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.12.6
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Diffutils
+
+ARCHIVE_NAME@=diffutils-3.2.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' lib/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gawk
+
+ARCHIVE_NAME@=gawk-4.0.2.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libexecdir=/usr/lib
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mkdir -v /usr/share/doc/gawk-4.0.2
+cp    -v doc/{awkforai.txt,*.{eps,pdf,jpg}} /usr/share/doc/gawk-4.0.2
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Findutils
+
+ARCHIVE_NAME@=findutils-4.4.2.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libexecdir=/usr/lib/findutils --localstatedir=/var/lib/locate
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/find /bin
+sed -i 's/find:=${BINDIR}/find:=\/bin/' /usr/bin/updatedb
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Flex
+
+ARCHIVE_NAME@=flex-2.5.37.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../flex-2.5.37-bison-2.6.1-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/flex-2.5.37
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -sv libfl.a /usr/lib/libl.a
+
+cat > /usr/bin/lex << "EOF"
+#!/bin/sh
+# Begin /usr/bin/lex
+
+exec /usr/bin/flex -l "$@"
+
+# End /usr/bin/lex
+EOF
+chmod -v 755 /usr/bin/lex
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gettext
+
+ARCHIVE_NAME@=gettext-0.18.2.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/gettext-0.18.2
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Groff
+
+ARCHIVE_NAME@=groff-1.21.tar.gz
+
+CONFIGURE_COMMAND@=PAGE=letter ./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -sv eqn /usr/bin/geqn
+ln -sv tbl /usr/bin/gtbl
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xz
+
+ARCHIVE_NAME@=xz-5.0.4.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libdir=/lib --docdir=/usr/share/doc/xz-5.0.4
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make pkgconfigdir=/usr/lib/pkgconfig install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GRUB
+
+ARCHIVE_NAME@=grub-2.00.tar.xz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' grub-core/gnulib/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --disable-grub-emu-usb --disable-efiemu --disable-werror
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Less
+
+ARCHIVE_NAME@=less-451.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gzip
+
+ARCHIVE_NAME@=gzip-1.5.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /bin/{gzexe,uncompress,zcmp,zdiff,zegrep} /usr/bin
+mv -v /bin/{zfgrep,zforce,zgrep,zless,zmore,znew} /usr/bin
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=IPRoute2
+
+ARCHIVE_NAME@=iproute2-3.7.0.tar.xz
+
+BEGIN_COMMAND_BLOCK
+sed -i '/^TARGETS/s@arpd@@g' misc/Makefile
+sed -i /ARPD/d Makefile
+sed -i 's/arpd.8//' man/man8/Makefile
+END_COMMAND_BLOCK
+
+MAKE_COMMAND@=make DESTDIR=
+
+INSTALL_COMMAND@=make DESTDIR= MANDIR=/usr/share/man DOCDIR=/usr/share/doc/iproute2-3.7.0 install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Kbd
+
+ARCHIVE_NAME@=kbd-1.15.5.tar.gz
+
+BEGIN_COMMAND_BLOCK
+
+patch -Np1 -i ../kbd-1.15.5-backspace-1.patch
+
+sed -i -e '326 s/if/while/' src/loadkeys.analyze.l
+
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --datadir=/lib/kbd --disable-vlock
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/bin/{kbd_mode,loadkeys,openvt,setfont} /bin
+
+mkdir -v /usr/share/doc/kbd-1.15.5
+cp -R -v doc/* /usr/share/doc/kbd-1.15.5
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Kmod
+
+ARCHIVE_NAME@=kmod-12.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --libdir=/lib --sysconfdir=/etc --disable-manpages --with-xz --with-zlib
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make pkgconfigdir=/usr/lib/pkgconfig install
+
+BEGIN_COMMAND_BLOCK
+for target in depmod insmod modinfo modprobe rmmod; do
+  ln -sv ../bin/kmod /sbin/$target
+done
+
+ln -sv kmod /bin/lsmod
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Libpipeline
+
+ARCHIVE_NAME@=libpipeline-1.2.2.tar.gz
+
+CONFIGURE_COMMAND@=PKG_CONFIG_PATH=/tools/lib/pkgconfig ./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Make_2
+
+ARCHIVE_NAME@=make-3.82.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../make-3.82-upstream_fixes-3.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Man_DB_2
+
+ARCHIVE_NAME@=man-db-2.6.3.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libexecdir=/usr/lib --docdir=/usr/share/doc/man-db-2.6.3 --sysconfdir=/etc --disable-setuid --with-browser=/usr/bin/lynx --with-vgrind=/usr/bin/vgrind --with-grap=/usr/bin/grap
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Patch_2
+
+ARCHIVE_NAME@=patch-2.7.1.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Sysklogd
+
+ARCHIVE_NAME@=sysklogd-1.5.tar.gz
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make BINDIR=/sbin install
+
+BEGIN_COMMAND_BLOCK
+cat > /etc/syslog.conf << "EOF"
+# Begin /etc/syslog.conf
+
+auth,authpriv.* -/var/log/auth.log
+*.*;auth,authpriv.none -/var/log/sys.log
+daemon.* -/var/log/daemon.log
+kern.* -/var/log/kern.log
+mail.* -/var/log/mail.log
+user.* -/var/log/user.log
+*.emerg *
+
+# End /etc/syslog.conf
+EOF
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Sysvinit
+
+ARCHIVE_NAME@=sysvinit-2.88dsf.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i 's@Sending processes@& configured via /etc/inittab@g' src/init.c
+
+sed -i -e '/utmpdump/d' -e '/mountpoint/d' src/Makefile
+END_COMMAND_BLOCK
+
+MAKE_COMMAND@=make -C src
+
+INSTALL_COMMAND@=make -C src install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Tar
+
+ARCHIVE_NAME@=tar-1.26.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/gets is a/d' gnu/stdio.in.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --bindir=/bin --libexecdir=/usr/sbin
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make -C doc install-html docdir=/usr/share/doc/tar-1.26
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Texinfo
+
+ARCHIVE_NAME@=texinfo-4.13a.tar.gz
+
+#don't know why extracted archive is of a different name
+BEGIN_COMMAND_BLOCK
+cd texinfo-4.13
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+cd ..
+rm -rf texinfo-4.13
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Udev_196
+
+ARCHIVE_NAME@=systemd-196.tar.xz
+
+BEGIN_COMMAND_BLOCK
+tar -xvf ../udev-lfs-196-4.tar.bz2
+
+sed -i -e 's/create/update/' src/udev/udevadm-hwdb.c
+END_COMMAND_BLOCK
+
+MAKE_COMMAND@=make -f udev-lfs-196-4/Makefile.lfs
+
+INSTALL_COMMAND@=make -f udev-lfs-196-4/Makefile.lfs install
+
+BEGIN_COMMAND_BLOCK
+build/udevadm hwdb --update
+
+bash udev-lfs-196-4/init-net-rules.sh
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Vim
+
+ARCHIVE_NAME@=vim-7.3.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+cd vim73
+echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-multibyte
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -sv vim /usr/bin/vi
+for L in  /usr/share/man/{,*/}man1/vim.1; do
+    ln -sv vim.1 $(dirname $L)/vi.1
+done
+
+ln -sv ../vim/vim73/doc /usr/share/doc/vim-7.3
+
+cat > /etc/vimrc << "EOF"
+" Begin /etc/vimrc
+
+set nocompatible
+set backspace=2
+syntax on
+if (&term == "iterm") || (&term == "putty")
+  set background=dark
+endif
+
+" End /etc/vimrc
+EOF
+
+cd ..
+rm -rf vim73
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=NetworkSetup
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+#This is a sample Network Interface Configuration FIle, will need one for each interface ending in a meaningful extention and starting with ifconfig. (ifconfig.eth0)
+
+cd /etc/sysconfig/
+cat > ifconfig.eth0 << "EOF"
+ONBOOT=yes
+IFACE=eth0
+SERVICE=ipv4-static
+IP=192.168.1.1
+GATEWAY=192.168.1.2
+PREFIX=24
+BROADCAST=192.168.1.255
+EOF
+
+
+
+cat > /etc/resolv.conf << "EOF"
+# Begin /etc/resolv.conf
+
+#Using Google's DNS servers
+
+#domain <Your Domain Name>
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+# End /etc/resolv.conf
+EOF
+
+cat > /etc/hosts << "EOF"
+# Begin /etc/hosts (network card version)
+
+127.0.0.1 localhost
+192.168.0.1 LBS_LFS.example.org LBS_LFS localhost
+
+# End /etc/hosts (network card version)
+EOF
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=LFS_Bootscripts
+
+ARCHIVE_NAME@=lfs-bootscripts-20121013.tar.bz2
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=StartupSetup
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+cat > /etc/inittab << "EOF"
+# Begin /etc/inittab
+
+id:3:initdefault:
+
+si::sysinit:/etc/rc.d/init.d/rc S
+
+l0:0:wait:/etc/rc.d/init.d/rc 0
+l1:S1:wait:/etc/rc.d/init.d/rc 1
+l2:2:wait:/etc/rc.d/init.d/rc 2
+l3:3:wait:/etc/rc.d/init.d/rc 3
+l4:4:wait:/etc/rc.d/init.d/rc 4
+l5:5:wait:/etc/rc.d/init.d/rc 5
+l6:6:wait:/etc/rc.d/init.d/rc 6
+
+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
+
+su:S016:once:/sbin/sulogin
+
+1:2345:respawn:/sbin/agetty --noclear tty1 9600
+2:2345:respawn:/sbin/agetty tty2 9600
+3:2345:respawn:/sbin/agetty tty3 9600
+4:2345:respawn:/sbin/agetty tty4 9600
+5:2345:respawn:/sbin/agetty tty5 9600
+6:2345:respawn:/sbin/agetty tty6 9600
+
+# End /etc/inittab
+EOF
+
+echo "HOSTNAME=LBS_LFS" > /etc/sysconfig/network
+
+cat > /etc/sysconfig/clock << "EOF"
+# Begin /etc/sysconfig/clock
+
+UTC=1
+
+# Set this to any options you might need to give to hwclock, 
+# such as machine hardware clock type for Alphas.
+CLOCKPARAMS=
+
+# End /etc/sysconfig/clock
+EOF
+
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=MiscSetup
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+#This is where the linux console commands go, set by the console bootscript
+
+#This is where the sysklogd script would be configured
+
+cat > /etc/profile << "EOF"
+# Begin /etc/profile
+
+export LANG=en_US.UTF-8
+
+# End /etc/profile
+EOF
+
+cat > /etc/inputrc << "EOF"
+# Begin /etc/inputrc
+# Modified by Chris Lynn <roryo@roryo.dynup.net>
+
+# Allow the command prompt to wrap to the next line
+set horizontal-scroll-mode Off
+
+# Enable 8bit input
+set meta-flag On
+set input-meta On
+
+# Turns off 8th bit stripping
+set convert-meta Off
+
+# Keep the 8th bit for display
+set output-meta On
+
+# none, visible or audible
+set bell-style none
+
+# All of the following map the escape sequence of the value
+# contained in the 1st argument to the readline specific functions
+"\eOd": backward-word
+"\eOc": forward-word
+
+# for linux console
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# for xterm
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+
+# for Konsole
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# End /etc/inputrc
+EOF
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=StartupSetup
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+cat > /etc/fstab << "EOF"
+# Begin /etc/fstab
+
+# file system  mount-point  type     options             dump  fsck
+#                                                              order
+
+/dev/sda3      /            ext3    defaults            1     1
+#/dev/<yyy>     swap         swap     pri=1               0     0
+proc           /proc        proc     nosuid,noexec,nodev 0     0
+sysfs          /sys         sysfs    nosuid,noexec,nodev 0     0
+devpts         /dev/pts     devpts   gid=5,mode=620      0     0
+tmpfs          /run         tmpfs    defaults            0     0
+devtmpfs       /dev         devtmpfs mode=0755,nosuid    0     0
+
+# End /etc/fstab
+EOF
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=Linux_Kernel
+
+ARCHIVE_NAME@=linux-3.7.1.tar.xz
+
+BEGIN_COMMAND_BLOCK
+make mrproper
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=make LANG=en_US.UTF-8 LC_ALL= menuconfig
+
+MAKE_COMMAND@=make -j4
+
+#install modules, if applicable
+INSTALL_COMMAND@=make modules_install
+
+BEGIN_COMMAND_BLOCK
+cp -v arch/x86/boot/bzImage /boot/vmlinuz-3.7.1-lfs-SVN-20121218
+
+cp -v System.map /boot/System.map-3.7.1
+
+cp -v .config /boot/config-3.7.1
+
+install -d /usr/share/doc/linux-3.7.1
+cp -r Documentation/* /usr/share/doc/linux-3.7.1
+
+chown -R 0:0 linux-3.7.1
+
+install -v -m755 -d /etc/modprobe.d
+cat > /etc/modprobe.d/usb.conf << "EOF"
+# Begin /etc/modprobe.d/usb.conf
+
+install ohci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i ohci_hcd ; true
+install uhci_hcd /sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true
+
+# End /etc/modprobe.d/usb.conf
+EOF
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GRUB_setup
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+#Do nothing for now. This really needs to be manual.
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=LFS_Final
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+echo SVN-20121230 > /etc/lfs-release
+
+cat > /etc/lsb-release << "EOF"
+DISTRIB_ID="LinuxBuildSystem - Linux From Scratch"
+DISTRIB_RELEASE="SVN-20121218"
+DISTRIB_CODENAME="Nathan Braswell's LinuxBuildSystem Build"
+DISTRIB_DESCRIPTION="Linux From Scratch"
+EOF
+
+echo "Would unmount stuff now, but why not just reboot now."
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
 
