@@ -213,6 +213,7 @@ BUILD_STEP@=Tcl_1
 ARCHIVE_NAME@=tcl8.6.0-src.tar.gz
 
 BEGIN_COMMAND_BLOCK
+cd tcl8.6.0
 cd unix
 END_COMMAND_BLOCK
 
@@ -231,6 +232,8 @@ INSTALL_COMMAND@=make install-private-headers
 
 BEGIN_COMMAND_BLOCK
 ln -sv tclsh8.6 /tools/bin/tclsh
+cd ..
+rm -r tcl8.6.0
 END_COMMAND_BLOCK
 
 END_BUILD_STEP
