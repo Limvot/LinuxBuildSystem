@@ -1,6 +1,10 @@
 #Build step file for Linux Build System
 # The @= as assignment allows = to be used in commands
 
+NAME@=LinuxFromScratch
+
+PROVIDES@=LFS linux man-pages zlib file binutils GMP MPFR MPC gcc sed bzip2 pkg-config ncurses util-linux psmisc procps e2fsprogs shadow coreutils iana-etc M4 bison grep readline bash libtool GDBM ineutils perl autoconf automake diffutils gawk findutils flex gettext groff xz GRUB less gzip iproute2 kbd kmod libpipeline make man-DB patch sysklogd sysvinit tar texinfo udev vim
+
 BUILD_STEP@=Binutils_1
 
 ARCHIVE_NAME@=binutils-2.23.1.tar.bz2
@@ -644,7 +648,7 @@ BEGIN_COMMAND_BLOCK
 cd ..
 
 #create the script to finish the build after the root and chroot stuff
-python3 $LBS_PROGRAM 31 $LBS_END_STEP / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
+python3 $LBS_PROGRAM LFS 31 $LBS_END_STEP / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
 chmod 755 AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
 
 #create the script that will be run as root
@@ -2351,7 +2355,7 @@ MAKE_COMMAND@=make -j4
 INSTALL_COMMAND@=make modules_install
 
 BEGIN_COMMAND_BLOCK
-cp -v arch/x86/boot/bzImage /boot/vmlinuz-3.7.1-lfs-SVN-20121218
+cp -v arch/x86/boot/bzImage /boot/vmlinuz-3.7.1-lfs-SVN-20130101
 
 cp -v System.map /boot/System.map-3.7.1
 
@@ -2402,7 +2406,7 @@ echo SVN-20121230 > /etc/lfs-release
 
 cat > /etc/lsb-release << "EOF"
 DISTRIB_ID="LinuxBuildSystem - Linux From Scratch"
-DISTRIB_RELEASE="SVN-20121218"
+DISTRIB_RELEASE="SVN-20130101"
 DISTRIB_CODENAME="Nathan Braswell's LinuxBuildSystem Build"
 DISTRIB_DESCRIPTION="Linux From Scratch"
 EOF

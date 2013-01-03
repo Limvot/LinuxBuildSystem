@@ -1,0 +1,42 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=OpenSSL-1.0.1c
+
+PROVIDES@=openssl
+
+BUILD_STEP@=OpenSSL-1.0.1c_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+wget http://www.openssl.org/source/openssl-1.0.1c.tar.gz\
+wget http://www.linuxfromscratch.org/patches/blfs/svn/openssl-1.0.1c-fix_manpages-1.patch
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=OpenSSL-1.0.1c_installation
+
+ARCHIVE_NAME@=openssl-1.0.1c.tar.gz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../openssl-1.0.1c-fix_manpages-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./config --prefix=/usr zlib-dynamic --openssldir=/etc/ssl shared
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make MANDIR=/usr/share/man install
+
+BEGIN_COMMAND_BLOCK
+install -v -d -m755 /usr/share/doc/openssl-1.0.1c
+cp -v -r doc/*      /usr/share/doc/openssl-1.0.1c
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

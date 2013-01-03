@@ -1,0 +1,43 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Python3.3.0
+
+REQUIREMENTS@=expat libffi
+
+PROVIDES@=python3
+
+BUILD_STEP@=Python3.3.0_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+wget http://www.python.org/ftp/python/3.3.0/Python-3.3.0.tar.xz
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Python3.3.0_installation
+
+ARCHIVE_NAME@=Python-3.3.0.tar.xz
+
+BEGIN_COMMAND_BLOCK
+sed -i "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+chmod -v 755 /usr/lib/libpython3.3m.so
+chmod -v 755 /usr/lib/libpython3.so
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

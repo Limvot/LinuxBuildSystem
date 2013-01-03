@@ -1,0 +1,34 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Wget-1.14
+
+REQUIREMENTS@=openssl
+
+PROVIDES@=wget
+
+BUILD_STEP@=Wget-1.14_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+wget http://ftp.gnu.org/gnu/wget/wget-1.14.tar.xz
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Wget-1.14_installation
+
+ARCHIVE_NAME@=wget-1.14.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

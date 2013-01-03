@@ -1,0 +1,36 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=LinuxBuildSystem
+
+REQUIREMENTS@=wget python3
+
+PROVIDES@=linuxbuildsystem
+
+BUILD_STEP@=LinuxBuildSystem_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+wget https://github.com/Limvot/LinuxBuildSystem/archive/master.zip LinuxBuildSystem.zip
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=LinuxBuildSystem_installation
+
+ARCHIVE_NAME@=LinuxBuildSystem.zip
+
+BEGIN_COMMAND_BLOCK
+cd LinuxBuildSystem-master
+mkdir /opt/LinuxBuildSystem
+cp -r * /opt/LinuxBuildSystem
+cd ..
+rm -r LinuxBuildSystem-master
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

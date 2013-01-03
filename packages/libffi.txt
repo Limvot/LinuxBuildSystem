@@ -1,0 +1,37 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=libffi-3.0.11
+
+PROVIDES@=libffi
+
+BUILD_STEP@=libffi-3.0.11_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+wget ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
+wget http://www.linuxfromscratch.org/patches/blfs/svn/libffi-3.0.11-includedir-1.patch
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libffi-3.0.11_installation
+
+ARCHIVE_NAME@=libffi-3.0.11.tar.gz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../libffi-3.0.11-includedir-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
