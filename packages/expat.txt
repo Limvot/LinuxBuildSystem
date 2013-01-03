@@ -9,9 +9,7 @@ BUILD_STEP@=Expat2.1.0_download
 
 ONLY_COMMANDS@=True
 
-BEGIN_COMMAND_BLOCK
-wget http://downloads.sourceforge.net/expat/expat-2.1.0.tar.gz
-END_COMMAND_BLOCK
+DOWNLOAD_PATH@=http://downloads.sourceforge.net/expat/expat-2.1.0.tar.gz
 
 END_BUILD_STEP
 

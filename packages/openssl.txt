@@ -9,10 +9,9 @@ BUILD_STEP@=OpenSSL-1.0.1c_download
 
 ONLY_COMMANDS@=True
 
-BEGIN_COMMAND_BLOCK
-wget http://www.openssl.org/source/openssl-1.0.1c.tar.gz\
-wget http://www.linuxfromscratch.org/patches/blfs/svn/openssl-1.0.1c-fix_manpages-1.patch
-END_COMMAND_BLOCK
+DOWNLOAD_PATH@=http://www.openssl.org/source/openssl-1.0.1c.tar.gz
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/openssl-1.0.1c-fix_manpages-1.patch
+
 
 END_BUILD_STEP
 

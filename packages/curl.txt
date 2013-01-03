@@ -1,0 +1,42 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=cURL-7.28.1
+
+REQUIREMENTS@=openssl certificate_authority_certificates
+
+PROVIDES@=curl
+
+BUILD_STEP@=cURL-7.28.1_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://curl.haxx.se/download/curl-7.28.1.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=cURL-7.28.1_installation
+
+ARCHIVE_NAME@=curl-7.28.1.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i '/--static-libs)/{N;s#echo .*#echo #;}' curl-config.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static --with-ca-path=/etc/ssl/certs
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+find docs \( -name "Makefile*" -o -name "*.1" -o -name "*.3" \) -exec rm {} \;
+install -v -d -m755 /usr/share/doc/curl-7.28.1
+cp -v -R docs/*     /usr/share/doc/curl-7.28.1
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

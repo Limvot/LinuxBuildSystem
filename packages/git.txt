@@ -1,0 +1,36 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Git-1.8.0 
+
+REQUIREMENTS@=curl pcre openssl certificate_authority_certificates python2
+
+PROVIDES@=git
+
+BUILD_STEP@=Git-1.8.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://git-core.googlecode.com/files/git-1.8.0.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Git-1.8.0_installation
+
+ARCHIVE_NAME@=git-1.8.0.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libexecdir=/usr/lib --with-gitconfig=/etc/gitconfig
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+git config --system http.sslCAPath /etc/ssl/certs
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

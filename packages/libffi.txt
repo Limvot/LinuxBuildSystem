@@ -9,10 +9,9 @@ BUILD_STEP@=libffi-3.0.11_download
 
 ONLY_COMMANDS@=True
 
-BEGIN_COMMAND_BLOCK
-wget ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
-wget http://www.linuxfromscratch.org/patches/blfs/svn/libffi-3.0.11-includedir-1.patch
-END_COMMAND_BLOCK
+DOWNLOAD_PATH@=ftp://sourceware.org/pub/libffi/libffi-3.0.11.tar.gz
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/libffi-3.0.11-includedir-1.patch
+
 
 END_BUILD_STEP
 

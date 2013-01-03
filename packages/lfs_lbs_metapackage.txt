@@ -1,0 +1,18 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=LFS_and_LinuxBuildSystem_Metapackage
+
+REQUIREMENTS@=LFS linuxbuildsystem
+
+PROVIDES@=LFS_LinuxBuildSystem_METAPACKAGE
+
+BUILD_STEP@=LFS_LBS_META_PLACEHOLDER
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+echo "Building LinuxFromScratch, then installing LinuxBuildSystem and its dependencies including git, curl, and other libraries!"
+END_COMMAND_BLOCK
+
+END_BUILD_STEP

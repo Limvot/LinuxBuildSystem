@@ -1,39 +1,38 @@
 #Build step file for Linux Build System
 # The @= as assignment allows = to be used in commands
 
-NAME@=Python3.3.0
+NAME@=Python-2.7.3
 
 REQUIREMENTS@=expat libffi
 
-PROVIDES@=python3
+PROVIDES@=python2
 
-BUILD_STEP@=Python3.3.0_download
+BUILD_STEP@=Python-2.7.3_download
 
 ONLY_COMMANDS@=True
 
-DOWNLOAD_PATH@=http://www.python.org/ftp/python/3.3.0/Python-3.3.0.tar.xz
+DOWNLOAD_PATH@=http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tar.xz
 
 END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Python3.3.0_installation
+BUILD_STEP@=Python-2.7.3_installation
 
-ARCHIVE_NAME@=Python-3.3.0.tar.xz
+ARCHIVE_NAME@=Python-2.7.3.tar.xz
 
 BEGIN_COMMAND_BLOCK
 sed -i "s/ndbm_libs = \[\]/ndbm_libs = ['gdbm', 'gdbm_compat']/" setup.py
 END_COMMAND_BLOCK
 
-CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-shared
 
 MAKE_COMMAND@=make -j4
 
 INSTALL_COMMAND@=make install
 
 BEGIN_COMMAND_BLOCK
-chmod -v 755 /usr/lib/libpython3.3m.so
-chmod -v 755 /usr/lib/libpython3.so
+chmod -v 755 /usr/lib/libpython2.7.so.1.0
 END_COMMAND_BLOCK
 
 END_BUILD_STEP

@@ -39,9 +39,15 @@ class Package:
 				#Build step properties
 				if split_line[0] == "ONLY_COMMANDS":
 					build_step[0]["ONLY_COMMANDS"] = split_line[1]
-	
+
 				if split_line[0] == "ARCHIVE_NAME":
 					build_step[0]["ARCHIVE_NAME"] = split_line[1]
+				
+				#Add the new path to the list, creating it if it doesn't exist
+				if split_line[0] == "DOWNLOAD_PATH":
+					inbetween = build_step[0].get("DOWNLOAD_PATH", [])
+					inbetween.append(split_line[1])
+					build_step[0]["DOWNLOAD_PATH"] = inbetween
 	
 				if split_line[0] == "BUILD_STEP":
 					build_step[0]["BUILD_STEP"] = split_line[1]
@@ -107,6 +113,22 @@ class Package:
 	
 		#Change to the sources directory. All steps take place from here
 		script_string += "cd " + build_dir + os.sep + "sources" + "\n"
+
+		#Add download commands, if they exist
+		if "DOWNLOAD_PATH" in build_step[0]:
+			script_string += "#####DOWNLOADS#####\n"
+			for download_path in build_step[0]["DOWNLOAD_PATH"]:
+				download_path = download_path.split()[0]				#No trailing line returns or spaces
+				download_name = download_path.split("/")[-1]			#Get the name by getting everything after the last "/"
+				script_string += "##" + download_name + "##\n"
+				script_string += "echo 'Testing for " + download_name +"!'\n"
+				script_string += "if [ -s "+ download_name + " ]; then\n"
+				script_string += "    echo '" + download_name + " exists!'\n"
+				script_string += "else\n"
+				script_string += "    echo '" + download_name + " does not exist, downloading!'\n"
+				script_string += "    wget " + download_path + "\n"
+				script_string += "fi\n"
+
 	
 		#If this step is only commands, not a pkg build, just output the commands and return
 		if build_step[0].get("ONLY_COMMANDS", "False").split("\n")[0] == "True":
