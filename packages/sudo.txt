@@ -1,0 +1,34 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Sudo-1.8.6p3
+
+PROVIDES@=sudo
+
+BUILD_STEP@=Sudo-1.8.6p3_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://www.sudo.ws/sudo/dist/sudo-1.8.6p3.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Sudo-1.8.6p3_installation
+
+ARCHIVE_NAME@=sudo-1.8.6p3.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --libexecdir=/usr/lib/sudo --docdir=/usr/share/doc/sudo-1.8.6p3 --with-all-insults --with-env-editor --without-pam --without-sendmail
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+echo "Sudo installed, edit the /etc/sudoers file to your liking. Reccomended you edit with visudo"
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

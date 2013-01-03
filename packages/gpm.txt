@@ -1,0 +1,78 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=GPM-1.20.7
+
+REQUIREMENTS@=blfs-bootscripts
+
+PROVIDES@=gpm
+
+BUILD_STEP@=GPM-1.20.7_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://www.nico.schottelius.org/software/gpm/archives/gpm-1.20.7.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GPM-1.20.7_installation
+
+ARCHIVE_NAME@=gpm-1.20.7.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+./autogen.sh
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+install-info --dir-file=/usr/share/info/dir /usr/share/info/gpm.info
+
+ln -v -sfn libgpm.so.2.1.0 /usr/lib/libgpm.so
+install -v -m644 conf/gpm-root.conf /etc
+
+install -v -m755 -d /usr/share/doc/gpm-1.20.7/support
+install -v -m644    doc/support/* /usr/share/doc/gpm-1.20.7/support
+
+install -v -m644    doc/{FAQ,HACK_GPM,README*} /usr/share/doc/gpm-1.20.7
+END_COMMAND_BLOCK
+
+BEGIN_COMMAND_BLOCK
+cat > /etc/sysconfig/mouse << "EOF"
+# Begin /etc/sysconfig/mouse
+
+echo "You will need to edit /etc/sysconfig/mouse"
+echo "Discover what you need with gpm -m [device] -t -help"
+echo "/dev/ttyS0 for a serial mouse, /dev/input/mice is often used for USB mice and /dev/psaux for PS2 mice"
+
+MDEVICE="<yourdevice>"
+PROTOCOL="<yourprotocol>"
+GPMOPTS="<additional options>"
+
+# End /etc/sysconfig/mouse
+EOF
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GPM-1.20.7_bootscript_installation
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cd blfs-bootscripts
+make install-gpm
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

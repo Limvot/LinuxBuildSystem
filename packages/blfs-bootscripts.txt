@@ -1,0 +1,29 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=BLFS-Bootscripts-20120828
+
+PROVIDES@=blfs-bootscripts
+
+BUILD_STEP@=BLFS-Bootscripts-20120828_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20120828.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=BLFS-Bootscripts-20120828_installation
+
+ARCHIVE_NAME@=blfs-bootscripts-20120828.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+mkdir ../blfs-bootscripts
+mv ./* ../blfs-bootscripts
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

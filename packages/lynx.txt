@@ -1,0 +1,42 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Lynx-2.8.8dev.14
+
+REQUIREMENTS@=openssl
+
+PROVIDES@=lynx
+
+BUILD_STEP@=Lynx-2.8.8dev.14_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://lynx.isc.org/current/lynx2.8.8dev.14.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Lynx-2.8.8dev.14_installation
+
+ARCHIVE_NAME@=lynx2.8.8dev.14.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx-2.8.8dev.14 --with-zlib --with-bzlib --with-screen=ncursesw --enable-locale-charset --with-ssl
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install-full
+
+BEGIN_COMMAND_BLOCK
+chgrp -v -R root /usr/share/doc/lynx-2.8.8dev.14/lynx_doc
+
+sed -i 's/#\(LOCALE_CHARSET\):FALSE/\1:TRUE/' /etc/lynx/lynx.cfg
+
+sed -i 's/#\(DEFAULT_EDITOR\):/\1:vi/' /etc/lynx/lynx.cfg
+
+sed -i 's/#\(PERSISTENT_COOKIES\):FALSE/\1:TRUE/' /etc/lynx/lynx.cfg
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
