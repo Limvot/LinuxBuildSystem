@@ -12,13 +12,13 @@ ONLY_COMMANDS@=True
 #Download all the source files
 
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz
-DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/automake/automake-1.12.6.tar.xz
+DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/automake/automake-1.13.1.tar.xz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/bash/bash-4.2.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/binutils/binutils-2.23.1.tar.bz2
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/bison/bison-2.7.tar.xz
 DOWNLOAD_PATH@=http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
 DOWNLOAD_PATH@=http://sourceforge.net/projects/check/files/check/0.9.9/check-0.9.9.tar.gz
-DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/coreutils/coreutils-8.19.tar.xz
+DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/coreutils/coreutils-8.20.tar.xz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/dejagnu/dejagnu-1.5.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/diffutils/diffutils-3.2.tar.gz
 DOWNLOAD_PATH@=http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.6.tar.gz
@@ -33,7 +33,7 @@ DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/gettext/gettext-0.18.2.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/glibc/glibc-2.17.tar.xz
 DOWNLOAD_PATH@=ftp://ftp.gmplib.org/pub/gmp-5.1.0/gmp-5.1.0.tar.xz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/grep/grep-2.14.tar.xz
-DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/groff/groff-1.21.tar.gz
+DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/groff/groff-1.22.1.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/grub/grub-2.00.tar.xz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/gzip/gzip-1.5.tar.xz
 DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/sources/LFS/lfs-packages/conglomeration//iana-etc/iana-etc-2.30.tar.bz2
@@ -73,10 +73,11 @@ DOWNLOAD_PATH@=http://www.kernel.org/pub/linux/utils/util-linux/v2.22/util-linux
 DOWNLOAD_PATH@=ftp://ftp.vim.org/pub/vim/unix/vim-7.3.tar.bz2
 DOWNLOAD_PATH@=http://tukaani.org/xz/xz-5.0.4.tar.xz
 DOWNLOAD_PATH@=http://www.zlib.net/zlib-1.2.7.tar.bz2
-DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/bash-4.2-fixes-10.patch
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/bash-4.2-fixes-11.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/binutils-2.23.1-testsuite_fix-1.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.6-install_docs-1.patch
-DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/coreutils-8.19-i18n-1.patch
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/coreutils-8.20-i18n-1.patch
+DOWNLOAD_PATH@=ttp://www.linuxfromscratch.org/patches/lfs/development/coreutils-8.20-test_fixes-1.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/flex-2.5.37-bison-2.6.1-1.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.5-backspace-1.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/make-3.82-upstream_fixes-3.patch
@@ -383,7 +384,7 @@ BUILD_STEP@=Bash_1
 ARCHIVE_NAME@=bash-4.2.tar.gz
 
 BEGIN_COMMAND_BLOCK
-patch -Np1 -i ../bash-4.2-fixes-10.patch
+patch -Np1 -i ../bash-4.2-fixes-11.patch
 END_COMMAND_BLOCK
 
 
@@ -415,7 +416,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Coreutils_1
 
-ARCHIVE_NAME@=coreutils-8.19.tar.xz
+ARCHIVE_NAME@=coreutils-8.20.tar.xz
 
 CONFIGURE_COMMAND@=./configure --prefix=/tools --enable-install-program=hostname
 
@@ -1468,12 +1469,11 @@ END_BUILD_STEP
 
 BUILD_STEP@=Coreutils_2
 
-ARCHIVE_NAME@=coreutils-8.19.tar.xz
+ARCHIVE_NAME@=coreutils-8.20.tar.xz
 
 BEGIN_COMMAND_BLOCK
-sed -i -e 's/! isatty/isatty/' -e '45i\              || errno == ENOENT' gnulib-tests/test-getlogin.c
-
-patch -Np1 -i ../coreutils-8.19-i18n-1.patch
+patch -Np1 -i ../coreutils-8.20-test_fixes-1.patch
+patch -Np1 -i ../coreutils-8.20-i18n-1.patch
 END_COMMAND_BLOCK
 
 CONFIGURE_COMMAND@=FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --libexecdir=/usr/lib --enable-no-install-program=kill,uptime
@@ -1614,7 +1614,7 @@ BUILD_STEP@=Bash_2
 ARCHIVE_NAME@=bash-4.2.tar.gz
 
 BEGIN_COMMAND_BLOCK
-patch -Np1 -i ../bash-4.2-fixes-10.patch
+patch -Np1 -i ../bash-4.2-fixes-11.patch
 END_COMMAND_BLOCK
 
 CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/doc/bash-4.2 --without-bash-malloc --with-installed-readline
@@ -1726,12 +1726,12 @@ END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Automake_2
+BUILD_STEP@=Automake
 
-ARCHIVE_NAME@=automake-1.12.6.tar.xz
+ARCHIVE_NAME@=automake-1.13.1.tar.xz
 
 
-CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.12.6
+CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.13.1
 
 MAKE_COMMAND@=make
 
@@ -1845,11 +1845,19 @@ END_BUILD_STEP
 
 BUILD_STEP@=Groff
 
-ARCHIVE_NAME@=groff-1.21.tar.gz
+ARCHIVE_NAME@=groff-1.22.1.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '163 s/$(DESTDIR)//' contrib/mom/Makefile.sub
+END_COMMAND_BLOCK
 
 CONFIGURE_COMMAND@=PAGE=letter ./configure --prefix=/usr
 
 MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+mkdir -p /usr/share/doc/groff-1.22/pdf
+END_COMMAND_BLOCK
 
 INSTALL_COMMAND@=make install
 
