@@ -67,6 +67,7 @@ def loadPackages(package_directory):
 	package_file_list = os.listdir(package_directory)
 
 	for package_file in package_file_list:
+		print("Loading package:", package_file)
 		package = Package(package_directory + os.sep + package_file)
 
 		for provided in package.properties["PROVIDES"]:

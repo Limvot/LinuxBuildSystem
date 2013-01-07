@@ -14,7 +14,7 @@ ONLY_COMMANDS@=True
 DOWNLOAD_PATH@=ftp://ftp.isc.org/isc/dhcp/4.2.4-P2/dhcp-4.2.4-P2.tar.gz
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/dhcp-4.2.4-P2-client-script-1.patch
 #not downloading the missing ipv6 patch, so be sure to enable ipv6 in kernel
-#also need Packet Socket support (Networking Support ⇒ Networking Options ⇒ Packet Socket) compiled into the kernel.
+#also need Packet Socket support (Networking Support -> Networking Options -> Packet Socket) compiled into the kernel.
 
 END_BUILD_STEP
 
