@@ -1,0 +1,19 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=random_number-blfsbootscripts
+
+PROVIDES@=random_number-blfsbootscripts
+
+BUILD_STEP@=Install_BLFS_Bootscript
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cd blfs-bootscripts
+make install-random
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

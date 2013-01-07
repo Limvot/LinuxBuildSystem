@@ -1,0 +1,53 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=LLVM-3.2
+
+REQUIREMENTS@=libffi
+
+PROVIDES@=llvm clang compiler-rt
+
+BUILD_STEP@=LLVM-3.2_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://llvm.org/releases/3.2/llvm-3.2.src.tar.gz
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/llvm-3.2-blfs_paths-1.patch
+DOWNLOAD_PATH@=http://llvm.org/releases/3.2/clang-3.2.src.tar.gz
+DOWNLOAD_PATH@=http://llvm.org/releases/3.2/compiler-rt-3.2.src.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=LLVM-3.2_installation
+
+ARCHIVE_NAME@=llvm-3.2.src.tar.gz
+
+BEGIN_COMMAND_BLOCK
+tar -xf ../clang-3.2.src.tar.gz -C tools
+tar -xf ../compiler-rt-3.2.src.tar.gz -C projects
+
+mv tools/clang-3.2.src tools/clang
+mv projects/compiler-rt-3.2.src projects/compiler-rt
+
+sed -e "s@../lib/libprofile_rt.a@../lib/llvm/libprofile_rt.a@g" -i tools/clang/lib/Driver/Tools.cpp
+
+patch -Np1 -i ../llvm-3.2-blfs_paths-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=CC=gcc CXX=g++ ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib/llvm --enable-libffi --enable-optimized --enable-shared --enable-targets=all --disable-assertions --disable-debug-runtime --disable-expensive-checks
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+chmod -v 644 /usr/lib/llvm/*.a
+echo /usr/lib/llvm >> /etc/ld.so.conf
+ldconfig
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

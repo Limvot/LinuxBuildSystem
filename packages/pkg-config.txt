@@ -1,0 +1,30 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=pkg-config-0.27.1
+
+PROVIDES@=pkg-config
+
+BUILD_STEP@=pkg-config-0.27.1_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.1.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=pkg-config-0.27.1_installation
+
+ARCHIVE_NAME@=pkg-config-0.27.1.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/pkg-config-0.27.1 --with-internal-glib
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

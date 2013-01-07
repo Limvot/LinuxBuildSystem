@@ -145,6 +145,8 @@ class Package:
 		#Extract
 		if archive_end == "gz":
 			extract_command = "tar xzvf " + archive_name
+		elif archive_end == "tgz":
+			extract_command = "tar xzvf " + archive_name
 		elif archive_end == "bz2":
 			extract_command = "bzip2 -cd " + archive_name + " | tar xvf -"
 		elif archive_end == "xz":

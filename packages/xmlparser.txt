@@ -1,0 +1,31 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=XML::Parser-2.41_(perl_module)
+
+REQUIREMENTS@=expat
+PROVIDES@=xmlparser
+
+BUILD_STEP@=XML::Parser-2.41_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://search.cpan.org/CPAN/authors/id/T/TO/TODDR/XML-Parser-2.41.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=XML::Parser-2.41_installation
+
+ARCHIVE_NAME@=XML-Parser-2.41.tar.gz
+
+CONFIGURE_COMMAND@=perl Makefile.PL
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

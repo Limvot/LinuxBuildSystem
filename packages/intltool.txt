@@ -1,0 +1,35 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Intltool-0.50.2
+
+REQUIREMENTS@=xmlparser
+PROVIDES@=intltool
+
+BUILD_STEP@=Intltool-0.50.2_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://launchpad.net/intltool/trunk/0.50.2/+download/intltool-0.50.2.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Intltool-0.50.2_installation
+
+ARCHIVE_NAME@=intltool-0.50.2.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+install -v -m644 -D doc/I18N-HOWTO /usr/share/doc/intltool-0.50.2/I18N-HOWTO
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

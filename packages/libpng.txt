@@ -1,0 +1,40 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=libpng-1.5.13
+
+PROVIDES@=libpng
+
+BUILD_STEP@=libpng-1.5.13_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://downloads.sourceforge.net/libpng/libpng-1.5.13.tar.xz
+DOWNLOAD_PATH@=http://downloads.sourceforge.net/libpng-apng/libpng-1.5.13-apng.patch.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libpng-1.5.13_installation
+
+ARCHIVE_NAME@=libpng-1.5.13.tar.xz
+
+BEGIN_COMMAND_BLOCK
+gzip -cd ../libpng-1.5.13-apng.patch.gz | patch -p1
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mkdir /usr/share/doc/libpng-1.5.13
+cp README libpng-manual.txt /usr/share/doc/libpng-1.5.13
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

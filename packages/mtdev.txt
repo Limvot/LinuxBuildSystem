@@ -1,0 +1,30 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=mtdev-1.1.3
+
+PROVIDES@=mtdev
+
+BUILD_STEP@=mtdev-1.1.3_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://bitmath.org/code/mtdev/mtdev-1.1.3.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=mtdev-1.1.3_installation
+
+ARCHIVE_NAME@=mtdev-1.1.3.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

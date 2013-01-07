@@ -1,0 +1,993 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Xorg-7.7
+
+REQUIREMENTS@=bash_config python2 pkg-config sudo wget libxslt fontconfig expat libxml llvm libpng intltool mtdev
+
+PROVIDES@=xorg libdrm
+
+BUILD_STEP@=Xorg-7.7_Build_Enviornment_Setup
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+END_COMMAND_BLOCK
+mkdir xc
+cd xc
+
+export XORG_PREFIX="/usr"
+
+export XORG_CONFIG="--prefix=$XORG_PREFIX --sysconfdir=/etc --localstatedir=/var --disable-static"
+
+cat > /etc/profile.d/xorg.sh << "EOF" &&
+XORG_PREFIX="/usr"
+XORG_CONFIG="--prefix=$XORG_PREFIX \
+             --sysconfdir=/etc \
+             --localstatedir=/var \
+             --disable-static"
+export XORG_PREFIX XORG_CONFIG
+EOF
+
+chmod 644 /etc/profile.d/xorg.sh
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_util-macros-1.17
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/util/util-macros-1.17.tar.bz2
+
+ARCHIVE_NAME@=util-macros-1.17.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xorg_protocol_headers
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cat > proto-7.7.md5 << "EOF"
+1a05fb01fa1d5198894c931cf925c025  bigreqsproto-1.1.2.tar.bz2
+98482f65ba1e74a08bf5b056a4031ef0  compositeproto-0.4.2.tar.bz2
+998e5904764b82642cc63d97b4ba9e95  damageproto-1.2.1.tar.bz2
+4ee175bbd44d05c34d43bb129be5098a  dmxproto-2.3.1.tar.bz2
+b2721d5d24c04d9980a0c6540cb5396a  dri2proto-2.8.tar.bz2
+e7431ab84d37b2678af71e29355e101d  fixesproto-5.0.tar.bz2
+c5f4f1fb4ba7766eedbc9489e81f3be2  fontsproto-2.1.2.tar.bz2
+3847963c1b88fd04a030b932b0aece07  glproto-1.4.16.tar.bz2
+13c8aedaf98a92e282b7e456c0a5bed9  inputproto-2.2.tar.bz2
+677ea8523eec6caca86121ad2dca0b71  kbproto-1.0.6.tar.bz2
+ce4d0b05675968e4c83e003cc809660d  randrproto-1.4.0.tar.bz2
+1b4e5dede5ea51906f1530ca1e21d216  recordproto-1.14.2.tar.bz2
+a914ccc1de66ddeb4b611c6b0686e274  renderproto-0.11.1.tar.bz2
+cfdb57dae221b71b2703f8e2980eaaf4  resourceproto-1.2.0.tar.bz2
+edd8a73775e8ece1d69515dd17767bfb  scrnsaverproto-1.2.2.tar.bz2
+c3b348c6e2031b72b11ae63fc7f805c2  videoproto-2.3.1.tar.bz2
+5f4847c78e41b801982c8a5e06365b24  xcmiscproto-1.2.2.tar.bz2
+eaac343af094e6b608cf15cfba0f77c5  xextproto-7.2.1.tar.bz2
+120e226ede5a4687b25dd357cc9b8efe  xf86bigfontproto-1.2.0.tar.bz2
+a036dc2fcbf052ec10621fd48b68dbb1  xf86dgaproto-2.1.tar.bz2
+1d716d0dac3b664e5ee20c69d34bc10e  xf86driproto-2.1.1.tar.bz2
+e793ecefeaecfeabd1aed6a01095174e  xf86vidmodeproto-2.3.1.tar.bz2
+9959fe0bfb22a0e7260433b8d199590a  xineramaproto-1.2.1.tar.bz2
+d4d241a4849167e4e694fe73371c328c  xproto-7.0.23.tar.bz2
+EOF
+
+mkdir proto &&
+cd proto &&
+grep -v '^#' ../proto-7.7.md5 | awk '{print $2}' | wget -i- -c \
+    -B http://xorg.freedesktop.org/releases/individual/proto/ &&
+md5sum -c ../proto-7.7.md5
+
+as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi 
+}
+
+export -f as_root
+
+
+for package in $(grep -v '^#' ../proto-7.7.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.bz2}
+  tar -xf $package
+  pushd $packagedir
+  ./configure $XORG_CONFIG
+  as_root make install
+  popd
+  rm -r $packagedir
+done
+
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_makedepend-1.0.4
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/util/makedepend-1.0.4.tar.bz2
+
+ARCHIVE_NAME@=makedepend-1.0.4.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_libXau-1.0.7
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2
+
+ARCHIVE_NAME@=makedepend-1.0.4.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_libXdmcp-1.1.1
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/lib/libXdmcp-1.1.1.tar.bz2
+
+ARCHIVE_NAME@=libXdmcp-1.1.1.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_libpthread-stubs-0.3
+
+DOWNLOAD_PATH@=http://xcb.freedesktop.org/dist/libpthread-stubs-0.3.tar.bz2
+
+ARCHIVE_NAME@=libpthread-stubs-0.3.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xcb-proto-1.8
+
+DOWNLOAD_PATH@=http://xcb.freedesktop.org/dist/xcb-proto-1.8.tar.bz2
+
+ARCHIVE_NAME@=xcb-proto-1.8.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_libxcb-1.9
+
+DOWNLOAD_PATH@=http://xcb.freedesktop.org/dist/libxcb-1.9.tar.bz2
+
+ARCHIVE_NAME@=libxcb-1.9.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG --enable-xinput --docdir='${datadir}'/doc/libxcb-1.9
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xorg_libraries
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cat > lib-7.7.md5 << "EOF"
+84c66908cf003ad8c272b0eecbdbaee3  xtrans-1.2.7.tar.bz2
+78b4b3bab4acbdf0abcfca30a8c70cc6  libX11-1.5.0.tar.bz2
+71251a22bc47068d60a95f50ed2ec3cf  libXext-1.3.1.tar.bz2
+645f83160cf7b562734e2038045106d1  libFS-1.0.4.tar.bz2
+471b5ca9f5562ac0d6eac7a0bf650738  libICE-1.0.8.tar.bz2
+766de9d1e1ecf8bf74cebe2111d8e2bd  libSM-1.2.1.tar.bz2
+7a773b16165e39e938650bcc9027c1d5  libXScrnSaver-1.2.2.tar.bz2
+a6f137ae100e74ebe3b71eb4a38c40b3  libXt-1.1.3.tar.bz2
+a4efff8de85bd45dd3da124285d10c00  libXmu-1.1.1.tar.bz2
+7ae7eff7a14d411e84a67bd166bcec1a  libXpm-3.5.10.tar.bz2
+f39942f2cab379fc9b4c3731bf191b84  libXaw-1.0.11.tar.bz2
+678071bd7f9f7467e2fc712d81022318  libXfixes-5.0.tar.bz2
+a60e0b5c276d0aa9e2d3b982c98f61c8  libXcomposite-0.4.3.tar.bz2
+ee62f4c7f0f16ced4da63308963ccad2  libXrender-0.9.7.tar.bz2
+52efa81b7f26c8eda13510a2fba98eea  libXcursor-1.1.13.tar.bz2
+44774e1a065158b52f1a0da5100cebec  libXdamage-1.1.3.tar.bz2
+a2a861f142c3b4367f14fc14239fc1f7  libfontenc-1.1.1.tar.bz2
+6851da5dae0a6cf5f7c9b9e2b05dd3b4  libXfont-1.4.5.tar.bz2
+78d64dece560c9e8699199f3faa521c0  libXft-2.3.1.tar.bz2
+78ee882e1ff3b192cf54070bdb19938e  libXi-1.6.1.tar.bz2
+cb45d6672c93a608f003b6404f1dd462  libXinerama-1.1.2.tar.bz2
+0c843636124cc1494e3d87df16957672  libXrandr-1.4.0.tar.bz2
+80d0c6d8522fa7a645e4f522e9a9cd20  libXres-1.0.6.tar.bz2
+e8abc5c00c666f551cf26aa53819d592  libXtst-1.2.1.tar.bz2
+5e1ac203ccd3ce3e89755ed1fbe75b0b  libXv-1.0.7.tar.bz2
+3340c99ff556ea2457b4be47f5cb96fa  libXvMC-1.0.7.tar.bz2
+b7f38465c46e7145782d37dbb9da8c09  libXxf86dga-1.1.3.tar.bz2
+ffd93bcedd8b2b5aeabf184e7b91f326  libXxf86vm-1.1.2.tar.bz2
+782ced3a9e754dfeb53a8a006a75eb1a  libdmx-1.1.2.tar.bz2
+399a419ac6a54f0fc07c69c9bdf452dc  libpciaccess-0.13.1.tar.bz2
+19e6533ae64abba0773816a23f2b9507  libxkbfile-1.0.8.tar.bz2
+EOF
+
+
+mkdir lib &&
+cd lib &&
+grep -v '^#' ../lib-7.7.md5 | awk '{print $2}' | wget -i- -c \
+    -B http://xorg.freedesktop.org/releases/individual/lib/ &&
+md5sum -c ../lib-7.7.md5
+
+
+as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi 
+}
+
+export -f as_root
+
+
+for package in $(grep -v '^#' ../lib-7.7.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.bz2}
+  tar -xf $package
+  pushd $packagedir
+  case $packagedir in
+    libXfont-[0-9]* )
+      ./configure $XORG_CONFIG --disable-devel-docs
+    ;;
+    libXt-[0-9]* )
+      ./configure $XORG_CONFIG \
+                  --with-appdefaultdir=/etc/X11/app-defaults
+    ;;
+    * )
+      ./configure $XORG_CONFIG
+    ;;
+  esac
+  make
+  as_root make install
+  popd
+  rm -r $packagedir
+  as_root /sbin/ldconfig
+done
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xcb-util-0.3.9
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/xcb/xcb-util-0.3.9.tar.bz2
+
+ARCHIVE_NAME@=xcb-util-0.3.9.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=Xorg-7.7_libdrm-2.4.40
+
+DOWNLOAD_PATH@=http://dri.freedesktop.org/libdrm/libdrm-2.4.40.tar.bz2
+
+ARCHIVE_NAME@=libdrm-2.4.40.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-udev
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_MesaLib-9.0.1
+
+DOWNLOAD_PATH@=ftp://ftp.freedesktop.org/pub/mesa/9.0.1/MesaLib-9.0.1.tar.bz2
+DOWNLOAD_PATH@=ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.bz2
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/MesaLib-9.0.1-add_xdemos-5.patch 
+
+ARCHIVE_NAME@=MesaLib-9.0.1.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../MesaLib-9.0.1-add_xdemos-5.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --enable-texture-float --enable-gles1 --enable-gles2 --enable-openvg --enable-osmesa --enable-xa --enable-gbm --enable-gallium-egl --enable-gallium-gbm --enable-glx-tls --with-egl-platforms="drm,x11" --with-gallium-drivers="nouveau,r300,r600,svga,swrast"
+
+MAKE_COMMAND@=make -j4
+MAKE_COMMAND@=make -C xdemos DEMOS_PREFIX=/usr
+
+INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make -C xdemos DEMOS_PREFIX=/usr install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_MesaLib-9.0.1_GLU
+
+DOWNLOAD_PATH@=ftp://ftp.freedesktop.org/pub/mesa/glu/glu-9.0.0.tar.bz2
+
+ARCHIVE_NAME@=glu-9.0.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xbitmaps-1.1.1
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/data/xbitmaps-1.1.1.tar.bz2
+
+ARCHIVE_NAME@=xbitmaps-1.1.1.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=Xorg-7.7_xorg_applications
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cat > app-7.7.md5 << "EOF"
+4a7a4a848c43c42f7d499b60666434a4  bdftopcf-1.0.3.tar.bz2
+08e3f6b523da8b0af179f22f339508b2  iceauth-1.0.5.tar.bz2
+c4a3664e08e5a47c120ff9263ee2f20c  luit-1.1.1.tar.bz2
+18c429148c96c2079edda922a2b67632  mkfontdir-1.0.7.tar.bz2
+414fcb053418fb1418e3a39f4a37e0f7  mkfontscale-1.1.0.tar.bz2
+e99172cbd72700eeeae99f64632b5dc2  sessreg-1.0.7.tar.bz2
+1001771344608e120e943a396317c33a  setxkbmap-1.3.0.tar.bz2
+edce41bd7562dcdfb813e05dbeede8ac  smproxy-1.0.5.tar.bz2
+5c3c7431a38775caaea6051312a49bc9  x11perf-1.5.4.tar.bz2
+cbcbd8f2156a53b609800bec4c6b6c0e  xauth-1.0.7.tar.bz2
+c9891d6a3f3129d56cede72daa0ba26c  xbacklight-1.1.2.tar.bz2
+5812be48cbbec1068e7b718eec801766  xcmsdb-1.0.4.tar.bz2
+09f56978a62854534deacc8aa8ff3031  xcursorgen-1.0.5.tar.bz2
+1ef08f4c8d0e669c2edd49e4a1bf650d  xdpyinfo-1.3.0.tar.bz2
+3d3cad4d754e10e325438193433d59fd  xdriinfo-1.0.4.tar.bz2
+2727c72f3eba0c23f8f6b2e618d195a2  xev-1.2.0.tar.bz2
+c06067f572bc4a5298f324f27340da95  xgamma-1.0.5.tar.bz2
+a0fcd2cb6ddd9f378944cc6f4f83cd7c  xhost-1.0.5.tar.bz2
+d2459d35b4e0b41ded26a1d1159b7ac6  xinput-1.6.0.tar.bz2
+a0fc1ac3fc4fe479ade09674347c5aa0  xkbcomp-1.2.4.tar.bz2
+37ed71525c63a9acd42e7cde211dcc5b  xkbevd-1.1.3.tar.bz2
+52ad6d8d87577a8ac736ab5488bec210  xkbutils-1.0.3.tar.bz2
+e7f0d57b6ba49c384e9cf8c9ff3243c1  xkill-1.0.3.tar.bz2
+9d0e16d116d1c89e6b668c1b2672eb57  xlsatoms-1.1.1.tar.bz2
+760099f0af112401735801e3b9aa8595  xlsclients-1.1.2.tar.bz2
+d9b65f6881afe0d6d9863b30e1081bde  xmodmap-1.0.7.tar.bz2
+6101f04731ffd40803df80eca274ec4b  xpr-1.0.4.tar.bz2
+d5529dc8d811efabd136ca2d8e857deb  xprop-1.2.1.tar.bz2
+9735173a84dca9b05e06fd4686196b07  xrandr-1.3.5.tar.bz2
+ed2e48cf33584455d74615ad4bbe4246  xrdb-1.0.9.tar.bz2
+2f63f88ad0dcecd33c8cf000f38e9250  xrefresh-1.0.4.tar.bz2
+d44e0057d6722b25d5a314e82e0b7e7c  xset-1.2.2.tar.bz2
+b78a2da4cf128775031a5a3422fc0b78  xsetroot-1.1.0.tar.bz2
+c88feb501083951a8f47a21aaeb1529d  xvinfo-1.1.1.tar.bz2
+2113126f9ac9c02bb8547c112c5d037e  xwd-1.0.5.tar.bz2
+9e8b58c8aa6172e87ab4f9cf3612fedd  xwininfo-1.1.2.tar.bz2
+3025b152b4f13fdffd0c46d0be587be6  xwud-1.0.4.tar.bz2
+EOF
+
+mkdir app
+cd app
+grep -v '^#' ../app-7.7.md5 | awk '{print $2}' | wget -i- -c -B http://xorg.freedesktop.org/releases/individual/app/
+md5sum -c ../app-7.7.md5
+
+
+as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi 
+}
+
+export -f as_root
+
+
+for package in $(grep -v '^#' ../app-7.7.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.bz2}
+  tar -xf $package
+  pushd $packagedir
+  ./configure $XORG_CONFIG
+  make
+  as_root make install
+  popd
+  rm -r $packagedir
+done
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xcursor-themes-1.0.3
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/data/xcursor-themes-1.0.3.tar.bz2
+
+ARCHIVE_NAME@=xcursor-themes-1.0.3.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_xorg_fonts
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cat > font-7.7.md5 << "EOF"
+ddfc8a89d597651408369d940d03d06b  font-util-1.3.0.tar.bz2
+0f2d6546d514c5cc4ecf78a60657a5c1  encodings-1.0.4.tar.bz2
+1347c3031b74c9e91dc4dfa53b12f143  font-adobe-100dpi-1.0.3.tar.bz2
+6c9f26c92393c0756f3e8d614713495b  font-adobe-75dpi-1.0.3.tar.bz2
+66fb6de561648a6dce2755621d6aea17  font-adobe-utopia-100dpi-1.0.4.tar.bz2
+e99276db3e7cef6dccc8a57bc68aeba7  font-adobe-utopia-75dpi-1.0.4.tar.bz2
+fcf24554c348df3c689b91596d7f9971  font-adobe-utopia-type1-1.0.4.tar.bz2
+6d25f64796fef34b53b439c2e9efa562  font-alias-1.0.3.tar.bz2
+cc0726e4a277d6ed93b8e09c1f195470  font-arabic-misc-1.0.3.tar.bz2
+9f11ade089d689b9d59e0f47d26f39cd  font-bh-100dpi-1.0.3.tar.bz2
+565494fc3b6ac08010201d79c677a7a7  font-bh-75dpi-1.0.3.tar.bz2
+c8b73a53dcefe3e8d3907d3500e484a9  font-bh-lucidatypewriter-100dpi-1.0.3.tar.bz2
+f6d65758ac9eb576ae49ab24c5e9019a  font-bh-lucidatypewriter-75dpi-1.0.3.tar.bz2
+e8ca58ea0d3726b94fe9f2c17344be60  font-bh-ttf-1.0.3.tar.bz2
+53ed9a42388b7ebb689bdfc374f96a22  font-bh-type1-1.0.3.tar.bz2
+6b223a54b15ecbd5a1bc52312ad790d8  font-bitstream-100dpi-1.0.3.tar.bz2
+d7c0588c26fac055c0dd683fdd65ac34  font-bitstream-75dpi-1.0.3.tar.bz2
+5e0c9895d69d2632e2170114f8283c11  font-bitstream-type1-1.0.3.tar.bz2
+e452b94b59b9cfd49110bb49b6267fba  font-cronyx-cyrillic-1.0.3.tar.bz2
+3e0069d4f178a399cffe56daa95c2b63  font-cursor-misc-1.0.3.tar.bz2
+0571bf77f8fab465a5454569d9989506  font-daewoo-misc-1.0.3.tar.bz2
+6e7c5108f1b16d7a1c7b2c9760edd6e5  font-dec-misc-1.0.3.tar.bz2
+bfb2593d2102585f45daa960f43cb3c4  font-ibm-type1-1.0.3.tar.bz2
+a2401caccbdcf5698e001784dbd43f1a  font-isas-misc-1.0.3.tar.bz2
+cb7b57d7800fd9e28ec35d85761ed278  font-jis-misc-1.0.3.tar.bz2
+143c228286fe9c920ab60e47c1b60b67  font-micro-misc-1.0.3.tar.bz2
+96109d0890ad2b6b0e948525ebb0aba8  font-misc-cyrillic-1.0.3.tar.bz2
+6306c808f7d7e7d660dfb3859f9091d2  font-misc-ethiopic-1.0.3.tar.bz2
+e3e7b0fda650adc7eb6964ff3c486b1c  font-misc-meltho-1.0.3.tar.bz2
+c88eb44b3b903d79fb44b860a213e623  font-misc-misc-1.1.2.tar.bz2
+56b0296e8862fc1df5cdbb4efe604e86  font-mutt-misc-1.0.3.tar.bz2
+e805feb7c4f20e6bfb1118d19d972219  font-schumacher-misc-1.1.2.tar.bz2
+6f3fdcf2454bf08128a651914b7948ca  font-screen-cyrillic-1.0.4.tar.bz2
+beef61a9b0762aba8af7b736bb961f86  font-sony-misc-1.0.3.tar.bz2
+948f2e07810b4f31195185921470f68d  font-sun-misc-1.0.3.tar.bz2
+829a3159389b7f96f629e5388bfee67b  font-winitzki-cyrillic-1.0.3.tar.bz2
+3eeb3fb44690b477d510bbd8f86cf5aa  font-xfree86-type1-1.0.4.tar.bz2
+EOF
+
+mkdir font
+cd font
+grep -v '^#' ../font-7.7.md5 | awk '{print $2}' | wget -i- -c -B http://xorg.freedesktop.org/releases/individual/font/
+md5sum -c ../font-7.7.md5
+
+as_root()
+{
+  if   [ $EUID = 0 ];        then $*
+  elif [ -x /usr/bin/sudo ]; then sudo $*
+  else                            su -c \\"$*\\"
+  fi 
+}
+
+export -f as_root
+
+for package in $(grep -v '^#' ../font-7.7.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.bz2}
+  tar -xf $package
+  pushd $packagedir
+  ./configure $XORG_CONFIG
+  make
+  as_root make install
+  popd
+  rm -r $packagedir
+done
+
+install -v -d -m755 /usr/share/fonts
+ln -svfn $XORG_PREFIX/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
+ln -svfn $XORG_PREFIX/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-7.7_XKeyboardConfig-2.7
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.7.tar.bz2
+
+ARCHIVE_NAME@=xkeyboard-config-2.7.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG --with-xkb-rules-symlink=xorg
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Server-1.13.1
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/xserver/xorg-server-1.13.1.tar.bz2
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/xorg-server-1.13.1-add_prime_support-1.patch
+
+ARCHIVE_NAME@=xorg-server-1.13.1.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../xorg-server-1.13.1-add_prime_support-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG --with-xkb-output=/var/lib/xkb --enable-install-setuid
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mkdir -pv /etc/X11/xorg.conf.d
+cat >> /etc/sysconfig/createfiles << "EOF"
+/tmp/.ICE-unix dir 1777 root root
+/tmp/.X11-unix dir 1777 root root
+EOF
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Evdev-Driver-2.7.3 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-input-evdev-2.7.3.tar.bz2
+
+ARCHIVE_NAME@=xf86-input-evdev-2.7.3.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Synaptics-Driver-1.6.2 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-input-synaptics-1.6.2.tar.bz2
+
+ARCHIVE_NAME@=xf86-input-synaptics-1.6.2.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=Xorg-VMMouse-Driver-12.9.0 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-input-vmmouse-12.9.0.tar.bz2
+
+ARCHIVE_NAME@=xf86-input-vmmouse-12.9.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG --with-udev-rules-dir=/lib/udev/rules.d --without-hal-callouts-dir --without-hal-fdi-dirre $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=Xorg-Wacom-Driver-0.17.0  
+
+DOWNLOAD_PATH@=http://downloads.sourceforge.net/linuxwacom/xf86-input-wacom-0.17.0.tar.bz2
+
+ARCHIVE_NAME@=xf86-input-wacom-0.17.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-ATI-Driver-7.0.0  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-ati-7.0.0.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-ati-7.0.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Fbdev-Driver-0.4.3 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-fbdev-0.4.3.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-fbdev-0.4.3.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Intel-Driver-2.20.17 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-intel-2.20.17.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-intel-2.20.17.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Mach64-Driver-6.9.4 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-mach64-6.9.4.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-mach64-6.9.4.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-MGA-Driver-1.6.2 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-mga-1.6.2.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-mga-1.6.2.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Nouveau-Driver-1.0.4  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-nouveau-1.0.4.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-nouveau-1.0.4.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-OpenChrome-Driver-0.3.1.4  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-openchrome-0.3.1.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-openchrome-0.3.1.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-R128-Driver-6.9.1   
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-r128-6.9.1.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-openchrome-0.3.1.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-Savage-Driver-2.3.6  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-savage-2.3.6.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-savage-2.3.6.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-SiS-Driver-0.10.7  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-sis-0.10.7.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-sis-0.10.7.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-3Dfx-Driver-1.4.5  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-tdfx-1.4.5.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-tdfx-1.4.5.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-VESA-Driver-2.3.2  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-vesa-2.3.2.tar.bz2
+
+ARCHIVE_NAME@=xf86-video-vesa-2.3.2.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-VMware-Driver-12.0.2   
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/driver/xf86-video-vmware-12.0.2.tar.bz2
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/xf86-video-vmware-12.0.2-upstream_fixes-1.patch
+
+ARCHIVE_NAME@=xf86-video-vmware-12.0.2.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../xf86-video-vmware-12.0.2-upstream_fixes-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-printproto-1.0.5  
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/proto/printproto-1.0.5.tar.bz2
+
+ARCHIVE_NAME@=printproto-1.0.5.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-libXp-1.0.1 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/lib/libXp-1.0.1.tar.bz2
+
+ARCHIVE_NAME@=libXp-1.0.1.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-twm-1.0.7
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/app/twm-1.0.7.tar.bz2
+
+ARCHIVE_NAME@=twm-1.0.7.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/^rcdir =/s,^\(rcdir = \).*,\1/etc/X11/app-defaults,' src/Makefile.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-xterm-279
+
+DOWNLOAD_PATH@=ftp://invisible-island.net/xterm/xterm-279.tgz
+
+ARCHIVE_NAME@=xterm-279.tgz
+
+BEGIN_COMMAND_BLOCK
+sed -i '/v0/,+1s/new:/new:kb=^?:/' termcap
+echo -e '\tkbs=\\177,' >>terminfo
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=TERMINFO=/usr/share/terminfo ./configure $XORG_CONFIG --enable-luit --enable-wide-chars --with-app-defaults=/etc/X11/app-defaults &&
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-xclock-1.0.6 
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/app/xclock-1.0.6.tar.bz2
+
+ARCHIVE_NAME@=xclock-1.0.6.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Xorg-xinit-1.3.2
+
+DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/app/xinit-1.3.2.tar.bz2
+
+ARCHIVE_NAME@=xinit-1.3.2.tar.bz2
+
+CONFIGURE_COMMAND@=./configure $XORG_CONFIG --with-xinitdir=/etc/X11/app-defaults
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
