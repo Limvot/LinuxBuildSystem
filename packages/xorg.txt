@@ -3,7 +3,7 @@
 
 NAME@=Xorg-7.7
 
-REQUIREMENTS@=bash_config python2 pkg-config sudo wget libxslt fontconfig expat libxml llvm libpng intltool mtdev
+REQUIREMENTS@=bash_config python2 pkg-config sudo wget libxslt fontconfig expat libxml2 llvm libpng intltool mtdev
 
 PROVIDES@=xorg libdrm
 
