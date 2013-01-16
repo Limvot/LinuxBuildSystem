@@ -3,7 +3,7 @@
 
 NAME@=Xorg-7.7
 
-REQUIREMENTS@=bash_config python2 pkg-config sudo wget libxslt fontconfig expat libxml2 llvm libpng intltool mtdev
+REQUIREMENTS@=bash_config python2 pkg-config sudo wget libxslt fontconfig expat libxml2 llvm libpng intltool mtdev pixman
 
 PROVIDES@=xorg libdrm
 
@@ -85,10 +85,10 @@ e793ecefeaecfeabd1aed6a01095174e  xf86vidmodeproto-2.3.1.tar.bz2
 d4d241a4849167e4e694fe73371c328c  xproto-7.0.23.tar.bz2
 EOF
 
-mkdir proto &&
-cd proto &&
+mkdir proto
+cd proto
 grep -v '^#' ../proto-7.7.md5 | awk '{print $2}' | wget -i- -c \
-    -B http://xorg.freedesktop.org/releases/individual/proto/ &&
+    -B http://xorg.freedesktop.org/releases/individual/proto/
 md5sum -c ../proto-7.7.md5
 
 as_root()
