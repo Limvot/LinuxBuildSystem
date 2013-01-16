@@ -140,7 +140,7 @@ BUILD_STEP@=Xorg-7.7_libXau-1.0.7
 
 DOWNLOAD_PATH@=http://xorg.freedesktop.org/releases/individual/lib/libXau-1.0.7.tar.bz2
 
-ARCHIVE_NAME@=makedepend-1.0.4.tar.bz2
+ARCHIVE_NAME@=libXau-1.0.7.tar.bz2
 
 CONFIGURE_COMMAND@=./configure $XORG_CONFIG
 
@@ -343,6 +343,7 @@ DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/MesaLib-9.0.1-ad
 ARCHIVE_NAME@=MesaLib-9.0.1.tar.bz2
 
 BEGIN_COMMAND_BLOCK
+cd Mesa-9.0.1
 patch -Np1 -i ../MesaLib-9.0.1-add_xdemos-5.patch
 END_COMMAND_BLOCK
 
@@ -353,6 +354,11 @@ MAKE_COMMAND@=make -C xdemos DEMOS_PREFIX=/usr
 
 INSTALL_COMMAND@=make install
 INSTALL_COMMAND@=make -C xdemos DEMOS_PREFIX=/usr install
+
+BEGIN_COMMAND_BLOCK
+cd ..
+rm -rf Mesa-9.0.1
+END_COMMAND_BLOCK
 
 END_BUILD_STEP
 
