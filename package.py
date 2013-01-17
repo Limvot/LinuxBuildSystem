@@ -147,6 +147,7 @@ class Package:
 			extract_command = "tar xzvf " + archive_name
 		elif archive_end == "tgz":
 			extract_command = "tar xzvf " + archive_name
+			extracted_dir = ".".join(archive_name.split(".")[:-1]) #Must change, b/c has only one file ending
 		elif archive_end == "bz2":
 			extract_command = "bzip2 -cd " + archive_name + " | tar xvf -"
 		elif archive_end == "xz":

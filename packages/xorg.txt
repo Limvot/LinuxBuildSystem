@@ -345,6 +345,7 @@ ARCHIVE_NAME@=MesaLib-9.0.1.tar.bz2
 BEGIN_COMMAND_BLOCK
 cd Mesa-9.0.1
 patch -Np1 -i ../MesaLib-9.0.1-add_xdemos-5.patch
+autoreconf
 END_COMMAND_BLOCK
 
 CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --enable-texture-float --enable-gles1 --enable-gles2 --enable-openvg --enable-osmesa --enable-xa --enable-gbm --enable-gallium-egl --enable-gallium-gbm --enable-glx-tls --with-egl-platforms="drm,x11" --with-gallium-drivers="nouveau,r300,r600,svga,swrast"
@@ -961,6 +962,18 @@ CONFIGURE_COMMAND@=TERMINFO=/usr/share/terminfo ./configure $XORG_CONFIG --enabl
 MAKE_COMMAND@=make -j4
 
 INSTALL_COMMAND@=make install
+INSTALL_COMMAND@=make install-ti
+
+BEGIN_COMMAND_BLOCK
+cat >> /etc/X11/app-defaults/XTerm << "EOF"
+*VT100*locale: true
+*VT100*faceName: Monospace
+*VT100*faceSize: 10
+*backarrowKeyIsErase: true
+*ptyInitialErase: true
+EOF
+
+END_COMMAND_BLOCK
 
 END_BUILD_STEP
 
