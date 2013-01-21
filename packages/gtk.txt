@@ -34,7 +34,7 @@ INSTALL_COMMAND@=make install
 BEGIN_COMMAND_BLOCK
 cat > /etc/gtk-2.0/gtkrc << "EOF"
 include "/usr/share/themes/Clearlooks/gtk-2.0/gtkrc"
-gtk-icon-theme-name = "elementary"
+gtk-icon-theme-name = "hicolor-icon-theme"
 EOF
 END_COMMAND_BLOCK
 

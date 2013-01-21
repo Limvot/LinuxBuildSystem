@@ -19,6 +19,7 @@ BUILD_STEP@=ICU-50.1.1_installation
 ARCHIVE_NAME@=icu4c-50_1_1-src.tgz
 
 BEGIN_COMMAND_BLOCK
+cd icu
 cd source
 END_COMMAND_BLOCK
 

@@ -17,7 +17,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=UnZip-6.0_installation
 
-ARCHIVE_NAME@=zip30.tar.gz
+ARCHIVE_NAME@=unzip60.tar.gz
 
 BEGIN_COMMAND_BLOCK
 case `uname -m` in

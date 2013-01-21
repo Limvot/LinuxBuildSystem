@@ -22,6 +22,8 @@ BUILD_STEP@=Firefox-16.0.1_installation
 ARCHIVE_NAME@=firefox-16.0.1.source.tar.bz2
 
 BEGIN_COMMAND_BLOCK
+cd mozilla-release
+
 cat > mozconfig << EOF
 # If you have a multicore machine you can speed up the build by running
 # several jobs at once, but if you have a single core, delete this line:

@@ -10,7 +10,7 @@ BUILD_STEP@=Cairo-1.12.8_download
 
 ONLY_COMMANDS@=True
 
-DOWNLOAD_PATH@=http://cairographics.org/releases/cairo-1.12.8.tar.xzrg/pub/gnome/sources/glib/2.34/glib-2.34.3.tar.xz
+DOWNLOAD_PATH@=http://cairographics.org/releases/cairo-1.12.8.tar.xz
 
 END_BUILD_STEP
 
@@ -18,7 +18,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Cairo-1.12.8_installation
 
-ARCHIVE_NAME@=glib-2.34.3.tar.xz
+ARCHIVE_NAME@=cairo-1.12.8.tar.xz
 
 CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-tee --enable-xcb --enable-gl --disable-static
 

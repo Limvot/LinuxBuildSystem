@@ -18,6 +18,10 @@ BUILD_STEP@=libjpeg-8d_installation
 
 ARCHIVE_NAME@=jpegsrc.v8d.tar.gz
 
+BEGIN_COMMAND_BLOCK
+cd jpeg-8d
+END_COMMAND_BLOCK
+
 CONFIGURE_COMMAND@=./configure --prefix=/usr
 
 MAKE_COMMAND@=make -j4
