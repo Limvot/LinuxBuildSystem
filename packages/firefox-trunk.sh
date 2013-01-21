@@ -1,0 +1,37 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Firefox-Trunk
+
+REQUIREMENTS@=alsa-lib GTK+ zip unzip yasm mercurial
+
+PROVIDES@=firefox-trunk
+
+BUILD_STEP@=Firefox-trunk_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+hg clone https://hg.mozilla.org/mozilla-central
+hg pull
+hg update
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Firefox-trunk_installation
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cd mozilla-central
+./mach build
+cat > /bin/firefox < "EOF"
+#!/bin/sh
+/sources/mozilla-central/obj-x86_64-unknown-linux/dist/bin/firefox
+EOF
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
