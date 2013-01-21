@@ -1,0 +1,81 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Gnome-Trunk
+
+REQUIREMENTS@=xorg cvs subversion
+
+PROVIDES@=gnome
+
+BUILD_STEP@=Gnome_JHBuild_Git_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+git clone git://git.gnome.org/jhbuild
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gnome_JHBuild_installation
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+cd jhbuild
+./autogen.sh
+make
+make install
+PATH=$PATH:~/.local/bin
+cp examples/sample.jhbuildrc ~/.jhbuildrc
+vim ~/.jhbuildrc
+#Had to add this b/c jhbuild couldn't find it before
+cp /usr/share/aclocal/gettext.m4 /opt/gnome/share/aclocal/gettext.m4
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gnome_JHBuild_test_and_bootstrap
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+#Checks to see if tools are installed
+jhbuild sanitycheck
+#installs the prerequisits if any are missing. (inc stuff from above command)
+jhbuild bootstrap
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gnome_JHBuild_build
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+jhbuild build
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Gnome_JHBuild_post_build_conf_install
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+echo PATH=$PATH:~/.local/bin >> ~/.bashrc
+#test to se if it works
+jhbuild run pkg-config gtk+-2.0 --modversion
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
