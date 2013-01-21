@@ -1,0 +1,33 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Subversion-1.7.7
+
+REQUIREMENTS@=SQLite apr-util neon
+
+PROVIDES@=subversion
+
+BUILD_STEP@=Subversion-1.7.7_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.apache.org/dist/subversion/subversion-1.7.7.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Subversion-1.7.7_installation
+
+ARCHIVE_NAME@=subversion-1.7.7.tar.bz2
+
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

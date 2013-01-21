@@ -3,7 +3,7 @@
 
 NAME@=Gnome-SVN
 
-REQUIREMENTS@=xorg
+REQUIREMENTS@=xorg cvs subversion
 
 PROVIDES@=gnome
 

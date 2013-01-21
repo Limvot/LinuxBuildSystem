@@ -1,0 +1,30 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=SQLite-3.7.15.2
+
+PROVIDES@=SQLite
+
+BUILD_STEP@=SQLite-3.7.15.2_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://sqlite.org/sqlite-autoconf-3071502.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=SQLite-3.7.15.2_installation
+
+ARCHIVE_NAME@=sqlite-autoconf-3071502.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static CFLAGS="-g -O2 -DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_SECURE_DELETE=1"
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

@@ -1,0 +1,32 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=neon-0.29.6 
+
+REQUIREMENTS@=libxml2 openssl
+
+PROVIDES@=neon
+
+BUILD_STEP@=neon-0.29.6_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://www.webdav.org/neon/neon-0.29.6.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=neon-0.29.6_installation
+
+ARCHIVE_NAME@=neon-0.29.6.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-shared --disable-static --with-ssl=openssl --with-libxml2
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

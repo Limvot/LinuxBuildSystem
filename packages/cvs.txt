@@ -1,0 +1,37 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=CVS-1.11.23
+
+PROVIDES@=cvs
+
+BUILD_STEP@=CVS-1.11.23_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnu.org/non-gnu/cvs/source/stable/1.11.23/cvs-1.11.23.tar.bz2
+
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/cvs-1.11.23-zlib-1.patch
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=CVS-1.11.23_installation
+
+ARCHIVE_NAME@=cvs-1.11.23.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../cvs-1.11.23-zlib-1.patch
+sed -i -e 's/getline /get_line /' lib/getline.{c,h}
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
