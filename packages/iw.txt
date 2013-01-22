@@ -1,0 +1,31 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=iw-3.8-3.2.19
+
+PROVIDES@=iw
+
+BUILD_STEP@=iw-3.8_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://wireless.kernel.org/download/iw/iw-3.8.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=iw-3.8_installation
+
+ARCHIVE_NAME@=iw-3.8.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

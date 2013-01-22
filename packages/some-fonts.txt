@@ -23,7 +23,7 @@ ONLY_COMMANDS@=True
 
 BEGIN_COMMAND_BLOCK
 unzip cousine.zip
-cp cousine /usr/share/fonts
+cp Cousine-* /usr/share/fonts
 END_COMMAND_BLOCK
 
 END_BUILD_STEP

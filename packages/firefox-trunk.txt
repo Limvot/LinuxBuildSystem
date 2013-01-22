@@ -13,8 +13,11 @@ ONLY_COMMANDS@=True
 
 BEGIN_COMMAND_BLOCK
 hg clone https://hg.mozilla.org/mozilla-central
+cd mozilla-central
 hg pull
 hg update
+END_COMMAND_BLOCK
+
 END_BUILD_STEP
 
 #############################
@@ -25,6 +28,7 @@ ONLY_COMMANDS@=True
 
 BEGIN_COMMAND_BLOCK
 cd mozilla-central
+autoreconf
 ./mach build
 cat > /bin/firefox < "EOF"
 #!/bin/sh

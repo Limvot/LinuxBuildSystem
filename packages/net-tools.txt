@@ -1,0 +1,36 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Net-tools-CVS_20101030
+
+PROVIDES@=net-tools
+
+BUILD_STEP@=Net-tools-CVS_20101030_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://anduin.linuxfromscratch.org/sources/BLFS/svn/n/net-tools-CVS_20101030.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Net-tools-CVS_20101030_installation
+
+ARCHIVE_NAME@=net-tools-CVS_20101030.tar.gz
+
+BEGIN_COMMAND_BLOCK
+sed -i -e '/Token/s/y$/n/'        config.in
+sed -i -e '/HAVE_HWSTRIP/s/y$/n/' config.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=yes "" | make config
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make update
+
+
+END_BUILD_STEP
+
+#############################

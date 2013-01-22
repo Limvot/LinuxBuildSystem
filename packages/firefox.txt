@@ -1,25 +1,25 @@
 #Build step file for Linux Build System
 # The @= as assignment allows = to be used in commands
 
-NAME@=Firefox-16.0.1
+NAME@=Firefox-18.0.1
 
 REQUIREMENTS@=alsa-lib GTK+ zip unzip yasm
 
 PROVIDES@=firefox
 
-BUILD_STEP@=Firefox-16.0.1_download
+BUILD_STEP@=Firefox-18.0.1_download
 
 ONLY_COMMANDS@=True
 
-DOWNLOAD_PATH@=ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/16.0.1/source/firefox-16.0.1.source.tar.bz2
+DOWNLOAD_PATH@=ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/18.0.1/source/firefox-18.0.1.source.tar.bz2
 
 END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Firefox-16.0.1_installation
+BUILD_STEP@=Firefox-18.0.1_installation
 
-ARCHIVE_NAME@=firefox-16.0.1.source.tar.bz2
+ARCHIVE_NAME@=firefox-18.0.1.source.tar.bz2
 
 BEGIN_COMMAND_BLOCK
 cd mozilla-release
@@ -49,8 +49,6 @@ ac_add_options --disable-libnotify
 # should not appear in the mozconfig file.
 
 # Uncomment these if you have installed them:
-# ac_add_options --enable-startup-notification
-# ac_add_options --enable-system-hunspell
 # ac_add_options --enable-system-sqlite
 # ac_add_options --with-system-libevent
 # ac_add_options --with-system-libvpx
@@ -60,19 +58,26 @@ ac_add_options --disable-libnotify
 mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/firefox-build-dir
 ac_add_options --enable-official-branding
 ac_add_options --prefix=/usr
+ac_add_options --enable-application=browser
 
 # The rest of these options have no effect if you're
 # building against an already installed xulrunner:
 ac_add_options --disable-crashreporter
 ac_add_options --disable-debug
 ac_add_options --disable-installer
-ac_add_options --disable-static
 ac_add_options --disable-tests
 ac_add_options --disable-updater
-ac_add_options --enable-shared
+
+ac_add_options --enable-optimize
+ac_add_options --enable-gio
+ac_add_options --enable-safe-browsing
+ac_add_options --enable-url-classifier
+
 ac_add_options --enable-system-ffi
+ac_add_options --enable-system-pixman
 ac_add_options --with-pthreads
-ac_add_options --with-system-jpeg
+ac_add_options --with-system-bz2
+#ac_add_options --with-system-jpeg
 ac_add_options --with-system-png
 ac_add_options --with-system-zlib
 EOF
@@ -81,29 +86,27 @@ END_COMMAND_BLOCK
 
 
 BEGIN_COMMAND_BLOCK
-sed -i 's/\(MOZ_PKG_FATAL_WARNINGS =\).*/\1 0/' browser/installer/Makefile.in
 sed -i 's# ""##' browser/base/Makefile.in
 END_COMMAND_BLOCK
 
 MAKE_COMMAND@=make -f client.mk -j4
-
 MAKE_COMMAND@=make -C firefox-build-dir/browser/installer
 
 BEGIN_COMMAND_BLOCK
-rm -rf /usr/lib/firefox-16.0.1 &&
-mkdir  /usr/lib/firefox-16.0.1 &&
+rm -rf /usr/lib/firefox-18.0.1
+mkdir  /usr/lib/firefox-18.0.1
 
-tar -xvf firefox-build-dir/dist/firefox-16.0.1.en-US.linux-$(uname -m).tar.bz2 \
-    -C /usr/lib/firefox-16.0.1 --strip-components=1  &&
+tar -xvf firefox-build-dir/dist/firefox-18.0.1.en-US.linux-$(uname -m).tar.bz2 -C /usr/lib/firefox-18.0.1 --strip-components=1
 
-ln -sfv ../lib/firefox-16.0.1/firefox /usr/bin       &&
-mkdir -pv /usr/lib/mozilla/plugins             &&
-ln -sfv ../mozilla/plugins /usr/lib/firefox-16.0.1   &&
-chown -R -v root:root /usr/lib/firefox-16.0.1
+ln -sfv ../lib/firefox-18.0.1/firefox /usr/bin
+mkdir -pv /usr/lib/mozilla/plugins
+ln -sfv ../mozilla/plugins /usr/lib/firefox-18.0.1
+chown -R -v root:root /usr/lib/firefox-18.0.1
+chmod -v 755 /usr/lib/firefox-18.0.1/libxpcom.so
 
 #Install NPAPI headers, just incase for gnash
-rm -rf   /usr/include/npapi &&
-mkdir -v /usr/include/npapi &&
+rm -rf   /usr/include/npapi
+mkdir -v /usr/include/npapi
 cp -v dom/plugins/base/*.h /usr/include/npapi
 
 END_COMMAND_BLOCK

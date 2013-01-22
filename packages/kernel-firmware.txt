@@ -1,0 +1,23 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=kernel-firmware
+
+REQUIREMENTS@=git
+
+PROVIDES@=kernel-firmware
+
+BUILD_STEP@=kernel-firmware_download_and_install
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+git clone http://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git
+cd linux-firmware
+cp * /lib/firmware
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

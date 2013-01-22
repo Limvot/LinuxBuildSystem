@@ -1,0 +1,28 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=rfkill-0.4
+
+PROVIDES@=rfkill
+
+BUILD_STEP@=rfkill-0.4_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://wireless.kernel.org/download/rfkill/rfkill-0.4.tar.bz2
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=rfkill-0.4_installation
+
+ARCHIVE_NAME@=rfkill-0.4.tar.bz2
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

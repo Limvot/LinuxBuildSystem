@@ -1,0 +1,240 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=iwlwifi-firmware
+
+REQUIREMENTS@=lynx
+
+PROVIDES@=iwlwifi-firmware
+
+BUILD_STEP@=iwlwifi-firmware_download_and_install
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-5150-ucode-8.24.2.2.tgz" > iwlwifi-5150-ucode-8.24.2.2.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-5000-ucode-5.4.A.11.tar.gz" > iwlwifi-5000-ucode-5.4.A.11.tar.gz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-5000-ucode-8.24.2.12.tgz" > iwlwifi-5000-ucode-8.24.2.12.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-5000-ucode-8.83.5.1-1.tgz" > iwlwifi-5000-ucode-8.83.5.1-1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000g2b-ucode-17.168.5.1.tgz" > iwlwifi-6000g2b-ucode-17.168.5.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000g2b-ucode-17.168.5.2.tgz" > iwlwifi-6000g2b-ucode-17.168.5.2.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000g2b-ucode-18.168.6.1.tgz" > iwlwifi-6000g2b-ucode-18.168.6.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000g2a-ucode-17.168.5.1.tgz" > iwlwifi-6000g2a-ucode-17.168.5.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000g2a-ucode-17.168.5.2.tgz" > iwlwifi-6000g2a-ucode-17.168.5.2.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000g2a-ucode-18.168.6.1.tgz" > iwlwifi-6000g2a-ucode-18.168.6.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6050-ucode-9.201.4.1.tgz" > iwlwifi-6050-ucode-9.201.4.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6050-ucode-41.28.5.1.tgz" > iwlwifi-6050-ucode-41.28.5.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000-ucode-9.176.4.1.tgz" > iwlwifi-6000-ucode-9.176.4.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000-ucode-9.193.4.1.tgz" > iwlwifi-6000-ucode-9.193.4.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-6000-ucode-9.221.4.1.tgz" > iwlwifi-6000-ucode-9.221.4.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-1000-ucode-128.50.3.1.tgz" > iwlwifi-1000-ucode-128.50.3.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-1000-ucode-39.31.5.1.tgz" > iwlwifi-1000-ucode-39.31.5.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-100-ucode-39.31.5.1.tgz" > iwlwifi-100-ucode-39.31.5.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-135-ucode-18.168.6.1.tgz" > iwlwifi-135-ucode-18.168.6.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-105-ucode-18.168.6.1.tgz" > iwlwifi-105-ucode-18.168.6.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-2000-ucode-18.168.6.1.tgz" > iwlwifi-2000-ucode-18.168.6.1.tgz
+lynx -source "http://wireless.kernel.org/en/users/Drivers/iwlwifi?action=AttachFile&do=get&target=iwlwifi-2030-ucode-18.168.6.1.tgz" > iwlwifi-2030-ucode-18.168.6.1.tgz
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-5150-ucode-8.24.2.2.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-5000-ucode-5.4.A.11.tar.gz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-5000-ucode-8.24.2.12.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-5000-ucode-8.83.5.1-1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000g2b-ucode-17.168.5.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000g2b-ucode-17.168.5.2.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000g2b-ucode-18.168.6.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000g2a-ucode-17.168.5.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000g2a-ucode-17.168.5.2.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000g2a-ucode-18.168.6.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6050-ucode-9.201.4.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6050-ucode-41.28.5.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000-ucode-9.176.4.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000-ucode-9.193.4.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-6000-ucode-9.221.4.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-1000-ucode-128.50.3.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-1000-ucode-39.31.5.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-100-ucode-39.31.5.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-135-ucode-18.168.6.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-105-ucode-18.168.6.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-2000-ucode-18.168.6.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=install_ucode
+ARCHIVE_NAME@=iwlwifi-2030-ucode-18.168.6.1.tgz
+BEGIN_COMMAND_BLOCK
+cp *.ucode /lib/firmware
+END_COMMAND_BLOCK
+END_BUILD_STEP
+
+#############################
