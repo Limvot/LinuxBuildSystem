@@ -9,7 +9,7 @@ BUILD_STEP@=alsa-lib-1.0.26_download
 
 ONLY_COMMANDS@=True
 
-DOWNLOAD_PATH@=http://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.26.tar.bz2
+DOWNLOAD_PATH@=ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.0.26.tar.bz2
 
 END_BUILD_STEP
 
