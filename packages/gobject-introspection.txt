@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=gobject-introspection-1.34.2
+
+REQUIREMENTS@=glib
+
+PROVIDES@=gobject-introspection
+
+BUILD_STEP@=gobject-introspection-1.34.2_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.34/gobject-introspection-1.34.2.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=gobject-introspection-1.34.2_installation
+
+ARCHIVE_NAME@=object-introspection-1.34.2.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

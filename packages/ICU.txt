@@ -1,0 +1,33 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=ICU-50.1.1
+
+PROVIDES@=ICU
+
+BUILD_STEP@=ICU-50.1.1_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://download.icu-project.org/files/icu4c/50.1.1/icu4c-50_1_1-src.tgz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=ICU-50.1.1_installation
+
+ARCHIVE_NAME@=icu4c-50_1_1-src.tgz
+
+BEGIN_COMMAND_BLOCK
+cd source
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

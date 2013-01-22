@@ -1,0 +1,31 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=alsa-lib-1.0.26 
+
+PROVIDES@=alsa-lib
+
+BUILD_STEP@=alsa-lib-1.0.26_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://gd.tuwien.ac.at/opsys/linux/alsa/lib/alsa-lib-1.0.26.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=alsa-lib-1.0.26_installation
+
+ARCHIVE_NAME@=alsa-lib-1.0.26.tar.bz2
+
+
+CONFIGURE_COMMAND@=./configure
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

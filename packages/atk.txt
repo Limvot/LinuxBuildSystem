@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=ATK-2.6.0
+
+REQUIREMENTS@=glib
+
+PROVIDES@=atk
+
+BUILD_STEP@=ATK-2.6.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/atk/2.6/atk-2.6.0.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=ATK-2.6.0_installation
+
+ARCHIVE_NAME@=atk-2.6.0.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

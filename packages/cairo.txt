@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=Cairo-1.12.8
+
+REQUIREMENTS@=libpng glib pixman fontconfig xorg
+
+PROVIDES@=cairo
+
+BUILD_STEP@=Cairo-1.12.8_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://cairographics.org/releases/cairo-1.12.8.tar.xzrg/pub/gnome/sources/glib/2.34/glib-2.34.3.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Cairo-1.12.8_installation
+
+ARCHIVE_NAME@=glib-2.34.3.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-tee --enable-xcb --enable-gl --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

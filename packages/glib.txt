@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=GLib-2.34.3
+
+REQUIREMENTS@=libffi pkg-config python2
+
+PROVIDES@=glib
+
+BUILD_STEP@=GLib-2.34.3_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/glib/2.34/glib-2.34.3.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GLib-2.34.3_installation
+
+ARCHIVE_NAME@=glib-2.34.3.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --with-pcre=system
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

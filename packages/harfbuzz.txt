@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=Harfbuzz-0.9.9
+
+REQUIREMENTS@=cairo glib ICU freetype
+
+PROVIDES@=harfbuzz
+
+BUILD_STEP@=Harfbuzz-0.9.9_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-0.9.9.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Harfbuzz-0.9.9_installation
+
+ARCHIVE_NAME@=harfbuzz-0.9.9.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

@@ -1,0 +1,29 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=libjpeg-8d
+
+PROVIDES@=libjpeg
+
+BUILD_STEP@=libjpeg-8d_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://www.ijg.org/files/jpegsrc.v8d.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libjpeg-8d_installation
+
+ARCHIVE_NAME@=jpegsrc.v8d.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

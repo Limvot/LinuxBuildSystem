@@ -1,0 +1,46 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=Pango-1.32.5
+
+REQUIREMENTS@=cairo harfbuzz xorg
+
+PROVIDES@=pango
+
+BUILD_STEP@=Pango-1.32.5_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://ftp.gnome.org/pub/gnome/sources/pango/1.32/pango-1.32.5.tar.xz
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/pangox-compat/0.0/pangox-compat-0.0.2.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Pango-1.32.5_installation
+
+ARCHIVE_NAME@=pango-1.32.5.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Pango-1.32.5_Compat_installation
+
+ARCHIVE_NAME@=pangox-compat-0.0.2.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

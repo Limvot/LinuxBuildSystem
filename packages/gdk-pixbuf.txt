@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=gdk-pixbuf-2.26.5
+
+REQUIREMENTS@=glib libjpeg libpng libtiff xorg gobject-introspection
+
+PROVIDES@=gdk-pixbuf
+
+BUILD_STEP@=gdk-pixbuf-2.26.5_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.26/gdk-pixbuf-2.26.5.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=gdk-pixbuf-2.26.5_installation
+
+ARCHIVE_NAME@=gdk-pixbuf-2.26.5.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --with-x11
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

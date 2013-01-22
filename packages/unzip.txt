@@ -1,0 +1,39 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=UnZip-6.0 
+
+PROVIDES@=unzip
+
+BUILD_STEP@=UnZip-6.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://downloads.sourceforge.net/infozip/unzip60.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=UnZip-6.0_installation
+
+ARCHIVE_NAME@=zip30.tar.gz
+
+BEGIN_COMMAND_BLOCK
+case `uname -m` in
+  i?86)
+    sed -i -e 's/DASM"/DASM -DNO_LCHMOD"/' unix/Makefile
+    make -f unix/Makefile linux
+    ;;
+  *)
+    sed -i -e 's/CFLAGS="-O -Wall/& -DNO_LCHMOD/' unix/Makefile
+    make -f unix/Makefile linux_noasm
+    ;;
+esac
+END_COMMAND_BLOCK
+
+INSTALL_COMMAND@=make prefix=/usr install
+
+END_BUILD_STEP
+
+#############################

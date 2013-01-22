@@ -1,0 +1,43 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=GTK+-2.24.14
+
+REQUIREMENTS@=atk cairo gdk-pixbuf pango xorg hicolor-icon-theme
+
+PROVIDES@=GTK+
+
+BUILD_STEP@=GTK+-2.24.14_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-2.24.14.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GTK+-2.24.14_installation
+
+ARCHIVE_NAME@=gtk+-2.24.14.tar.xz
+
+BEGIN_COMMAND_BLOCK
+sed -i 's#l \(gtk-.*\).sgml#& -o \1#' docs/{faq,tutorial}/Makefile.in &&
+sed -i 's#.*@man_#man_#' docs/reference/gtk/Makefile.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+cat > /etc/gtk-2.0/gtkrc << "EOF"
+include "/usr/share/themes/Clearlooks/gtk-2.0/gtkrc"
+gtk-icon-theme-name = "elementary"
+EOF
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

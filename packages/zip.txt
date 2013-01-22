@@ -1,0 +1,28 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Zip-3.0 
+
+PROVIDES@=zip
+
+BUILD_STEP@=Zip-3.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://downloads.sourceforge.net/infozip/zip30.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Zip-3.0_installation
+
+ARCHIVE_NAME@=zip30.tar.gz
+
+MAKE_COMMAND@=make -f unix/Makefile generic_gcc
+
+INSTALL_COMMAND@=make prefix=/usr -f unix/Makefile install
+
+END_BUILD_STEP
+
+#############################
