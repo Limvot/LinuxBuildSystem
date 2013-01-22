@@ -1,0 +1,30 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=mercurial-2.3.2
+
+REQUIREMENTS@=python2
+
+PROVIDES@=mercurial
+
+BUILD_STEP@=mercurial-2.3.2_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://mercurial.selenic.com/release/mercurial-2.3.2.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=mercurial-2.3.2_installation
+
+ARCHIVE_NAME@=mercurial-2.3.2.tar.gz
+
+MAKE_COMMAND@=make build
+
+INSTALL_COMMAND@=make PREFIX=/usr install-bin
+
+END_BUILD_STEP
+
+#############################

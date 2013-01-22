@@ -1,0 +1,31 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=install-some-fonts
+
+REQUIREMENTS@=unzip
+
+PROVIDES@=some-fonts
+
+BUILD_STEP@=some-fonts_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://openfontlibrary.org/assets/downloads/cousine/e64962b5515c2e41b8cd473d0113be51/cousine.zip
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=some-fonts_installation
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+unzip cousine.zip
+cp cousine /usr/share/fonts
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
