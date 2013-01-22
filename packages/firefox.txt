@@ -80,7 +80,10 @@ EOF
 END_COMMAND_BLOCK
 
 
-CONFIGURE_COMMAND@=sed -i 's/\(MOZ_PKG_FATAL_WARNINGS =\).*/\1 0/' browser/installer/Makefile.in
+BEGIN_COMMAND_BLOCK
+sed -i 's/\(MOZ_PKG_FATAL_WARNINGS =\).*/\1 0/' browser/installer/Makefile.in
+sed -i 's# ""##' browser/base/Makefile.in
+END_COMMAND_BLOCK
 
 MAKE_COMMAND@=make -f client.mk -j4
 
