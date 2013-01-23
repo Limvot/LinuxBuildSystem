@@ -1,0 +1,38 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Polkit-0.110
+
+REQUIREMENTS@=glib intltool gobject-introspection spidermonkey
+
+PROVIDES@=polkit
+
+BUILD_STEP@=Polkit-0.110_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://www.freedesktop.org/software/polkit/releases/polkit-0.110.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Polkit-0.110_installation
+
+ARCHIVE_NAME@=polkit-0.110.tar.gz
+
+BEGIN_COMMAND_BLOCK
+groupadd -fg 27 polkitd
+useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/polkit-1 --with-authfw=shadow --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

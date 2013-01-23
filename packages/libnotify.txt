@@ -1,0 +1,33 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=libnotify-0.7.5
+
+REQUIREMENTS@=GTK+3 gobject-introspection
+
+PROVIDES@=libnotify
+
+BUILD_STEP@=libnotify-0.7.5_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://ftp.gnome.org/pub/gnome/sources/libnotify/0.7/libnotify-0.7.5.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libnotify-0.7.5_installation
+
+ARCHIVE_NAME@=libnotify-0.7.5.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

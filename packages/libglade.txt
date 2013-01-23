@@ -1,0 +1,36 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=libglade-2.6.4
+
+REQUIREMENTS@=libxml2 GTK+2
+
+PROVIDES@=libglade
+
+BUILD_STEP@=libglade-2.6.4_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libglade-2.6.4_installation
+
+ARCHIVE_NAME@=libglade-2.6.4.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+sed -i '/DG_DISABLE_DEPRECATED/d' glade/Makefile.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

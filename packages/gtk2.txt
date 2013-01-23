@@ -4,7 +4,7 @@ NAME@=GTK+-2.24.14
 
 REQUIREMENTS@=atk cairo gdk-pixbuf pango xorg hicolor-icon-theme
 
-PROVIDES@=GTK+
+PROVIDES@=GTK+2
 
 BUILD_STEP@=GTK+-2.24.14_download
 

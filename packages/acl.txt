@@ -1,0 +1,101 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=acl-2.2.51 
+
+REQUIREMENTS@=attr
+
+PROVIDES@=acl
+
+BUILD_STEP@=acl-2.2.51_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://download.savannah.gnu.org/releases/acl/acl-2.2.51.src.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=acl-2.2.51_installation
+
+ARCHIVE_NAME@=acl-2.2.51.src.tar.gz
+
+BEGIN_COMMAND_BLOCK
+cd acl-2.2.51
+sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=INSTALL_USER=root INSTALL_GROUP=root ./configure --prefix=/usr --libdir=/lib --libexecdir=/usr/lib
+
+MAKE_COMMAND@=make
+
+INSTALL_COMMAND@=make install install-dev install-lib
+
+BEGIN_COMMAND_BLOCK
+chmod -v 0755 /lib/libacl.so.1.1.0
+rm -v /lib/libacl.{a,la,so}
+ln -sfv ../../lib/libacl.so.1 /usr/lib/libacl.so
+sed -i "s|libdir='/lib'|libdir='/usr/lib'|" /usr/lib/libacl.la
+install -v -m644 doc/*.txt /usr/share/doc/acl-2.2.51
+END_COMMAND_BLOCK
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=coreutils_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/coreutils/coreutils-8.20.tar.xz
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/coreutils-8.20-i18n-1.patch
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/coreutils-8.20-test_fixes-1.patch
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=coreutils_installation
+
+ARCHIVE_NAME@=coreutils-8.20.tar.xz
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../coreutils-8.20-test_fixes-1.patch
+patch -Np1 -i ../coreutils-8.20-i18n-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/usr --libexecdir=/usr/lib --enable-no-install-program=kill,uptime
+
+MAKE_COMMAND@=make -j4
+
+
+#Can currently distroy your installation. Thus, commented out for now
+#INSTALL_COMMAND@=make install
+#
+#BEGIN_COMMAND_BLOCK
+#mv -v /usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} /bin
+#mv -v /usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm} /bin
+#mv -v /usr/bin/{rmdir,stty,sync,true,uname} /bin
+#mv -v /usr/bin/chroot /usr/sbin
+#mv -v /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
+#sed -i s/\"1\"/\"8\"/1 /usr/share/man/man8/chroot.8
+#mv -v /usr/bin/{head,sleep,nice} /bin
+#END_COMMAND_BLOCK
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=acl_tell_download
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+echo "No configuration for acl itself, but to get any use should add acl option to an ext3 filesystem in the /etc/fstab file."
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

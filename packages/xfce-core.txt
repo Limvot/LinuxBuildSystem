@@ -1,0 +1,453 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=xfce-core
+
+REQUIREMENTS@=intltool pkg-config dbus-glib-bindings glib GTK+2 URI libglade libnotify sudo consolekit
+
+PROVIDES@=xfce-core libxfce4util xfconf libxfce4ui
+
+BUILD_STEP@=libxfce4util-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/libxfce4util/4.10/libxfce4util-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libxfce4util-4.10.0_installation
+
+ARCHIVE_NAME@=libxfce4util-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfconf-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/xfconf/4.10/xfconf-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfconf-4.10.0_installation
+
+ARCHIVE_NAME@=xfconf-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libxfce4ui-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/libxfce4ui/4.10/libxfce4ui-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libxfce4ui-4.10.0_installation
+
+ARCHIVE_NAME@=libxfce4ui-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=exo-0.8.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/exo/0.8/exo-0.8.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=exo-0.8.0_installation
+
+ARCHIVE_NAME@=exo-0.8.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --disable-static --docdir=/usr/share/doc/exo-0.8.0
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=garcon-0.2.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/garcon/0.2/garcon-0.2.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=garcon-0.2.0_installation
+
+ARCHIVE_NAME@=garcon-0.2.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=gtk-xfce-engine-3.0.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/gtk-xfce-engine/3.0/gtk-xfce-engine-3.0.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=gtk-xfce-engine-3.0.0_installation
+
+ARCHIVE_NAME@=gtk-xfce-engine-3.0.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libwnck-2.30.7_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/libwnck/2.30/libwnck-2.30.7.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libwnck-2.30.7_installation
+
+ARCHIVE_NAME@=libwnck-2.30.7.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static --program-suffix=-1
+
+MAKE_COMMAND@=make GETTEXT_PACKAGE=libwnck-1
+
+INSTALL_COMMAND@=make GETTEXT_PACKAGE=libwnck-1 install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libxfcegui4-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/libxfcegui4/4.10/libxfcegui4-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libxfcegui4-4.10.0_installation
+
+ARCHIVE_NAME@=libxfcegui4-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-panel-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/xfce4-panel/4.10/xfce4-panel-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-panel-4.10.0_installation
+
+ARCHIVE_NAME@=xfce4-panel-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --disable-static --docdir=/usr/share/doc/xfce4-panel-4.10.0
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Thunar-1.4.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/thunar/1.4/Thunar-1.4.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Thunar-1.4.0_installation
+
+ARCHIVE_NAME@=Thunar-1.4.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/Thunar-1.4.0
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=thunar-volman-0.8.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/thunar-volman/0.8/thunar-volman-0.8.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=thunar-volman-0.8.0_installation
+
+ARCHIVE_NAME@=thunar-volman-0.8.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=tumbler-0.1.25_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/tumbler/0.1/tumbler-0.1.25.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=tumbler-0.1.25_installation
+
+ARCHIVE_NAME@=tumbler-0.1.25.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static 
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-appfinder-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/xfce4-appfinder/4.10/xfce4-appfinder-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-appfinder-4.10.0_installation
+
+ARCHIVE_NAME@=xfce4-appfinder-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-power-manager-1.2.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://archive.xfce.org/src/xfce/xfce4-power-manager/1.2/xfce4-power-manager-1.2.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-power-manager-1.2.0_installation
+
+ARCHIVE_NAME@=xfce4-power-manager-1.2.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make docdir=/usr/share/doc/xfce4-power-manager-1.2.0 imagesdir=/usr/share/doc/xfce4-power-manager-1.2.0/images install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-settings-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/xfce4-settings/4.10/xfce4-settings-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-settings-4.10.0_installation
+
+ARCHIVE_NAME@=xfce4-settings-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+
+BUILD_STEP@=xfdesktop-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= http://archive.xfce.org/src/xfce/xfdesktop/4.10/xfdesktop-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfdesktop-4.10.0_installation
+
+ARCHIVE_NAME@=xfdesktop-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfwm4-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/xfwm4/4.10/xfwm4-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfwm4-4.10.0_installation
+
+ARCHIVE_NAME@=xfwm4-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-session-4.10.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://archive.xfce.org/src/xfce/xfce4-session/4.10/xfce4-session-4.10.0.tar.bz2
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=xfce4-session-4.10.0_installation
+
+ARCHIVE_NAME@=xfce4-session-4.10.0.tar.bz2
+
+CONFIGURE_COMMAND@=./configure --docdir=/usr/share/doc/xfce4-session-4.10.0 --prefix=/usr --sysconfdir=/etc --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################
+
+
+

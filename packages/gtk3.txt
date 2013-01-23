@@ -1,0 +1,40 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=GTK+-3.6.4 
+
+REQUIREMENTS@=at-spi2-atk gobject-introspection gdk-pixbuf pango
+
+PROVIDES@=GTK+3
+
+BUILD_STEP@=GTK+-3.6.4_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/gtk+/3.6/gtk+-3.6.4.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=GTK+-3.6.4_installation
+
+ARCHIVE_NAME@=gtk+-3.6.4.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+cat > /etc/gtk-3.0/settings.ini << "EOF"
+[Settings]
+#configure theme stuff here
+#gtk-theme-name = Clearwaita
+#gtk-fallback-icon-theme = elementary
+EOF
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

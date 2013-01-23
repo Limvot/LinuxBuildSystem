@@ -1,0 +1,37 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=NSPR-4.9.4
+
+PROVIDES@=NSPR
+
+BUILD_STEP@=NSPR-4.9.4_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v4.9.4/src/nspr-4.9.4.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=NSPR-4.9.4_installation
+
+ARCHIVE_NAME@=nspr-4.9.4.tar.gz
+
+BEGIN_COMMAND_BLOCK
+cd mozilla/nsprpub
+sed -ri 's#^(RELEASE_BINS =).*#\1#' pr/src/misc/Makefile.in
+sed -i 's#$(LIBRARY) ##' config/rules.mk
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --with-mozilla --with-pthreads $([ $(uname -m) = x86_64 ] && echo --enable-64bit)
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

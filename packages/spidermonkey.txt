@@ -1,0 +1,39 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=SpiderMonkey-1.0.0
+
+REQUIREMENTS@=NSPR python2 zip
+
+PROVIDES@=spidermonkey
+
+BUILD_STEP@=SpiderMonkey-1.0.0_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=SpiderMonkey-1.0.0_installation
+
+ARCHIVE_NAME@=js185-1.0.0.tar.gz
+
+BEGIN_COMMAND_BLOCK
+cd js-1.8.5
+cd js/src
+sed -i 's#s \($(SHLIB_\(ABI\|EXACT\)_VER)\)#s $(notdir \1)#' Makefile.in
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-threadsafe --with-system-nspr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

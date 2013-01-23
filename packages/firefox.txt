@@ -3,7 +3,7 @@
 
 NAME@=Firefox-18.0.1
 
-REQUIREMENTS@=alsa-lib GTK+ zip unzip yasm
+REQUIREMENTS@=alsa-lib GTK+2 zip unzip yasm
 
 PROVIDES@=firefox
 

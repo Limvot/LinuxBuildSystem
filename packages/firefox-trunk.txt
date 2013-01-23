@@ -3,7 +3,7 @@
 
 NAME@=Firefox-Trunk
 
-REQUIREMENTS@=alsa-lib GTK+ zip unzip yasm mercurial
+REQUIREMENTS@=alsa-lib GTK+2 zip unzip yasm mercurial
 
 PROVIDES@=firefox-trunk
 

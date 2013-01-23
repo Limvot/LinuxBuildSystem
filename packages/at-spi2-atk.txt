@@ -1,0 +1,31 @@
+# The @= as assignment allows = to be used in commands
+
+NAME@=at-spi2-atk-2.6.2
+
+REQUIREMENTS@=at-spi2-core atk intltool
+
+PROVIDES@=at-spi2-atk
+
+BUILD_STEP@=at-spi2-atk-2.6.2_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://ftp.gnome.org/pub/gnome/sources/at-spi2-atk/2.6/at-spi2-atk-2.6.2.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=at-spi2-atk-2.6.2_installation
+
+ARCHIVE_NAME@=at-spi2-atk-2.6.2.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

@@ -1,0 +1,33 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=ConsoleKit-0.4.6
+
+REQUIREMENTS@=acl dbus-glib-bindings xorg polkit
+
+PROVIDES@=consolekit
+
+BUILD_STEP@=ConsoleKit-0.4.6_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/sources/BLFS/svn/c/ConsoleKit-0.4.6.tar.xz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=ConsoleKit-0.4.6_installation
+
+ARCHIVE_NAME@=ConsoleKit-0.4.6.tar.xz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/ConsoleKit --enable-udev-acl --enable-pam-module
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################

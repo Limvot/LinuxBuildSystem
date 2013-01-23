@@ -2,7 +2,7 @@
 
 NAME@=ATK-2.6.0
 
-REQUIREMENTS@=glib
+REQUIREMENTS@=glib gobject-introspection
 
 PROVIDES@=atk
 

@@ -1,0 +1,58 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=D-Bus_Bindings
+
+REQUIREMENTS@=dbus expat glib python2
+
+PROVIDES@=dbus-glib-bindings dbus-python-bindings
+
+BUILD_STEP@=D-Bus_GLib_Bindings_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.100.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=D-Bus_GLib_Bindings_installation
+
+ARCHIVE_NAME@=dbus-glib-0.100.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/dbus-1.0 --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=D-Bus_Python_Bindings_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.1.1.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=D-Bus_Python_Bindings_installation
+
+ARCHIVE_NAME@=dbus-python-1.1.1.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --docdir=/usr/share/doc/dbus-python-1.1.1
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+
+END_BUILD_STEP
+
+#############################
