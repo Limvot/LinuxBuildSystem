@@ -1,0 +1,18 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Standard_Desktop_Meta
+
+REQUIREMENTS@=linuxbuildsystem lynx gpm dhcpcd sudo net-tools wireless-tools wi wpa_supplicant iwlwifi-firmware rfkill some-fonts xorg xfce-core
+
+PROVIDES@=Standard_Desktop_Meta
+
+BUILD_STEP@=Standard_Desktop_Meta_PLACEHOLDER
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+echo "Installing LinuxBuildSystem, lynx, gpm, dhcpcd, sudo, net-tools, wireless-tool wi wpa_supplicant iwlwifi-firmware rfkill some-fonts xorg xfce-core."
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
