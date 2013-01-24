@@ -736,7 +736,13 @@ BEGIN_COMMAND_BLOCK
 cd ..
 
 #create the script to finish the build after the root and chroot stuff
-python3 $LBS_PROGRAM LFS 32 $LBS_END_STEP / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
+python3 $LBS_PROGRAM LFS 32 $LBS_END_STEP / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh --omit-tests
+END_COMMAND_BLOCK
+
+#If we didn't omit tests, redo the command with --omit-tests removed
+TEST@=python3 $LBS_PROGRAM LFS 32 $LBS_END_STEP / AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
+
+BEGIN_COMMAND_BLOCK
 chmod 755 AfterPrepVirtKernelFileSystems_1_ResumeBuild.sh
 
 #create the script that will be run as root
@@ -900,10 +906,10 @@ CONFIGURE_COMMAND@=../glibc-2.17/configure --prefix=/usr --disable-profile  --en
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make -k check 2>&1 | tee glibc-check-log
-grep Error glibc-check-log
+TEST@=make -k check 2>&1 | tee glibc-check-log
+TEST@=grep Error glibc-check-log
 
+BEGIN_COMMAND_BLOCK
 touch /etc/ld.so.conf
 END_COMMAND_BLOCK
 
@@ -1088,9 +1094,7 @@ CONFIGURE_COMMAND@=../binutils-2.23.1/configure --prefix=/usr --enable-shared
 
 MAKE_COMMAND@=make tooldir=/usr
 
-BEGIN_COMMAND_BLOCK
-make -k check
-END_COMMAND_BLOCK
+TEST@=make -k check
 
 INSTALL_COMMAND@=make tooldir=/usr install
 
@@ -1111,10 +1115,8 @@ CONFIGURE_COMMAND@=./configure --prefix=/usr --enable-cxx --enable-mpbsd
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make check 2>&1 | tee gmp-check-log #REMOVED BECAUSE EXPECT APPEARS TO BE MISSING
-awk '/tests passed/{total+=$2} ; END{print total}' gmp-check-log
-END_COMMAND_BLOCK
+TEST@=make check 2>&1 | tee gmp-check-log
+TEST@=awk '/tests passed/{total+=$2} ; END{print total}' gmp-check-log
 
 INSTALL_COMMAND@=make install
 
@@ -1131,9 +1133,7 @@ CONFIGURE_COMMAND@=./configure  --prefix=/usr --enable-thread-safe --docdir=/usr
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make check
-END_COMMAND_BLOCK
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 INSTALL_COMMAND@=make html
@@ -1152,9 +1152,7 @@ CONFIGURE_COMMAND@=./configure --prefix=/usr
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make check
-END_COMMAND_BLOCK
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 
@@ -1182,11 +1180,9 @@ CONFIGURE_COMMAND@=../gcc-4.7.2/configure --prefix=/usr --libexecdir=/usr/lib --
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-ulimit -s 32768
-make -k check
-../gcc-4.7.2/contrib/test_summary
-END_COMMAND_BLOCK
+TEST@=ulimit -s 32768
+TEST@=make -k check
+TEST@=../gcc-4.7.2/contrib/test_summary
 
 INSTALL_COMMAND@=make install
 
@@ -1228,9 +1224,7 @@ CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin --htmldir=/usr/share/
 MAKE_COMMAND@=make -j4
 MAKE_COMMAND@=make html
 
-BEGIN_COMMAND_BLOCK
-make check
-END_COMMAND_BLOCK
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 INSTALL_COMMAND@=make -C doc install-html
@@ -1279,9 +1273,7 @@ CONFIGURE_COMMAND@=./configure --prefix=/usr --with-internal-glib --docdir=/usr/
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make check
-END_COMMAND_BLOCK
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 
@@ -1412,9 +1404,7 @@ CONFIGURE_COMMAND@=../configure --prefix=/usr --with-root-prefix="" --enable-elf
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make -k check
-END_COMMAND_BLOCK
+TEST@=make -k check
 
 INSTALL_COMMAND@=make install
 INSTALL_COMMAND@=make install-libs
@@ -1526,10 +1516,8 @@ CONFIGURE_COMMAND@=./configure --prefix=/usr
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-sed -i -e '41s/ENOENT/& || errno == EINVAL/' tests/test-readlink.h
-make check
-END_COMMAND_BLOCK
+TEST@=sed -i -e '41s/ENOENT/& || errno == EINVAL/' tests/test-readlink.h
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 
@@ -1549,9 +1537,7 @@ END_COMMAND_BLOCK
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make check
-END_COMMAND_BLOCK
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 
@@ -1567,9 +1553,7 @@ CONFIGURE_COMMAND@=./configure --prefix=/usr --bindir=/bin
 
 MAKE_COMMAND@=make -j4
 
-BEGIN_COMMAND_BLOCK
-make check
-END_COMMAND_BLOCK
+TEST@=make check
 
 INSTALL_COMMAND@=make install
 
@@ -2426,6 +2410,8 @@ devtmpfs       /dev         devtmpfs mode=0755,nosuid    0     0
 
 # End /etc/fstab
 EOF
+
+vim /etc/fstab
 
 END_COMMAND_BLOCK
 

@@ -6,15 +6,15 @@ class Package:
 		self.properties = {}
 		self.build_steps = []
 
-	def __init__(self, package_file):
+	def __init__(self, package_file, omit_tests):
 		self.properties = {}
 		self.build_steps = []
 
-		self.loadPackage(package_file)
+		self.loadPackage(package_file, omit_tests)
 
 
 	#This function loads a package with build steps from a file
-	def loadPackage(self, package_file):
+	def loadPackage(self, package_file, omit_tests):
 		step_file = open(package_file, "r")
 	
 		build_step = []
@@ -59,6 +59,9 @@ class Package:
 					build_step[1].append(split_line[1])
 	
 				if split_line[0] == "INSTALL_COMMAND":
+					build_step[1].append(split_line[1])
+
+				if (split_line[0] == "TEST") and (omit_tests == False):
 					build_step[1].append(split_line[1])
 	
 				if (not line.split() == []) and (line.split()[0] == "SETUP_EXTERNAL_BUILD_DIRECTORY"):

@@ -59,7 +59,7 @@ def checkSources(source_dir, download_list):
 
 	return(out_list)
 
-def loadPackages(package_directory):
+def loadPackages(package_directory, omit_tests):
 
 	#a dictonary of all the packages
 	package_dictionary = {}
@@ -68,7 +68,7 @@ def loadPackages(package_directory):
 
 	for package_file in package_file_list:
 		print("Loading package:", package_file)
-		package = Package(package_directory + os.sep + package_file)
+		package = Package(package_directory + os.sep + package_file, omit_tests)
 
 		for provided in package.properties["PROVIDES"]:
 			package_dictionary[provided] = package
@@ -110,8 +110,13 @@ def buildSystem():
 
 	script_string = ""
 
+	#have to do this param test early...
+	omit_tests = False;
+	if len(sys.argv) == 7 and sys.argv[6].split()[0] == "--omit-tests":
+		omit_tests = True;
+
 	#Load packages
-	packages = loadPackages(base_dir+os.sep+"packages")
+	packages = loadPackages(base_dir+os.sep+"packages", omit_tests)
 
 	#load installed packages
 	installed_package_file_path = base_dir+os.sep+"installed_packages.txt"
@@ -141,10 +146,10 @@ def buildSystem():
 
 	#elif len(sys.argv) == 3 and (sys.argv[1] == "--download-sources" or sys.argv[1] == "-d"):
 
-	elif not len(sys.argv) == 6:
+	elif not len(sys.argv) >= 6:
 		print("Welcome to the LinuxBuildSystem!")
 		print("To list packages, call with -l or --list")
-		print("To create a build script, call with <package> <start-step> <end-step> <base-build-dir> <output-script-file>")
+		print("To create a build script, call with <package> <start-step> <end-step> <base-build-dir> <output-script-file> <(optional) --omit-tests>")
 		return()
 
 	#Do input args
