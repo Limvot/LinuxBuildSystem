@@ -1,0 +1,18 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Reccomended_BLFS_and_LinuxBuildSystem_Metapackage
+
+REQUIREMENTS@=linuxbuildsystem lynx gpm dhcpcd sudo
+
+PROVIDES@=BLFS-Rec_LinuxBuildSystem_METAPACKAGE
+
+BUILD_STEP@=BLFS_LBS_META_PLACEHOLDER
+
+ONLY_COMMANDS@=True
+
+BEGIN_COMMAND_BLOCK
+echo "Installing LinuxBuildSystem and its dependencies including git, curl, and other libraries, then installing reccomended BLFS packages lynx,gpm, dhcpcd, and sudo."
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
