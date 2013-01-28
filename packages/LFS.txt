@@ -3,7 +3,7 @@
 
 NAME@=LinuxFromScratch
 
-PROVIDES@=LFS linux man-pages zlib file binutils GMP MPFR MPC gcc sed bzip2 pkg-config ncurses util-linux psmisc procps e2fsprogs shadow coreutils iana-etc M4 bison grep readline bash libtool GDBM ineutils perl autoconf automake diffutils gawk findutils flex gettext groff xz GRUB less gzip iproute2 kbd kmod libpipeline make man-DB patch sysklogd sysvinit tar texinfo udev vim
+PROVIDES@=LFS linux man-pages zlib file binutils GMP MPFR MPC gcc sed bzip2 pkg-config ncurses util-linux psmisc procps-ng e2fsprogs shadow coreutils iana-etc M4 bison grep readline bash libtool GDBM ineutils perl autoconf automake diffutils gawk findutils flex gettext groff xz GRUB less gzip iproute2 kbd kmod libpipeline make man-DB patch sysklogd sysvinit tar texinfo udev vim
 
 BUILD_STEP@=LFS_Download
 
@@ -21,7 +21,7 @@ DOWNLOAD_PATH@=http://sourceforge.net/projects/check/files/check/0.9.9/check-0.9
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/coreutils/coreutils-8.20.tar.xz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/dejagnu/dejagnu-1.5.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/diffutils/diffutils-3.2.tar.gz
-DOWNLOAD_PATH@=http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.6.tar.gz
+DOWNLOAD_PATH@=http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.42.7.tar.gz
 DOWNLOAD_PATH@=http://prdownloads.sourceforge.net/expect/expect5.45.tar.gz
 DOWNLOAD_PATH@=ftp://ftp.astron.com/pub/file/file-5.11.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/findutils/findutils-4.4.2.tar.gz
@@ -42,10 +42,10 @@ DOWNLOAD_PATH@=http://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-3.7.0
 DOWNLOAD_PATH@=http://ftp.altlinux.org/pub/people/legion/kbd/kbd-1.15.5.tar.gz
 DOWNLOAD_PATH@=http://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-12.tar.xz
 DOWNLOAD_PATH@=http://www.greenwoodsoftware.com/less/less-451.tar.gz
-DOWNLOAD_PATH@=http://www.linuxfromscratch.org/lfs/downloads/development/lfs-bootscripts-20121013.tar.bz2
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/lfs/downloads/development/lfs-bootscripts-20130123.tar.bz2
 DOWNLOAD_PATH@=http://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.2.2.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/libtool/libtool-2.4.2.tar.gz
-DOWNLOAD_PATH@=http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.7.1.tar.xz
+DOWNLOAD_PATH@=http://www.kernel.org/pub/linux/kernel/v3.x/linux-3.7.4.tar.xz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/m4/m4-1.4.16.tar.bz2
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
 DOWNLOAD_PATH@=http://download.savannah.gnu.org/releases/man-db/man-db-2.6.3.tar.xz
@@ -55,8 +55,8 @@ DOWNLOAD_PATH@=http://www.mpfr.org/mpfr-3.1.1/mpfr-3.1.1.tar.xz
 DOWNLOAD_PATH@=ftp://ftp.gnu.org/gnu/ncurses/ncurses-5.9.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/patch/patch-2.7.1.tar.xz
 DOWNLOAD_PATH@=http://www.cpan.org/src/5.0/perl-5.16.2.tar.bz2
-DOWNLOAD_PATH@=http://pkgconfig.freedesktop.org/releases/pkg-config-0.27.1.tar.gz
-DOWNLOAD_PATH@=http://procps.sourceforge.net/procps-3.2.8.tar.gz
+DOWNLOAD_PATH@=http://pkgconfig.freedesktop.org/releases/pkg-config-0.28.tar.gz
+DOWNLOAD_PATH@= http://sourceforge.net/projects/procps-ng/files/Production/procps-ng-3.3.6.tar.xz
 DOWNLOAD_PATH@=http://prdownloads.sourceforge.net/psmisc/psmisc-22.20.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/readline/readline-6.2.tar.gz
 DOWNLOAD_PATH@=http://ftp.gnu.org/gnu/sed/sed-4.2.2.tar.bz2
@@ -82,8 +82,6 @@ DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/flex-2.5.
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/kbd-1.15.5-backspace-1.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/make-3.82-upstream_fixes-3.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/perl-5.16.2-libc-1.patch
-DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/procps-3.2.8-fix_HZ_errors-1.patch
-DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/procps-3.2.8-watch_unicode-1.patch
 DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/lfs/development/readline-6.2-fixes-1.patch
 
 
@@ -170,7 +168,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Linux_API_Headers_1
 
-ARCHIVE_NAME@=linux-3.7.1.tar.xz
+ARCHIVE_NAME@=linux-3.7.4.tar.xz
 
 MAKE_COMMAND@=make mrproper
 MAKE_COMMAND@=make headers_check
@@ -867,7 +865,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=Linux_API_Headers_2
 
-ARCHIVE_NAME@=linux-3.7.1.tar.xz
+ARCHIVE_NAME@=linux-3.7.4.tar.xz
 
 BEGIN_COMMAND_BLOCK
 make mrproper
@@ -1265,11 +1263,11 @@ END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Pkg_config_2
+BUILD_STEP@=Pkg_config
 
-ARCHIVE_NAME@=pkg-config-0.27.1.tar.gz
+ARCHIVE_NAME@=pkg-config-0.28.tar.gz
 
-CONFIGURE_COMMAND@=./configure --prefix=/usr --with-internal-glib --docdir=/usr/share/doc/pkg-config-0.27.1
+CONFIGURE_COMMAND@=./configure --prefix=/usr --with-internal-glib --disable-host-tool --docdir=/usr/share/doc/pkg-config-0.28
 
 MAKE_COMMAND@=make -j4
 
@@ -1369,21 +1367,20 @@ END_BUILD_STEP
 
 #############################
 
-BUILD_STEP@=Procps
+BUILD_STEP@=Procps-ng
 
-ARCHIVE_NAME@=procps-3.2.8.tar.gz
+ARCHIVE_NAME@=procps-ng-3.3.6.tar.xz
 
-BEGIN_COMMAND_BLOCK
-patch -Np1 -i ../procps-3.2.8-fix_HZ_errors-1.patch
-
-patch -Np1 -i ../procps-3.2.8-watch_unicode-1.patch
-
-sed -i -e 's@\*/module.mk@proc/module.mk ps/module.mk@' -e 's@^#SKIP@SKIP@' Makefile
-END_COMMAND_BLOCK
+CONFIGURE_COMMAND@=./configure --prefix=/usr --exec-prefix= --libdir=/usr/lib --docdir=/usr/share/doc/procps-ng-3.3.6 --disable-static --disable-skill --disable-kill
 
 MAKE_COMMAND@=make
 
 INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+mv -v /usr/lib/libprocps.so.* /lib 
+ln -sfv ../../lib/libprocps.so.1.1.0 /usr/lib/libprocps.so
+END_COMMAND_BLOCK
 
 END_BUILD_STEP
 
@@ -1391,7 +1388,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=E2fsprogs
 
-ARCHIVE_NAME@=e2fsprogs-1.42.6.tar.gz
+ARCHIVE_NAME@=e2fsprogs-1.42.7.tar.gz
 
 #Package is to be built in a subdirectory of the source tree:
 
@@ -2256,7 +2253,7 @@ END_BUILD_STEP
 
 BUILD_STEP@=LFS_Bootscripts
 
-ARCHIVE_NAME@=lfs-bootscripts-20121013.tar.bz2
+ARCHIVE_NAME@=lfs-bootscripts-20130123.tar.bz2
 
 INSTALL_COMMAND@=make install
 
@@ -2422,13 +2419,18 @@ END_BUILD_STEP
 
 BUILD_STEP@=Linux_Kernel
 
-ARCHIVE_NAME@=linux-3.7.1.tar.xz
+ARCHIVE_NAME@=linux-3.7.4.tar.xz
 
 BEGIN_COMMAND_BLOCK
 make mrproper
+make defconfig
 END_COMMAND_BLOCK
 
 CONFIGURE_COMMAND@=make LANG=en_US.UTF-8 LC_ALL= menuconfig
+
+BEGIN_COMMAND_BLOCK
+cp .config ../../linux_kernel.config
+END_COMMAND_BLOCK
 
 MAKE_COMMAND@=make -j4
 
@@ -2436,16 +2438,16 @@ MAKE_COMMAND@=make -j4
 INSTALL_COMMAND@=make modules_install
 
 BEGIN_COMMAND_BLOCK
-cp -v arch/x86/boot/bzImage /boot/vmlinuz-3.7.1-lfs-SVN-20130101
+cp -v arch/x86/boot/bzImage /boot/vmlinuz-3.7.4-lfs-SVN-20130127
 
-cp -v System.map /boot/System.map-3.7.1
+cp -v System.map /boot/System.map-3.7.4
 
-cp -v .config /boot/config-3.7.1
+cp -v .config /boot/config-3.7.4
 
-install -d /usr/share/doc/linux-3.7.1
-cp -r Documentation/* /usr/share/doc/linux-3.7.1
+install -d /usr/share/doc/linux-3.7.4
+cp -r Documentation/* /usr/share/doc/linux-3.7.4
 
-chown -R 0:0 linux-3.7.1
+chown -R 0:0 ../linux-3.7.4
 
 install -v -m755 -d /etc/modprobe.d
 cat > /etc/modprobe.d/usb.conf << "EOF"
@@ -2470,6 +2472,7 @@ ONLY_COMMANDS@=True
 BEGIN_COMMAND_BLOCK
 
 #Do nothing for now. This really needs to be manual.
+echo "Not doing any grub setup, this really needs to be manual."
 
 END_COMMAND_BLOCK
 
@@ -2483,13 +2486,13 @@ ONLY_COMMANDS@=True
 
 BEGIN_COMMAND_BLOCK
 
-echo SVN-20121230 > /etc/lfs-release
+echo SVN-20130127 > /etc/lfs-release
 
 cat > /etc/lsb-release << "EOF"
 DISTRIB_ID="LinuxBuildSystem - Linux From Scratch"
-DISTRIB_RELEASE="SVN-20130101"
-DISTRIB_CODENAME="Nathan Braswell's LinuxBuildSystem Build"
-DISTRIB_DESCRIPTION="Linux From Scratch"
+DISTRIB_RELEASE="SVN-20130127"
+DISTRIB_CODENAME="LinuxBuildSystem's LFS Build"
+DISTRIB_DESCRIPTION="Linux From Scratch, built with the LinuxBuildSystem"
 EOF
 
 echo "Would unmount stuff now, but why not just reboot now."
