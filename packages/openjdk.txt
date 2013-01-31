@@ -1,0 +1,128 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=OpenJDK-1.7.0.9 
+
+REQUIREMENTS@=certificate_authority_certificates cups GTK+3 giflib pulseaudio xorg NSPR ant cpio unzip wget which zip
+
+PROVIDES@=jdk jvm openjdk ant
+
+BUILD_STEP@=OpenJDK-1.7.0.9_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://icedtea.classpath.org/download/source/icedtea-2.3.3.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/corba.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/hotspot.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/openjdk.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/jaxp.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/jaxws.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/langtools.tar.gz
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/jdk.tar.gz
+ 
+
+DOWNLOAD_PATH@=http://anduin.linuxfromscratch.org/files/BLFS/OpenJDK-1.7.0.9/OpenJDK-1.7.0.9-x86_64-bin.tar.xz
+
+
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/icedtea-2.3.3-add_cacerts-1.patch
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/icedtea-2.3.3-fixed_paths-1.patch
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/icedtea-2.3.3-fix_tests-1.patch
+
+
+DOWNLOAD_PATH@=ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=OpenJDK-1.7.0.9_installation
+
+ARCHIVE_NAME@=OpenJDK-1.7.0.9-x86_64-bin.tar.xz
+
+BEGIN_COMMAND_BLOCK
+install -vdm755 /opt/OpenJDK-1.7.0.9-bin &&
+mv -v * /opt/OpenJDK-1.7.0.9-bin         &&
+chown -R root:root /opt/OpenJDK-1.7.0.9-bin
+
+export CLASSPATH=.:/usr/share/java &&
+export PATH="$PATH:/opt/OpenJDK-1.7.0.9-bin/bin
+
+
+
+unzip ../rhino1_7R3.zip             &&
+install -v -d -m755 /usr/share/java &&
+install -v -m755 rhino1_7R3/*.jar /usr/share/java
+
+
+cp -v ../corba.tar.gz     . &&
+cp -v ../hotspot.tar.gz   . &&
+cp -v ../jaxp.tar.gz      . &&
+cp -v ../jaxws.tar.gz     . &&
+cp -v ../jdk.tar.gz       . &&
+cp -v ../langtools.tar.gz . &&
+cp -v ../openjdk.tar.gz   .
+
+
+patch -Np1 -i ../icedtea-2.3.3-add_cacerts-1.patch
+patch -Np1 -i ../icedtea-2.3.3-fixed_paths-1.patch
+patch -Np1 -i ../icedtea-2.3.3-fix_tests-1.patch
+
+unset JAVA_HOME &&
+./autogen.sh
+
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --with-jdk-home=/opt/OpenJDK-1.7.0.9-bin --enable-nss --enable-pulse-java
+
+MAKE_COMMAND@=make -j4
+
+BEGIN_COMMAND_BLOCK
+chmod 0644 openjdk.build/j2sdk-image/lib/sa-jdi.jar  &&
+cp -R openjdk.build/j2sdk-image /opt/OpenJDK-1.7.0.9 &&
+chown -R root:root /opt/OpenJDK-1.7.0.9
+
+ln -v -nsf OpenJDK-1.7.0.9 /opt/jdk
+
+
+cat > /etc/profile.d/openjdk.sh << "EOF"
+# Begin /etc/profile.d/openjdk.sh
+
+# Set JAVA_HOME directory
+JAVA_HOME=/opt/jdk
+
+# Adjust PATH
+pathappend $JAVA_HOME/bin PATH
+
+# Auto Java CLASSPATH
+# Copy jar files to, or create symlinks in this directory
+
+AUTO_CLASSPATH_DIR=/usr/share/java
+
+pathprepend . CLASSPATH
+
+for dir in `find ${AUTO_CLASSPATH_DIR} -type d 2>/dev/null`; do
+    pathappend $dir CLASSPATH
+done
+
+for jar in `find ${AUTO_CLASSPATH_DIR} -name "*.jar" 2>/dev/null`; do
+    pathappend $jar CLASSPATH
+done
+
+export JAVA_HOME CLASSPATH
+unset AUTO_CLASSPATH_DIR dir jar
+
+# End /etc/profile.d/openjdk.sh
+EOF
+
+cat >> /etc/man_db.conf << "EOF" &&
+MANDATORY_MANPATH     /opt/jdk/man
+MANPATH_MAP           /opt/jdk/bin     /opt/jdk/man
+MANDB_MAP             /opt/jdk/man     /var/cache/man/jdk
+EOF
+mandb -c /opt/OpenJDK/man
+
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

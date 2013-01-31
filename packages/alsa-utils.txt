@@ -1,0 +1,47 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=alsa-utils-1.0.26 
+
+REQUIREMENTS@=alsa-lib blfs-bootscripts
+
+PROVIDES@=alsa-utils
+
+BUILD_STEP@=alsa-utils-1.0.26_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=ftp://ftp.alsa-project.org/pub/utils/alsa-utils-1.0.26.tar.bz2
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/alsa-utils-1.0.26-no_xmlto-1.patch
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=alsa-utils-1.0.26_installation
+
+ARCHIVE_NAME@=alsa-utils-1.0.26.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../alsa-utils-1.0.26-no_xmlto-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure --without-systemdsystemunitdir
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+touch /var/lib/alsa/asound.state &&
+alsactl store
+
+cd ../blfs-bootscripts
+make install-alsa
+
+echo "Put users who need sound into the audio group"
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################

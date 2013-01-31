@@ -1,0 +1,30 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=libarchive-3.0.4
+
+PROVIDES@=libarchive
+
+BUILD_STEP@=libarchive-3.0.4_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://github.com/downloads/libarchive/libarchive/libarchive-3.0.4.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=libarchive-3.0.4_installation
+
+ARCHIVE_NAME@=libarchive-3.0.4.tar.gz
+
+CONFIGURE_COMMAND@=./configure --prefix=/usr --disable-static
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

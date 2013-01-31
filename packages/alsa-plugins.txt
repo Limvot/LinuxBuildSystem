@@ -1,0 +1,37 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=alsa-plugins-1.0.26 
+
+REQUIREMENTS@=alsa-lib
+
+PROVIDES@=alsa-plugins
+
+BUILD_STEP@=alsa-plugins-1.0.26_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@= ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.0.26.tar.bz2
+DOWNLOAD_PATH@=http://www.linuxfromscratch.org/patches/blfs/svn/alsa-plugins-1.0.26-ffmpeg-1.patch
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=alsa-plugins-1.0.26_installation
+
+ARCHIVE_NAME@=alsa-plugins-1.0.26.tar.bz2
+
+BEGIN_COMMAND_BLOCK
+patch -Np1 -i ../alsa-plugins-1.0.26-ffmpeg-1.patch
+END_COMMAND_BLOCK
+
+CONFIGURE_COMMAND@=./configure
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+END_BUILD_STEP
+
+#############################

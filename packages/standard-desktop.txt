@@ -3,7 +3,7 @@
 
 NAME@=Standard_Desktop_Meta
 
-REQUIREMENTS@=linuxbuildsystem lynx gpm dhcpcd sudo net-tools wireless-tools wi wpa_supplicant iwlwifi-firmware rfkill some-fonts xorg xfce-core
+REQUIREMENTS@=linuxbuildsystem lynx gpm dhcpcd sudo net-tools wireless-tools iw wpa_supplicant iwlwifi-firmware rfkill some-fonts xorg xfce-core
 
 PROVIDES@=Standard_Desktop_Meta
 

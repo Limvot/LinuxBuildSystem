@@ -1,0 +1,36 @@
+#Build step file for Linux Build System
+# The @= as assignment allows = to be used in commands
+
+NAME@=Qt-4.8.4
+
+REQUIREMENTS@=xorg
+
+PROVIDES@=qt
+
+BUILD_STEP@=Qt-4.8.4_download
+
+ONLY_COMMANDS@=True
+
+DOWNLOAD_PATH@=http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.4.tar.gz
+
+END_BUILD_STEP
+
+#############################
+
+BUILD_STEP@=Qt-4.8.4_installation
+
+ARCHIVE_NAME@=qt-everywhere-opensource-src-4.8.4.tar.gz
+
+CONFIGURE_COMMAND@=./configure -prefix /opt/qt-4.8.4 -release -nomake examples -nomake demos -system-sqlite -no-nis -opensource -confirm-license
+
+MAKE_COMMAND@=make -j4
+
+INSTALL_COMMAND@=make install
+
+BEGIN_COMMAND_BLOCK
+ln -svfn qt-4.8.4 /opt/qt
+END_COMMAND_BLOCK
+
+END_BUILD_STEP
+
+#############################
